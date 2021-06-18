@@ -38,7 +38,6 @@ class ProofManagerTests: XCTestCase {
 
 		// Then
 		expect(self.networkSpy.invokedGetPublicKeys).toEventually(beTrue())
-		expect(self.cryptoSpy.invokedSetIssuerDomesticPublicKeys).toEventually(beTrue())
 	}
 
 	/// Test the fetch issuers public keys with no response
@@ -52,7 +51,6 @@ class ProofManagerTests: XCTestCase {
 
 		// Then
 		expect(self.networkSpy.invokedGetPublicKeys).toEventually(beTrue())
-		expect(self.cryptoSpy.invokedSetIssuerDomesticPublicKeys).toEventually(beFalse())
 	}
 
 	/// Test the fetch issuers public keys with an network error
@@ -67,25 +65,6 @@ class ProofManagerTests: XCTestCase {
 
 		// Then
 		expect(self.networkSpy.invokedGetPublicKeys).toEventually(beTrue())
-		expect(self.cryptoSpy.invokedSetIssuerDomesticPublicKeys).toEventually(beFalse())
-	}
-
-	/// Test the fetch issuers public keys with invalid keys error
-	func test_fetchIssuerPublicKeys_withInvalidKeysError() {
-
-		// Given
-		let publicKeys = IssuerPublicKeys(clKeys: [])
-		let data = Data()
-		networkSpy.stubbedGetPublicKeysCompletionResult = (.success((publicKeys, data)), ())
-		// Trigger invalid keys
-		cryptoSpy.stubbedSetIssuerDomesticPublicKeysResult = false
-
-		// When
-		sut.fetchIssuerPublicKeys(onCompletion: nil, onError: nil)
-
-		// Then
-		expect(self.networkSpy.invokedGetPublicKeys).toEventually(beTrue())
-		expect(self.cryptoSpy.invokedSetIssuerDomesticPublicKeys).toEventually(beTrue())
 	}
 
 	/// Test the fetch issuers public keys with an network error
@@ -100,92 +79,5 @@ class ProofManagerTests: XCTestCase {
 
 		// Then
 		expect(self.networkSpy.invokedGetPublicKeys).toEventually(beTrue())
-		expect(self.cryptoSpy.invokedSetIssuerDomesticPublicKeys).toEventually(beFalse())
-	}
-
-	func test_fetchTestProviders() {
-
-		// Given
-		networkSpy.stubbedFetchTestProvidersCompletionResult = (
-			.success(
-				[
-					TestProvider(
-						identifier: "test_fetchTestProviders",
-						name: "test",
-						resultURL: URL(string: "https://coronacheck.nl"),
-						publicKey: "key",
-						certificate: "certificate")
-				]
-			), ()
-		)
-
-		// When
-		sut.fetchCoronaTestProviders(onCompletion: nil, onError: nil)
-
-		// Then
-		expect(self.networkSpy.invokedFetchTestProviders).toEventually(beTrue())
-		expect(self.sut.testProviders).toEventually(haveCount(1))
-		expect(self.sut.testProviders.first?.identifier).toEventually(equal("test_fetchTestProviders"))
-	}
-
-	func test_fetchTestProviders_withError() {
-
-		// Given
-		networkSpy.stubbedFetchTestProvidersCompletionResult = (.failure(NetworkError.invalidRequest), ())
-
-		// When
-		sut.fetchCoronaTestProviders(onCompletion: nil, onError: nil)
-
-		// Then
-		expect(self.networkSpy.invokedFetchTestProviders).toEventually(beTrue())
-		expect(self.sut.testProviders).toEventually(beEmpty())
-	}
-
-	func test_migrateExistingProof_noProof() {
-
-		// Given
-		let walletSpy = WalletManagerSpy(dataStoreManager: DataStoreManager(.inMemory))
-		sut.walletManager = walletSpy
-		sut.proofData.signedWrapper = nil
-		sut.proofData.testWrapper = nil
-
-		// When
-		sut.migrateExistingProof()
-
-		// Then
-		expect(walletSpy.invokedStoreEventGroup).toEventually(beFalse())
-	}
-
-	func test_migrateExistingProof() {
-
-		// Given
-		let walletSpy = WalletManagerSpy(dataStoreManager: DataStoreManager(.inMemory))
-		sut.walletManager = walletSpy
-		sut.proofData.signedWrapper = SignedResponse(payload: "test", signature: "test")
-		sut.proofData.testWrapper = TestResultWrapper(
-			providerIdentifier: "CC",
-			protocolVersion: "2.0",
-			result: TestResult(
-				unique: "1234",
-				sampleDate: "1621852090",
-				testType: "pcr",
-				negativeResult: true,
-				holder: TestHolderIdentity(
-					firstNameInitial: "R",
-					lastNameInitial: "P",
-					birthDay: "27",
-					birthMonth: "5"
-				)
-			),
-			status: .complete
-		)
-
-		// When
-		sut.migrateExistingProof()
-
-		// Then
-		expect(walletSpy.invokedStoreEventGroup).toEventually(beTrue())
-		expect(self.sut.getTestWrapper()).toEventually(beNil())
-		expect(self.sut.getSignedWrapper()).toEventually(beNil())
 	}
 }

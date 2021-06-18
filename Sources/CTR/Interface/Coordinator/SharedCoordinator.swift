@@ -33,8 +33,6 @@ class SharedCoordinator: Coordinator, Logging {
 	/// The side panel controller that holds both the menu and the main view
 	var sidePanel: SidePanelController?
 
-	var onboardingManager: OnboardingManaging = Services.onboardingManager
-	var forcedInformationManager: ForcedInformationManaging = Services.forcedInformationManager
 	var cryptoManager: CryptoManaging = Services.cryptoManager
 	var generalConfiguration: ConfigurationGeneralProtocol = Configuration()
 	var remoteConfigManager: RemoteConfigManaging = Services.remoteConfigManager
@@ -115,52 +113,5 @@ extension SharedCoordinator: OpenUrlProtocol {
 		} else {
 			UIApplication.shared.open(url)
 		}
-	}
-}
-
-// MARK: - OnboardingDelegate
-
-extension SharedCoordinator: OnboardingDelegate {
-
-	/// User has seen all the onboarding pages
-	func finishOnboarding() {
-
-		onboardingManager.finishOnboarding()
-	}
-
-	/// The onboarding is finished
-	func consentGiven() {
-
-		// Mark as complete
-		onboardingManager.consentGiven()
-		// Also mark as complete for forced information
-		forcedInformationManager.consentGiven()
-
-		// Remove child coordinator
-		if let onboardingCoorinator = childCoordinators.first {
-			removeChildCoordinator(onboardingCoorinator)
-		}
-
-		// Navigate to start
-		start()
-	}
-}
-
-// MARK: - ForcedInformationDelegate
-
-extension SharedCoordinator: ForcedInformationDelegate {
-
-	/// The user finished the forced information
-	func finishForcedInformation() {
-
-		logDebug("SharedCoordinator: finishForcedInformation")
-
-		// Remove childCoordinator
-		if let forcedInformationCoordinator = childCoordinators.first {
-			removeChildCoordinator(forcedInformationCoordinator)
-		}
-
-		// Navigate to start
-		start()
 	}
 }

@@ -34,15 +34,14 @@ class SnapshotViewModel: Logging {
 	///   - versionSupplier: the version supplier
 	///   - flavor: the app flavor (holder or verifier)
 	init(
-		versionSupplier: AppVersionSupplierProtocol,
-		flavor: AppFlavor) {
+		versionSupplier: AppVersionSupplierProtocol) {
 
 		self.versionSupplier = versionSupplier
 
-		title = flavor == .holder ? .holderLaunchTitle : .verifierLaunchTitle
-		appIcon = flavor == .holder ? .holderAppIcon : .verifierAppIcon
+		title = .verifierLaunchTitle
+		appIcon = .verifierAppIcon
 
-		let versionString: String = flavor == .holder ? .holderLaunchVersion : .verifierLaunchVersion
+		let versionString: String = .verifierLaunchVersion
 		version = String(
 			format: versionString,
 			versionSupplier.getCurrentVersion(),

@@ -93,57 +93,18 @@ protocol CryptoManaging: AnyObject {
 	/// - Returns: the stoken
 	func getStoken() -> String?
 	
-	/// Generate the commitment message
-	/// - Returns: commitment message
-	func generateCommitmentMessage() -> String?
-	
 	// MARK: Public Keys
-	
-	/// Set the issuer domestic public keys
-	/// - Parameter keys: the keys
-	func setIssuerDomesticPublicKeys(_ keys: IssuerPublicKeys) -> Bool
 	
 	/// Do we have public keys
 	/// - Returns: True if we do
 	func hasPublicKeys() -> Bool
 	
-	// MARK: Credential
-
-	/// Create the credential from the issuer commit message
-	/// - Parameter ism: the issuer commit message (signed testproof)
-	/// - Returns: Credential data if success, error if not
-	func createCredential(_ ism: Data) -> Result<Data, CryptoError>
-	
-	/// Read the crypto credential
-	/// - Returns: the  the crypto attributes
-	func readCredential() -> CryptoAttributes?
-
-	/// Store the credential in the vault
-	/// - Parameter credential: the credential
-	func storeCredential(_ credential: Data)
-
-	/// Remove the credential
-	func removeCredential()
-	
 	// MARK: QR
-
-	/// Generate the QR message
-	/// - Parameter credential: the (domestic) credential to generate the QR from
-	/// - Returns: the QR message
-	func generateQRmessage(_ credential: Data) -> Data?
 	
 	/// Verify the QR message
 	/// - Parameter message: the scanned QR code
 	/// - Returns: Attributes if the QR is valid or error string if not
 	func verifyQRMessage(_ message: String) -> CryptoResult
-
-	// MARK: Migration
-
-	func migrateExistingCredential(_ walletManager: WalletManaging)
-
-	func readDomesticCredentials(_ data: Data) -> DomesticCredentialAttributes?
-
-	func readEuCredentials(_ data: Data) -> EuCredentialAttributes?
 }
 
 /// The errors returned by the crypto library

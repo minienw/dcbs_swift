@@ -13,10 +13,7 @@ class LaunchViewModel {
 
 	private var versionSupplier: AppVersionSupplierProtocol
 	private var remoteConfigManager: RemoteConfigManaging
-	private var walletManager: WalletManaging
 	private var proofManager: ProofManaging
-	private var jailBreakDetector: JailBreakProtocol
-	private var userSettings: UserSettingsProtocol
 	private let cryptoLibUtility: CryptoLibUtilityProtocol
 
 	private var isUpdatingConfiguration = false
@@ -24,13 +21,11 @@ class LaunchViewModel {
 
 	private var configStatus: LaunchState?
 	private var issuerPublicKeysStatus: LaunchState?
-	private var flavor: AppFlavor
 
 	@Bindable private(set) var title: String
 	@Bindable private(set) var message: String
 	@Bindable private(set) var version: String
 	@Bindable private(set) var appIcon: UIImage?
-	@Bindable private(set) var interruptForJailBreakDialog: Bool = false
 
 	/// Initializer
 	/// - Parameters:
@@ -45,74 +40,35 @@ class LaunchViewModel {
 	init(
 		coordinator: AppCoordinatorDelegate,
 		versionSupplier: AppVersionSupplierProtocol,
-		flavor: AppFlavor,
 		remoteConfigManager: RemoteConfigManaging,
 		proofManager: ProofManaging,
-		jailBreakDetector: JailBreakProtocol = JailBreakDetector(),
-		userSettings: UserSettingsProtocol = UserSettings(),
-		cryptoLibUtility: CryptoLibUtilityProtocol = Services.cryptoLibUtility,
-		walletManager: WalletManaging = Services.walletManager) {
+		cryptoLibUtility: CryptoLibUtilityProtocol = Services.cryptoLibUtility) {
 
 		self.coordinator = coordinator
 		self.versionSupplier = versionSupplier
 		self.remoteConfigManager = remoteConfigManager
 		self.proofManager = proofManager
-		self.flavor = flavor
-		self.jailBreakDetector = jailBreakDetector
-		self.userSettings = userSettings
 		self.cryptoLibUtility = cryptoLibUtility
-		self.walletManager = walletManager
 
-		title = flavor == .holder ? .holderLaunchTitle : .verifierLaunchTitle
-		message = flavor == .holder  ? .holderLaunchText : .verifierLaunchText
-		appIcon = flavor == .holder ? .holderAppIcon : .verifierAppIcon
+		title = .verifierLaunchTitle
+		message = .verifierLaunchText
+		appIcon = .verifierAppIcon
 
-		let versionString: String = flavor == .holder ? .holderLaunchVersion : .verifierLaunchVersion
 		version = String(
-			format: versionString,
+			format: .verifierLaunchVersion,
 			versionSupplier.getCurrentVersion(),
 			versionSupplier.getCurrentBuild()
 		)
 
-		if shouldShowJailBreakAlert() {
-			// Interrupt, do not continu the flow
-			interruptForJailBreakDialog = true
-		} else {
-			// Continu with the flow
-			interruptForJailBreakDialog = false
-			updateDependencies()
-		}
-
-		if flavor == .holder {
-			proofManager.migrateExistingProof()
-		}
+		updateDependencies()
 	}
 
 	/// Update the dependencies
 	private func updateDependencies() {
 
+		// TODO: Update
 		updateConfiguration()
 		updateKeys()
-	}
-
-	private func shouldShowJailBreakAlert() -> Bool {
-
-		guard flavor == .holder else {
-			// Only enable for the holder
-			return false
-		}
-
-		return !userSettings.jailbreakWarningShown && jailBreakDetector.isJailBroken()
-	}
-
-	func userDismissedJailBreakWarning() {
-
-		// Interruption is over
-		interruptForJailBreakDialog = false
-		// Warning has been shown, do not show twice
-		userSettings.jailbreakWarningShown = true
-		// Continu with flow
-		updateDependencies()
 	}
 
 	/// Update the configuration
@@ -127,21 +83,11 @@ class LaunchViewModel {
 
 		remoteConfigManager.update { [weak self] updateState in
 
+			// TODO: Check
 			self?.configStatus = updateState
-			self?.checkWallet()
 			self?.isUpdatingConfiguration = false
 			self?.handleState()
 		}
-	}
-
-	private func checkWallet() {
-
-		let configuration = remoteConfigManager.getConfiguration()
-		walletManager.expireEventGroups(
-			vaccinationValidity: configuration.vaccinationEventValidity,
-			recoveryValidity: configuration.recoveryEventValidity,
-			testValidity: configuration.testEventValidity
-		)
 	}
 
 	/// Update the Issuer Public keys

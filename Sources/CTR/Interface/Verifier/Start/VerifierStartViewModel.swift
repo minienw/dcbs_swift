@@ -7,13 +7,6 @@
 
 import UIKit
 
-enum VerifierStartResult {
-
-	case userTappedProceedToScan
-
-	case userTappedProceedToScanInstructions
-}
-
 class VerifierStartViewModel: Logging {
 
 	var loggingCategory: String = "VerifierStartViewModel"
@@ -21,7 +14,6 @@ class VerifierStartViewModel: Logging {
 	weak private var coordinator: VerifierCoordinatorDelegate?
 	weak private var cryptoManager: CryptoManaging?
 	weak private var proofManager: ProofManaging?
-	private var userSettings: UserSettingsProtocol
 
 	// MARK: - Bindable properties
 
@@ -45,17 +37,14 @@ class VerifierStartViewModel: Logging {
 	///   - coordinator: the coordinator delegate
 	///   - cryptoManager: the crypto manager
 	///   - proofManager: the proof manager
-	///   - userSettings: the user managed settings
 	init(
 		coordinator: VerifierCoordinatorDelegate,
 		cryptoManager: CryptoManaging,
-		proofManager: ProofManaging,
-		userSettings: UserSettingsProtocol = UserSettings()) {
+		proofManager: ProofManaging) {
 
 		self.coordinator = coordinator
 		self.cryptoManager = cryptoManager
 		self.proofManager = proofManager
-		self.userSettings = userSettings
 
 		primaryButtonTitle = .verifierStartButtonTitle
 		title = .verifierStartTitle
@@ -65,24 +54,17 @@ class VerifierStartViewModel: Logging {
 
 	func primaryButtonTapped() {
 
-		if userSettings.scanInstructionShown {
-
-			if let crypto = cryptoManager, crypto.hasPublicKeys() {
-				coordinator?.didFinish(.userTappedProceedToScan)
-			} else {
-				updatePublicKeys()
-				showError = true
-			}
+		if let crypto = cryptoManager, crypto.hasPublicKeys() {
+			coordinator?.didFinish()
 		} else {
-			// Show the scan instructions the first time no matter what link was tapped
-			userSettings.scanInstructionShown = true
-			coordinator?.didFinish(.userTappedProceedToScanInstructions)
+			updatePublicKeys()
+			showError = true
 		}
 	}
 
 	func linkTapped() {
 
-		coordinator?.didFinish(.userTappedProceedToScanInstructions)
+		// Used for any links
 	}
 
 	/// Update the public keys

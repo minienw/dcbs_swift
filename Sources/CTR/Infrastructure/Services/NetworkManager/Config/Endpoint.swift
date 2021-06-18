@@ -22,20 +22,10 @@ struct Path {
 struct Endpoint {
 	
 	// MARK: - API
-
-	/// Endpoint for access tokens
-	static let accessTokens = Path(components: "holder", "access_tokens")
-
-	static let prepareIssue = Path(components: "holder", "prepare_issue")
-
-	static let getCredentials = Path(components: "holder", "credentials")
 	
 	/// Endpoint for the public keys
-	static let publicKeys = Path(components: AppFlavor.flavor == .holder ? "holder" : "verifier", "public_keys")
+	static let publicKeys = Path(components: "verifier", "public_keys")
 	
 	/// Endpoint for the remote configuration
-	static let remoteConfiguration = Path(components: AppFlavor.flavor == .holder ? "holder" : "verifier", "config")
-	
-	/// Endpoint for test providers
-	static let providers = Path(components: "holder", "config_providers")
+	static let remoteConfiguration = Path(components: "verifier", "config")
 }

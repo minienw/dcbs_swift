@@ -13,12 +13,7 @@ protocol VerifierCoordinatorDelegate: AnyObject {
 	func navigateToVerifierWelcome()
 
 	/// The user finished the start scene
-	/// - Parameter result: the result of the start scene
-	func didFinish(_ result: VerifierStartResult)
-
-	/// The user finished the instruction scene
-	/// - Parameter result: the result of the instruction scene
-	func didFinish(_ result: ScanInstructionsResult)
+	func didFinish()
 
 	func navigateToScan()
 
@@ -35,39 +30,12 @@ protocol VerifierCoordinatorDelegate: AnyObject {
 
 class VerifierCoordinator: SharedCoordinator {
 
-	/// The factory for onboarding pages
-	var onboardingFactory: OnboardingFactoryProtocol = VerifierOnboardingFactory()
-
 	private var bottomSheetTransitioningDelegate = BottomSheetTransitioningDelegate() // swiftlint:disable:this weak_delegate
 
 	// Designated starter method
 	override func start() {
-		
-		if onboardingManager.needsOnboarding {
-			/// Start with the onboarding
-			let coordinator = OnboardingCoordinator(
-				navigationController: navigationController,
-				onboardingDelegate: self,
-				factory: onboardingFactory,
-				maxValidity: maxValidity
-			)
-			startChildCoordinator(coordinator)
-			
-		} else if onboardingManager.needsConsent {
-			// Show the consent page
-			let coordinator = OnboardingCoordinator(
-				navigationController: navigationController,
-				onboardingDelegate: self,
-				factory: onboardingFactory,
-				maxValidity: maxValidity
-			)
-			addChildCoordinator(coordinator)
-			coordinator.navigateToConsent(shouldHideBackButton: true)
-
-		} else {
-			
-			navigateToVerifierWelcome()
-		}
+					
+		navigateToVerifierWelcome()
 	}
 }
 
@@ -97,20 +65,7 @@ extension VerifierCoordinator: VerifierCoordinatorDelegate {
 		window.rootViewController = sidePanel
 	}
 
-	func didFinish(_ result: VerifierStartResult) {
-
-		switch result {
-			case .userTappedProceedToScan:
-				navigateToScan()
-
-			case .userTappedProceedToScanInstructions:
-				navigateToScanInstruction()
-		}
-	}
-
-	/// The user finished the instruction scene
-	/// - Parameter result: the result of the instruction scene
-	func didFinish(_ result: ScanInstructionsResult) {
+	func didFinish() {
 
 		navigateToScan()
 	}
@@ -148,16 +103,6 @@ extension VerifierCoordinator: VerifierCoordinatorDelegate {
 		viewController.modalTransitionStyle = .coverVertical
 
 		sidePanel?.selectedViewController?.present(viewController, animated: true, completion: nil)
-	}
-
-	private func navigateToScanInstruction() {
-
-		let destination = ScanInstructionsViewController(
-			viewModel: ScanInstructionsViewModel(
-				coordinator: self
-			)
-		)
-		(sidePanel?.selectedViewController as? UINavigationController)?.pushViewController(destination, animated: true)
 	}
 
 	/// Navigate to the QR scanner
@@ -204,24 +149,6 @@ extension VerifierCoordinator: MenuDelegate {
 			case .overview:
 				dashboardNavigationController?.popToRootViewController(animated: false)
 				sidePanel?.selectedViewController = dashboardNavigationController
-
-			case .support:
-				guard let faqUrl = URL(string: .verifierUrlFAQ) else {
-					logError("No verifier faq url")
-					return
-				}
-				openUrl(faqUrl, inApp: true)
-				
-			case .about :
-				let destination = AboutViewController(
-					viewModel: AboutViewModel(
-						coordinator: self,
-						versionSupplier: versionSupplier,
-						flavor: AppFlavor.flavor
-					)
-				)
-				aboutNavigationController = UINavigationController(rootViewController: destination)
-				sidePanel?.selectedViewController = aboutNavigationController
 				
 			default:
 				self.logInfo("User tapped on \(identifier), not implemented")
@@ -253,9 +180,6 @@ extension VerifierCoordinator: MenuDelegate {
 	/// - Returns: the bottom menu items
 	func getBottomMenuItems() -> [MenuItem] {
 		
-		return [
-			MenuItem(identifier: .support, title: .verifierMenuSupport),
-			MenuItem(identifier: .about, title: .verifierMenuAbout)
-		]
+		return []
 	}
 }

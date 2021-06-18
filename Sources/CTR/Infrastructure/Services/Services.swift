@@ -13,26 +13,16 @@ final class Services {
 	private static var cryptoLibUtilityType: CryptoLibUtility.Type = CryptoLibUtility.self
 	private static var cryptoManagingType: CryptoManaging.Type = CryptoManager.self
 	private static var dataStoreManagingType: DataStoreManaging.Type = DataStoreManager.self
-	private static var forcedInformationManagingType: ForcedInformationManaging.Type = ForcedInformationManager.self
 	private static var networkManagingType: NetworkManaging.Type = NetworkManager.self
-    private static var onboardingManagingType: OnboardingManaging.Type = OnboardingManager.self
 	private static var openIdManagerType: OpenIdManaging.Type = OpenIdManager.self
 	private static var proofManagerType: ProofManaging.Type = ProofManager.self
 	private static var remoteConfigManagingType: RemoteConfigManaging.Type = RemoteConfigManager.self
-	private static var walletManagingType: WalletManaging.Type = WalletManager.self
 
 	/// Override the CryptoManaging type that will be instantiated
 	/// - parameter cryptoManager: The type conforming to CryptoManaging to be used as the global cryptoManager
 	static func use(_ cryptoManager: CryptoManaging.Type) {
 
 		cryptoManagingType = cryptoManager
-	}
-
-	/// Override the ForcedInformationManaging type that will be instantiated
-	/// - parameter forcedInformationManager: The type conforming to ForcedInformationManaging to be used as the global forcedInformationManager
-	static func use(_ forcedInformationManager: ForcedInformationManaging.Type) {
-
-		forcedInformationManagingType = forcedInformationManager
 	}
 
     /// Override the NetworkManaging type that will be instantiated
@@ -47,12 +37,6 @@ final class Services {
     static func use(_ configManager: RemoteConfigManaging.Type) {
 
 		remoteConfigManagingType = configManager
-    }
-
-    /// Override the OnboardingManaging type that will be instantiated
-    /// - parameter onboardingManaging: The type conforming to OnboardingManaging to be used as the global onboardingManager
-    static func use(_ onboardingManager: OnboardingManaging.Type) {
-        onboardingManagingType = onboardingManager
     }
 
 	/// Override the OpenIdManaging type that will be instantiated
@@ -98,15 +82,9 @@ final class Services {
 	
 	static private(set) var dataStoreManager: DataStoreManaging = dataStoreManagingType.init(StorageType.persistent)
 
-	static private(set) var forcedInformationManager: ForcedInformationManaging = forcedInformationManagingType.init()
-
     static private(set) var remoteConfigManager: RemoteConfigManaging = remoteConfigManagingType.init()
-
-	static private(set) var onboardingManager: OnboardingManaging = onboardingManagingType.init()
 
 	static private(set) var openIdManager: OpenIdManaging = openIdManagerType.init()
 
 	static private(set) var proofManager: ProofManaging = proofManagerType.init()
-
-	static private(set) var walletManager: WalletManaging = walletManagingType.init(dataStoreManager: dataStoreManager)
 }

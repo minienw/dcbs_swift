@@ -74,7 +74,6 @@ class AppCoordinator: Coordinator, Logging {
             viewModel: LaunchViewModel(
                 coordinator: self,
                 versionSupplier: AppVersionSupplier(),
-                flavor: AppFlavor.flavor,
                 remoteConfigManager: remoteConfigManager,
                 proofManager: proofManager
             )
@@ -89,30 +88,8 @@ class AppCoordinator: Coordinator, Logging {
     /// Start the real application
     private func startApplication() {
 
-        switch AppFlavor.flavor {
-            case .holder:
-                startAsHolder()
-            default:
-                startAsVerifier()
-        }
-    }
-
-    /// Start the app as a holder
-    private func startAsHolder() {
-
-        let coordinator = HolderCoordinator(navigationController: navigationController, window: window)
-        startChildCoordinator(coordinator)
-
-        if let universalLink = self.unhandledUniversalLink {
-           coordinator.receive(universalLink: universalLink)
-        }
-    }
-
-    /// Start the app as a verifiier
-    private func startAsVerifier() {
-
-        let coordinator = VerifierCoordinator(navigationController: navigationController, window: window)
-        startChildCoordinator(coordinator)
+		let coordinator = VerifierCoordinator(navigationController: navigationController, window: window)
+		startChildCoordinator(coordinator)
     }
 
 	/// Show the Action Required View
@@ -265,8 +242,7 @@ extension AppCoordinator {
 
 		let shapshotViewController = SnapshotViewController(
 			viewModel: SnapshotViewModel(
-				versionSupplier: AppVersionSupplier(),
-				flavor: AppFlavor.flavor
+				versionSupplier: AppVersionSupplier()
 			)
 		)
 		privacySnapshotWindow?.rootViewController = shapshotViewController
