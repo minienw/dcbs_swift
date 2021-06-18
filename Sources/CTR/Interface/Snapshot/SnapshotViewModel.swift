@@ -32,7 +32,6 @@ class SnapshotViewModel: Logging {
 	/// Initializer
 	/// - Parameters:
 	///   - versionSupplier: the version supplier
-	///   - flavor: the app flavor (holder or verifier)
 	init(
 		versionSupplier: AppVersionSupplierProtocol) {
 

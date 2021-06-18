@@ -31,11 +31,8 @@ class LaunchViewModel {
 	/// - Parameters:
 	///   - coordinator: the coordinator delegate
 	///   - versionSupplier: the version supplier
-	///   - flavor: the app flavor (holder or verifier)
 	///   - remoteConfigManager: the manager for fetching the remote configuration
 	///   - proofManager: the proof manager for fetching the keys
-	///   - jailBreakDetector: the detector for detecting jailbreaks
-	///   - userSettings: the settings used for storing if the user has seen the jail break warning (if device is jailbroken)
 	///   - cryptoLibUtility: the crypto library utility
 	init(
 		coordinator: AppCoordinatorDelegate,
