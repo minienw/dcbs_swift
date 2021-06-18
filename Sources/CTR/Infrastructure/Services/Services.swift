@@ -12,9 +12,7 @@ final class Services {
 	
 	private static var cryptoLibUtilityType: CryptoLibUtility.Type = CryptoLibUtility.self
 	private static var cryptoManagingType: CryptoManaging.Type = CryptoManager.self
-	private static var dataStoreManagingType: DataStoreManaging.Type = DataStoreManager.self
 	private static var networkManagingType: NetworkManaging.Type = NetworkManager.self
-	private static var openIdManagerType: OpenIdManaging.Type = OpenIdManager.self
 	private static var proofManagerType: ProofManaging.Type = ProofManager.self
 	private static var remoteConfigManagingType: RemoteConfigManaging.Type = RemoteConfigManager.self
 
@@ -38,12 +36,6 @@ final class Services {
 
 		remoteConfigManagingType = configManager
     }
-
-	/// Override the OpenIdManaging type that will be instantiated
-	/// - parameter openIdManager: The type conforming to OpenIdManaging to be used as the global openID manager
-	static func use(_ openIdManager: OpenIdManaging.Type) {
-		openIdManagerType = openIdManager
-	}
 
 	/// Override the ProofManaging type that will be instantiated
 	/// - parameter proofManager: The type conforming to ProofManaging to be used as the global proof manager
@@ -79,12 +71,8 @@ final class Services {
 	static private(set) var cryptoLibUtility: CryptoLibUtility = cryptoLibUtilityType.init()
 
 	static private(set) var cryptoManager: CryptoManaging = cryptoManagingType.init()
-	
-	static private(set) var dataStoreManager: DataStoreManaging = dataStoreManagingType.init(StorageType.persistent)
 
     static private(set) var remoteConfigManager: RemoteConfigManaging = remoteConfigManagingType.init()
-
-	static private(set) var openIdManager: OpenIdManaging = openIdManagerType.init()
 
 	static private(set) var proofManager: ProofManaging = proofManagerType.init()
 }

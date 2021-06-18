@@ -6,9 +6,6 @@ name: CTR
 # - Packages:
 
 packages:
-  AppAuth:
-    github: openid/AppAuth-iOS.git
-    majorVersion: 1.4.0
   CocoaLumberjack:
     github: CocoaLumberjack/CocoaLumberjack
     majorVersion: 3.7.2
@@ -30,9 +27,6 @@ packages:
   SnapshotTesting:
     github: pointfreeco/swift-snapshot-testing
     majorVersion: 1.8.2
-  IOSSecuritySuite:
-    github: securing/IOSSecuritySuite
-    majorVersion: 1.8.0
 
 # - Configurations:
 
@@ -76,10 +70,6 @@ targetTemplates:
     platform: iOS
     type: application
     dependencies:
-      - package: AppAuth
-        product: AppAuth
-      - package: AppAuth
-        product: AppAuthCore
       - package: CocoaLumberjack
         product: CocoaLumberjack
       - package: CocoaLumberjack
@@ -88,7 +78,6 @@ targetTemplates:
       - package: Lottie
       - package: Firebase
         product: FirebaseCrashlytics
-      - package: IOSSecuritySuite
       - framework: clcore.framework
         embed: false
       - framework: openssl.framework

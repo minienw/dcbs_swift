@@ -17,34 +17,10 @@ class ProofManager: ProofManaging, Logging {
 	var cryptoManager: CryptoManaging = Services.cryptoManager
 	var cryptoLibUtility: CryptoLibUtility = Services.cryptoLibUtility
 
-	internal var testProviders = [TestProvider]()
-	
-	/// Structure to hold proof data
-	internal struct ProofData: Codable {
-		
-		/// The key of the holder
-		var testTypes: [TestType]
-		
-		/// The test result
-		var testWrapper: TestResultWrapper?
-		
-		/// The signed Wrapper
-		var signedWrapper: SignedResponse?
-		
-		/// Empty crypto data
-		static var empty: ProofData {
-			return ProofData(testTypes: [], testWrapper: nil, signedWrapper: nil)
-		}
-	}
-
 	/// Array of constants
 	private struct Constants {
 		static let keychainService = "ProofManager\(Configuration().getEnvironment())\(ProcessInfo.processInfo.isTesting ? "Test" : "")"
 	}
-	
-	/// The proof data stored in the keychain
-	@Keychain(name: "proofData", service: Constants.keychainService, clearOnReinstall: true)
-	internal var proofData: ProofData = .empty
 
 	@UserDefaults(key: "keysFetchedTimestamp", defaultValue: nil)
 	var keysFetchedTimestamp: Date? // swiftlint:disable:this let_var_whitespace
