@@ -135,9 +135,9 @@ struct DCCTest: Codable {
     private let targetedDisease: String?
     private let typeOfTest: String?
     let NAATestName: String?
-    let RATTestNameAndManufac: String?
+    private let RATTestNameAndManufac: String?
     let dateOfSampleCollection: String?
-    let testResult: String?
+    private let testResult: String?
     let testingCentre: String?
     private let countryOfTest: String?
     let certificateIssuer: String?
@@ -151,6 +151,16 @@ struct DCCTest: Codable {
     var getTargetedDisease: TargetedDisease? {
         guard let targetedDisease = targetedDisease else { return nil }
         return TargetedDisease(rawValue: targetedDisease)
+    }
+    
+    var getTestResult: DCCTestResult? {
+        guard let testResult = testResult else { return nil }
+        return DCCTestResult(rawValue: testResult)
+    }
+    
+    var getTestManufacturer: DCCTestManufacturer? {
+        guard let manuf = RATTestNameAndManufac else { return nil }
+        return DCCTestManufacturer(rawValue: manuf)
     }
     
     var getTestType: DCCTestType? {
