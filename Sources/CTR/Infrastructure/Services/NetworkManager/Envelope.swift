@@ -75,9 +75,3 @@ struct Envelope<Item: Envelopable & Codable>: Codable {
         try container.encode(item, forKey: .item)
     }
 }
-
-extension EventFlow.AccessToken: Envelopable { static let envelopeName = "tokens" }
-
-extension EventFlow.EventProvider: Envelopable { static let envelopeName = "event_providers" }
-
-extension TestProvider: Envelopable { static let envelopeName = "corona_test_providers" }

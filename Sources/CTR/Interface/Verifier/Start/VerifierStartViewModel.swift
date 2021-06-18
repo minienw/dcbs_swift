@@ -67,10 +67,8 @@ class VerifierStartViewModel: Logging {
 
 		if userSettings.scanInstructionShown {
 
-			if let crypto = cryptoManager, crypto.hasPublicKeys() {
-                updatePublicKeys()
-				coordinator?.didFinish(.userTappedProceedToScan)
-			}
+            updatePublicKeys()
+            coordinator?.didFinish(.userTappedProceedToScan)
 		} else {
 			// Show the scan instructions the first time no matter what link was tapped
 			userSettings.scanInstructionShown = true

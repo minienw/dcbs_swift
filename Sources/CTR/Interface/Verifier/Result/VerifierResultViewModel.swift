@@ -27,7 +27,7 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 	private var configuration: ConfigurationGeneralProtocol = Configuration()
 
 	/// The scanned attributes
-	internal var cryptoResults: (attributes: CryptoAttributes?, errorMessage: String?)
+	internal var cryptoResults: (attributes: DCCQR?, errorMessage: String?)
 
 	/// A timer auto close the scene
 	private var autoCloseTimer: Timer?
@@ -68,7 +68,7 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 	///   - maxValidity: the maximum validity of a test in hours
 	init(
 		coordinator: (VerifierCoordinatorDelegate & Dismissable),
-		cryptoResults: (CryptoAttributes?, String?),
+		cryptoResults: (DCCQR?, String?),
 		maxValidity: Int) {
 
 		self.coordinator = coordinator
@@ -123,12 +123,13 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 		}
 	}
 
-	func setHolderIdentity(_ attributes: CryptoAttributes) {
+	func setHolderIdentity(_ attributes: DCCQR) {
 
-		firstName = determineAttributeValue(attributes.firstNameInitial)
-		lastName = determineAttributeValue(attributes.lastNameInitial)
-		dayOfBirth = determineAttributeValue(attributes.birthDay)
-		monthOfBirth = determineMonthOfBirth(attributes.birthMonth)
+		// TODO: Update
+//		firstName = determineAttributeValue(attributes.firstNameInitial)
+//		lastName = determineAttributeValue(attributes.lastNameInitial)
+//		dayOfBirth = determineAttributeValue(attributes.birthDay)
+//		monthOfBirth = determineMonthOfBirth(attributes.birthMonth)
 	}
 
 	/// Determine the value for display
@@ -140,34 +141,6 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 			return value
 		}
 		return "-"
-	}
-
-	/// Set the monthOfBirth as MMM (mm)
-	/// - Parameter value: the possible month value
-	private func determineMonthOfBirth(_ value: String?) -> String {
-
-		if let birthMonthAsString = value, !birthMonthAsString.isEmpty {
-			if let birthMonthAsInt = Int(birthMonthAsString),
-			   let month = mapMonth(month: birthMonthAsInt, months: String.shortMonths) {
-
-				let formatter = NumberFormatter()
-				formatter.minimumIntegerDigits = 2
-				if let monthWithLeadingZero = formatter.string(from: NSNumber(value: birthMonthAsInt)) {
-					return month + " (\(monthWithLeadingZero))"
-				}
-			} else {
-				return birthMonthAsString
-			}
-		}
-		return "-"
-	}
-
-	private func mapMonth(month: Int, months: [String]) -> String? {
-
-		if month <= months.count, month > 0 {
-			return months[month - 1]
-		}
-		return nil
 	}
 
 	/// Formatter to print

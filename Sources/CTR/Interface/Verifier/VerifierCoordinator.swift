@@ -25,7 +25,7 @@ protocol VerifierCoordinatorDelegate: AnyObject {
 
 	/// Navigate to the scan result
 	/// - Parameter attributes: the scanned attributes
-	func navigateToScanResult(_ scanResult: CryptoResult)
+	func navigateToScanResult(_ scanResult: (DCCQR?, String?))
 
 	/// Display content
 	/// - Parameters:
@@ -115,7 +115,7 @@ extension VerifierCoordinator: VerifierCoordinatorDelegate {
 	
 	/// Navigate to the scan result
 	/// - Parameter attributes: the scanned attributes
-	func navigateToScanResult(_ cryptoResults: CryptoResult) {
+	func navigateToScanResult(_ cryptoResults: (DCCQR?, String?)) {
 		
 		let viewController = VerifierResultViewController(
 			viewModel: VerifierResultViewModel(

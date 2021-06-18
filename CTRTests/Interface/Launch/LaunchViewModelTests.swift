@@ -16,8 +16,6 @@ class LaunchViewModelTests: XCTestCase {
 	private var versionSupplierSpy: AppVersionSupplierSpy!
 	private var remoteConfigSpy: RemoteConfigManagingSpy!
 	private var proofManagerSpy: ProofManagingSpy!
-	private var jailBreakProtocolSpy: JailBreakProtocolSpy!
-	private var userSettingsSpy: UserSettingsSpy!
 	private var cryptoLibUtilitySpy: CryptoLibUtilitySpy!
 
 	override func setUp() {
@@ -27,8 +25,6 @@ class LaunchViewModelTests: XCTestCase {
 		versionSupplierSpy = AppVersionSupplierSpy(version: "1.0.0")
 		remoteConfigSpy = RemoteConfigManagingSpy()
 		proofManagerSpy = ProofManagingSpy()
-		jailBreakProtocolSpy = JailBreakProtocolSpy()
-		userSettingsSpy = UserSettingsSpy()
 		cryptoLibUtilitySpy = CryptoLibUtilitySpy()
 		remoteConfigSpy.stubbedGetConfigurationResult = remoteConfig
 	}
@@ -56,26 +52,6 @@ class LaunchViewModelTests: XCTestCase {
 
 	// MARK: Tests
 
-	func test_initializeHolder() {
-
-		// Given
-
-		// When
-		sut = LaunchViewModel(
-			coordinator: appCoordinatorSpy,
-			versionSupplier: versionSupplierSpy,
-			flavor: AppFlavor.holder,
-			remoteConfigManager: remoteConfigSpy,
-			proofManager: proofManagerSpy
-		)
-
-		// Then
-		expect(self.sut.title) == .holderLaunchTitle
-		expect(self.sut.message) == .holderLaunchText
-		expect(self.sut.appIcon) == .holderAppIcon
-		expect(self.proofManagerSpy.invokedMigrateExistingProof) == true
-	}
-
 	func test_initializeVerifier() {
 
 		// Given
@@ -84,7 +60,6 @@ class LaunchViewModelTests: XCTestCase {
 		sut = LaunchViewModel(
 			coordinator: appCoordinatorSpy,
 			versionSupplier: versionSupplierSpy,
-			flavor: AppFlavor.verifier,
 			remoteConfigManager: remoteConfigSpy,
 			proofManager: proofManagerSpy
 		)
@@ -93,7 +68,6 @@ class LaunchViewModelTests: XCTestCase {
 		expect(self.sut.title) == .verifierLaunchTitle
 		expect(self.sut.message) == .verifierLaunchText
 		expect(self.sut.appIcon) == .verifierAppIcon
-		expect(self.proofManagerSpy.invokedMigrateExistingProof) == false
 	}
 
 	func test_noActionRequired() {
@@ -101,18 +75,14 @@ class LaunchViewModelTests: XCTestCase {
 		// Given
 		remoteConfigSpy.stubbedUpdateCompletionResult = (.noActionNeeded, ())
 		proofManagerSpy.shouldInvokeFetchIssuerPublicKeysOnCompletion = true
-		jailBreakProtocolSpy.stubbedIsJailBrokenResult = false
 		cryptoLibUtilitySpy.stubbedIsInitialized = true
 
 		// When
 		sut = LaunchViewModel(
 			coordinator: appCoordinatorSpy,
 			versionSupplier: versionSupplierSpy,
-			flavor: AppFlavor.holder,
 			remoteConfigManager: remoteConfigSpy,
 			proofManager: proofManagerSpy,
-			jailBreakDetector: jailBreakProtocolSpy,
-			userSettings: userSettingsSpy,
 			cryptoLibUtility: cryptoLibUtilitySpy
 		)
 
@@ -121,7 +91,6 @@ class LaunchViewModelTests: XCTestCase {
 		expect(self.proofManagerSpy.invokedFetchIssuerPublicKeys) == true
 		expect(self.appCoordinatorSpy.invokedHandleLaunchState) == true
 		expect(self.appCoordinatorSpy.invokedHandleLaunchStateParameters?.state) == LaunchState.noActionNeeded
-		expect(self.sut.interruptForJailBreakDialog) == false
 		expect(self.cryptoLibUtilitySpy.invokedIsInitializedGetter) == true
 	}
 
@@ -131,18 +100,14 @@ class LaunchViewModelTests: XCTestCase {
 		// Given
 		remoteConfigSpy.stubbedUpdateCompletionResult = (.internetRequired, ())
 		proofManagerSpy.shouldInvokeFetchIssuerPublicKeysOnCompletion = true
-		jailBreakProtocolSpy.stubbedIsJailBrokenResult = false
 		cryptoLibUtilitySpy.stubbedIsInitialized = true
 
 		// When
 		sut = LaunchViewModel(
 			coordinator: appCoordinatorSpy,
 			versionSupplier: versionSupplierSpy,
-			flavor: AppFlavor.holder,
 			remoteConfigManager: remoteConfigSpy,
 			proofManager: proofManagerSpy,
-			jailBreakDetector: jailBreakProtocolSpy,
-			userSettings: userSettingsSpy,
 			cryptoLibUtility: cryptoLibUtilitySpy
 		)
 
@@ -151,7 +116,6 @@ class LaunchViewModelTests: XCTestCase {
 		expect(self.proofManagerSpy.invokedFetchIssuerPublicKeys) == true
 		expect(self.appCoordinatorSpy.invokedHandleLaunchState) == true
 		expect(self.appCoordinatorSpy.invokedHandleLaunchStateParameters?.state) == LaunchState.internetRequired
-		expect(self.sut.interruptForJailBreakDialog) == false
 		expect(self.cryptoLibUtilitySpy.invokedIsInitializedGetter) == false
 	}
 
@@ -165,18 +129,14 @@ class LaunchViewModelTests: XCTestCase {
 			code: URLError.notConnectedToInternet.rawValue
 		)
 		proofManagerSpy.stubbedFetchIssuerPublicKeysOnErrorResult = (error, ())
-		jailBreakProtocolSpy.stubbedIsJailBrokenResult = false
 		cryptoLibUtilitySpy.stubbedIsInitialized = true
 
 		// When
 		sut = LaunchViewModel(
 			coordinator: appCoordinatorSpy,
 			versionSupplier: versionSupplierSpy,
-			flavor: AppFlavor.holder,
 			remoteConfigManager: remoteConfigSpy,
 			proofManager: proofManagerSpy,
-			jailBreakDetector: jailBreakProtocolSpy,
-			userSettings: userSettingsSpy,
 			cryptoLibUtility: cryptoLibUtilitySpy
 		)
 
@@ -185,7 +145,6 @@ class LaunchViewModelTests: XCTestCase {
 		expect(self.proofManagerSpy.invokedFetchIssuerPublicKeys) == true
 		expect(self.appCoordinatorSpy.invokedHandleLaunchState) == true
 		expect(self.appCoordinatorSpy.invokedHandleLaunchStateParameters?.state) == LaunchState.internetRequired
-		expect(self.sut.interruptForJailBreakDialog) == false
 		expect(self.cryptoLibUtilitySpy.invokedIsInitializedGetter) == false
 	}
 
@@ -199,18 +158,14 @@ class LaunchViewModelTests: XCTestCase {
 			code: URLError.notConnectedToInternet.rawValue
 		)
 		proofManagerSpy.stubbedFetchIssuerPublicKeysOnErrorResult = (error, ())
-		jailBreakProtocolSpy.stubbedIsJailBrokenResult = false
 		cryptoLibUtilitySpy.stubbedIsInitialized = true
 
 		// When
 		sut = LaunchViewModel(
 			coordinator: appCoordinatorSpy,
 			versionSupplier: versionSupplierSpy,
-			flavor: AppFlavor.holder,
 			remoteConfigManager: remoteConfigSpy,
 			proofManager: proofManagerSpy,
-			jailBreakDetector: jailBreakProtocolSpy,
-			userSettings: userSettingsSpy,
 			cryptoLibUtility: cryptoLibUtilitySpy
 		)
 
@@ -219,7 +174,6 @@ class LaunchViewModelTests: XCTestCase {
 		expect(self.proofManagerSpy.invokedFetchIssuerPublicKeys) == true
 		expect(self.appCoordinatorSpy.invokedHandleLaunchState) == true
 		expect(self.appCoordinatorSpy.invokedHandleLaunchStateParameters?.state) == LaunchState.internetRequired
-		expect(self.sut.interruptForJailBreakDialog) == false
 		expect(self.cryptoLibUtilitySpy.invokedIsInitializedGetter) == false
 	}
 
@@ -231,18 +185,14 @@ class LaunchViewModelTests: XCTestCase {
 		let remoteConfig = remoteConfigSpy.getConfiguration()
 		remoteConfigSpy.stubbedUpdateCompletionResult = (.actionRequired(remoteConfig), ())
 		proofManagerSpy.shouldInvokeFetchIssuerPublicKeysOnCompletion = true
-		jailBreakProtocolSpy.stubbedIsJailBrokenResult = false
 		cryptoLibUtilitySpy.stubbedIsInitialized = true
 
 		// When
 		sut = LaunchViewModel(
 			coordinator: appCoordinatorSpy,
 			versionSupplier: versionSupplierSpy,
-			flavor: AppFlavor.holder,
 			remoteConfigManager: remoteConfigSpy,
 			proofManager: proofManagerSpy,
-			jailBreakDetector: jailBreakProtocolSpy,
-			userSettings: userSettingsSpy,
 			cryptoLibUtility: cryptoLibUtilitySpy
 		)
 
@@ -251,7 +201,6 @@ class LaunchViewModelTests: XCTestCase {
 		expect(self.proofManagerSpy.invokedFetchIssuerPublicKeys) == true
 		expect(self.appCoordinatorSpy.invokedHandleLaunchState) == true
 		expect(self.appCoordinatorSpy.invokedHandleLaunchStateParameters?.state) == LaunchState.actionRequired(remoteConfig)
-		expect(self.sut.interruptForJailBreakDialog) == false
 		expect(self.cryptoLibUtilitySpy.invokedIsInitializedGetter) == false
 	}
 	
@@ -261,18 +210,14 @@ class LaunchViewModelTests: XCTestCase {
 		// Given
 		remoteConfigSpy.stubbedUpdateCompletionResult = (.cryptoLibNotInitialized, ())
 		proofManagerSpy.shouldInvokeFetchIssuerPublicKeysOnCompletion = true
-		jailBreakProtocolSpy.stubbedIsJailBrokenResult = false
 		cryptoLibUtilitySpy.stubbedIsInitialized = false
 
 		// When
 		sut = LaunchViewModel(
 			coordinator: appCoordinatorSpy,
 			versionSupplier: versionSupplierSpy,
-			flavor: AppFlavor.holder,
 			remoteConfigManager: remoteConfigSpy,
 			proofManager: proofManagerSpy,
-			jailBreakDetector: jailBreakProtocolSpy,
-			userSettings: userSettingsSpy,
 			cryptoLibUtility: cryptoLibUtilitySpy
 		)
 
@@ -281,109 +226,6 @@ class LaunchViewModelTests: XCTestCase {
 		expect(self.proofManagerSpy.invokedFetchIssuerPublicKeys) == true
 		expect(self.appCoordinatorSpy.invokedHandleLaunchState) == true
 		expect(self.appCoordinatorSpy.invokedHandleLaunchStateParameters?.state) == LaunchState.cryptoLibNotInitialized
-		expect(self.sut.interruptForJailBreakDialog) == false
 		expect(self.cryptoLibUtilitySpy.invokedIsInitializedGetter) == true
-	}
-
-	func test_checkForJailBreak_broken_shouldwarn() {
-
-		// Given
-		userSettingsSpy.stubbedJailbreakWarningShown = false
-		jailBreakProtocolSpy.stubbedIsJailBrokenResult = true
-
-		// When
-		sut = LaunchViewModel(
-			coordinator: appCoordinatorSpy,
-			versionSupplier: versionSupplierSpy,
-			flavor: AppFlavor.holder,
-			remoteConfigManager: remoteConfigSpy,
-			proofManager: proofManagerSpy,
-			jailBreakDetector: jailBreakProtocolSpy,
-			userSettings: userSettingsSpy
-		)
-
-		// Then
-		expect(self.remoteConfigSpy.invokedUpdate) == false
-		expect(self.proofManagerSpy.invokedFetchIssuerPublicKeys) == false
-		expect(self.appCoordinatorSpy.invokedHandleLaunchState) == false
-		expect(self.appCoordinatorSpy.invokedHandleLaunchStateParameters?.state).to(beNil())
-		expect(self.sut.interruptForJailBreakDialog) == true
-		expect(self.jailBreakProtocolSpy.invokedIsJailBroken) == true
-	}
-
-	func test_checkForJailBreak_broken_shouldnotwarn() {
-
-		// Given
-		userSettingsSpy.stubbedJailbreakWarningShown = true
-		jailBreakProtocolSpy.stubbedIsJailBrokenResult = true
-
-		// When
-		sut = LaunchViewModel(
-			coordinator: appCoordinatorSpy,
-			versionSupplier: versionSupplierSpy,
-			flavor: AppFlavor.holder,
-			remoteConfigManager: remoteConfigSpy,
-			proofManager: proofManagerSpy,
-			jailBreakDetector: jailBreakProtocolSpy,
-			userSettings: userSettingsSpy
-		)
-
-		// Then
-		expect(self.remoteConfigSpy.invokedUpdate) == true
-		expect(self.proofManagerSpy.invokedFetchIssuerPublicKeys) == true
-		expect(self.appCoordinatorSpy.invokedHandleLaunchState) == false
-		expect(self.appCoordinatorSpy.invokedHandleLaunchStateParameters?.state).to(beNil())
-		expect(self.sut.interruptForJailBreakDialog) == false
-		expect(self.jailBreakProtocolSpy.invokedIsJailBroken) == false
-	}
-
-	func test_checkForJailBreak_broken_shouldWarn_butIsVerifier() {
-
-		// Given
-		userSettingsSpy.stubbedJailbreakWarningShown = false
-		jailBreakProtocolSpy.stubbedIsJailBrokenResult = true
-
-		// When
-		sut = LaunchViewModel(
-			coordinator: appCoordinatorSpy,
-			versionSupplier: versionSupplierSpy,
-			flavor: AppFlavor.verifier,
-			remoteConfigManager: remoteConfigSpy,
-			proofManager: proofManagerSpy,
-			jailBreakDetector: jailBreakProtocolSpy,
-			userSettings: userSettingsSpy
-		)
-
-		// Then
-		expect(self.remoteConfigSpy.invokedUpdate) == true
-		expect(self.proofManagerSpy.invokedFetchIssuerPublicKeys) == true
-		expect(self.appCoordinatorSpy.invokedHandleLaunchState) == false
-		expect(self.appCoordinatorSpy.invokedHandleLaunchStateParameters?.state).to(beNil())
-		expect(self.sut.interruptForJailBreakDialog) == false
-		expect(self.jailBreakProtocolSpy.invokedIsJailBroken) == false
-	}
-
-	func test_userDismissedJailBreakWarning() {
-
-		// Given
-		userSettingsSpy.stubbedJailbreakWarningShown = false
-		jailBreakProtocolSpy.stubbedIsJailBrokenResult = true
-		sut = LaunchViewModel(
-			coordinator: appCoordinatorSpy,
-			versionSupplier: versionSupplierSpy,
-			flavor: AppFlavor.holder,
-			remoteConfigManager: remoteConfigSpy,
-			proofManager: proofManagerSpy,
-			jailBreakDetector: jailBreakProtocolSpy,
-			userSettings: userSettingsSpy
-		)
-
-		// When
-		sut.userDismissedJailBreakWarning()
-
-		// Then
-		expect(self.userSettingsSpy.invokedJailbreakWarningShownSetter) == true
-		expect(self.userSettingsSpy.invokedJailbreakWarningShown) == true
-		expect(self.sut.interruptForJailBreakDialog) == false
 	}
 }

@@ -20,31 +20,11 @@ class SnapshotViewModelTests: XCTestCase {
 		versionSupplierSpy = AppVersionSupplierSpy(version: "1.0.0", build: "test")
 
 		sut = SnapshotViewModel(
-			versionSupplier: versionSupplierSpy,
-			flavor: AppFlavor.holder
+			versionSupplier: versionSupplierSpy
 		)
 	}
 
 	// MARK: Tests
-
-	/// Test the initializer for the holder
-	func testInitHolder() throws {
-
-		// Given
-
-		// When
-		sut = SnapshotViewModel(
-			versionSupplier: versionSupplierSpy,
-			flavor: AppFlavor.holder
-		)
-
-		// Then
-		let strongSut = try XCTUnwrap(sut)
-		XCTAssertEqual(strongSut.title, .holderLaunchTitle, "Title should match")
-		XCTAssertEqual(strongSut.appIcon, .holderAppIcon, "Icon should match")
-		XCTAssertTrue(strongSut.version.contains("1.0.0"))
-		XCTAssertTrue(strongSut.version.contains("test"))
-	}
 
 	/// Test the initializer for the verifier
 	func testInitVerifier() throws {
@@ -53,8 +33,7 @@ class SnapshotViewModelTests: XCTestCase {
 
 		// When
 		sut = SnapshotViewModel(
-			versionSupplier: versionSupplierSpy,
-			flavor: AppFlavor.verifier
+			versionSupplier: versionSupplierSpy
 		)
 
 		// Then

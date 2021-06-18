@@ -13,9 +13,7 @@ class LaunchViewModel {
 
 	private var versionSupplier: AppVersionSupplierProtocol
 	private var remoteConfigManager: RemoteConfigManaging
-	private var walletManager: WalletManaging
 	private var proofManager: ProofManaging
-	private var jailBreakDetector: JailBreakProtocol
 	private var userSettings: UserSettingsProtocol
 	private let cryptoLibUtility: CryptoLibUtilityProtocol
 
@@ -48,20 +46,16 @@ class LaunchViewModel {
 		flavor: AppFlavor,
 		remoteConfigManager: RemoteConfigManaging,
 		proofManager: ProofManaging,
-		jailBreakDetector: JailBreakProtocol = JailBreakDetector(),
 		userSettings: UserSettingsProtocol = UserSettings(),
-		cryptoLibUtility: CryptoLibUtilityProtocol = Services.cryptoLibUtility,
-		walletManager: WalletManaging = Services.walletManager) {
+		cryptoLibUtility: CryptoLibUtilityProtocol = Services.cryptoLibUtility) {
 
 		self.coordinator = coordinator
 		self.versionSupplier = versionSupplier
 		self.remoteConfigManager = remoteConfigManager
 		self.proofManager = proofManager
 		self.flavor = flavor
-		self.jailBreakDetector = jailBreakDetector
 		self.userSettings = userSettings
 		self.cryptoLibUtility = cryptoLibUtility
-		self.walletManager = walletManager
 
 		title = .verifierLaunchTitle
 		message = .verifierLaunchText
@@ -119,20 +113,9 @@ class LaunchViewModel {
 		remoteConfigManager.update { [weak self] updateState in
 
 			self?.configStatus = updateState
-			self?.checkWallet()
 			self?.isUpdatingConfiguration = false
 			self?.handleState()
 		}
-	}
-
-	private func checkWallet() {
-
-		let configuration = remoteConfigManager.getConfiguration()
-		walletManager.expireEventGroups(
-			vaccinationValidity: configuration.vaccinationEventValidity,
-			recoveryValidity: configuration.recoveryEventValidity,
-			testValidity: configuration.testEventValidity
-		)
 	}
 
 	/// Update the Issuer Public keys

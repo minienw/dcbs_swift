@@ -20,7 +20,12 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ResultView" customModule="CTR" customModuleProvider="target">
             <connections>
                 <outlet property="accessView" destination="dQj-YY-ZsV" id="9Be-Fx-lLa"/>
+                <outlet property="dateOfBirthLabel" destination="XiA-G8-Cya" id="lTZ-qu-U1a"/>
+                <outlet property="dccNameLabel" destination="Bjc-Tk-djU" id="6au-Zy-DC6"/>
                 <outlet property="deniedView" destination="Jd0-DN-tS4" id="RaR-qX-jNG"/>
+                <outlet property="destinationLabel" destination="SOr-lI-hKP" id="Xn6-0a-oIX"/>
+                <outlet property="itemsStack" destination="HJ8-e9-WLO" id="18B-FX-bLE"/>
+                <outlet property="vaccinesStack" destination="x3Z-vD-zAH" id="ozF-1V-XNw"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>

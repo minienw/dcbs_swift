@@ -6,16 +6,12 @@
 */
 
 import UIKit
-import AppAuth
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	/// The app coordinator for routing
 	var appCoordinator: AppCoordinator?
-
-	// login flow
-	var currentAuthorizationFlow: OIDExternalUserAgentSession?
 
 	var previousBrightness: CGFloat?
 
@@ -29,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		styleUI()
 		previousBrightness = UIScreen.main.brightness
 
-        TrustListUpdateScheduler.init().start()
+        TrustListUpdateScheduler.instance.start()
 		if #available(iOS 13.0, *) {
 			// Use Scene lifecycle
 		} else {
@@ -61,37 +57,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// this will be called shortly after application:didFinishLaunchingWithOptions.
 		// Use this method to release any resources that were specific to the discarded scenes, as they will not return.
 	}
-
-	// MARK: - Open URL
-
-    /// For handling __Deep Links__ only, - not relevant for Universal Links.
-    func application(
-        _ app: UIApplication,
-        open url: URL,
-        options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-
-		// Incoming url
-		print("CTR: AppDelegate -> url = \(url)")
-
-		// Determine who sent the URL.
-		let sendingAppID = options[.sourceApplication]
-		print("CTR: AppDelegate -> source application = \(sendingAppID ?? "Unknown")")
-
-		// Sends the URL to the current authorization flow (if any) which will
-		// process it if it relates to an authorization response.
-		if let authorizationFlow = self.currentAuthorizationFlow,
-		   authorizationFlow.resumeExternalUserAgentFlow(with: url) {
-			self.currentAuthorizationFlow = nil
-			return true
-		}
-
-		// Your additional URL handling (if any)
-
-		return false
-	}
-
-    /// Entry point for Universal links in iOS 11/12 only (see SceneDelegate for iOS 13+)
-    /// Used for both running and cold-booted apps
 
 	func applicationDidEnterBackground(_ application: UIApplication) {
 		if let brightness = previousBrightness {

@@ -56,12 +56,7 @@ class ForcedInformationManager: ForcedInformationManaging {
 
 	/// The source of all the forced information. This needs to be updated if new consent or pages are required.
 	private var information: ForcedInformation = ForcedInformation(
-		pages: [ForcedInformationPage(
-			image: .onboardingSafely,
-			tagline: .holderUpdatePageTagline,
-			title: .holderUpdatePageTitle,
-			content: .holderUpdatePageContent
-		)],
+		pages: [],
 		consent: nil,
 		version: 2
 	)

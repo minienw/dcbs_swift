@@ -25,8 +25,7 @@ class SnapshotViewControllerTests: XCTestCase {
 		versionSupplierSpy = AppVersionSupplierSpy(version: "1.0.0", build: "test")
 		sut = SnapshotViewController(
 			viewModel: SnapshotViewModel(
-				versionSupplier: versionSupplierSpy,
-				flavor: AppFlavor.holder
+				versionSupplier: versionSupplierSpy
 			)
 		)
 		window = UIWindow()
@@ -57,7 +56,7 @@ class SnapshotViewControllerTests: XCTestCase {
 
 		// Then
 		let strongSut = try XCTUnwrap(sut)
-		XCTAssertEqual(strongSut.sceneView.title, .holderLaunchTitle, "Title should match")
-		XCTAssertEqual(strongSut.sceneView.appIcon, .holderAppIcon, "Icon should match")
+		XCTAssertEqual(strongSut.sceneView.title, .verifierLaunchTitle, "Title should match")
+		XCTAssertEqual(strongSut.sceneView.appIcon, .verifierAppIcon, "Icon should match")
 	}
 }

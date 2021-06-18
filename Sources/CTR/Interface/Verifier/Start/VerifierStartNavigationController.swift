@@ -50,7 +50,7 @@ class VerifierStartNavigationController: UINavigationController {
             }
             banner.onPressed = { [weak self] in
                 banner.setLoading(loading: true)
-                self?.proofManager?.fetchCoronaTestProviders(onCompletion: {
+                self?.proofManager?.fetchIssuerPublicKeys(onCompletion: {
                     self?.removeTrustListBanner()
                 }, onError: { _ in
                     OperationQueue.main.addOperation {

@@ -40,25 +40,18 @@ class VerifierResultViewController: BaseViewController, Logging {
         sceneView.onTappedNextScan = { [weak self] in
             self?.viewModel.scanAgain()
         }
-
-		viewModel.$allowAccess.binding = { [weak self] in
-
-			if $0 == .verified {
-		
-				self?.sceneView.setupForVerified()
-				self?.sceneView.revealIdentityView { [weak self] in
-					self?.title = self?.viewModel.title
-				}
-
-			} else if $0 == .demo {
-				self?.sceneView.setupForVerified()
-				self?.sceneView.revealIdentityView { [weak self] in
-					self?.title = self?.viewModel.title
-				}
-			} else {
-				self?.sceneView.setupForDenied()
-			}
-		}
+        if let dcc = viewModel.cryptoResults.attributes {
+            self.sceneView.setupForDenied()
+            if dcc.isVerified {
+                self.sceneView.setupForVerified(dcc: dcc)
+            } else if dcc.isSpecimen {
+                self.sceneView.setupForVerified(dcc: dcc)
+            } else {
+                self.sceneView.setupForDenied()
+            }
+        } else {
+            self.sceneView.setupForDenied()
+        }
 
 		viewModel.$hideForCapture.binding = { [weak self] in
 

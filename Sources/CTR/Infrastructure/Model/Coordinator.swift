@@ -17,7 +17,7 @@ protocol Coordinator: AnyObject {
 
 	// Designated starter method
 	func start()
-    
+
 }
 
 extension Coordinator {

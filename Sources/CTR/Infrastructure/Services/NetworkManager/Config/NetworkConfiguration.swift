@@ -84,24 +84,6 @@ struct NetworkConfiguration {
 		)
 	)
 
-	/// The access tokens url
-	var vaccinationAccessTokensUrl: URL? {
-
-		return self.combine(path: Endpoint.accessTokens, fromCdn: false)
-	}
-
-	/// The nonce url
-	var prepareIssueUrl: URL? {
-
-		return self.combine(path: Endpoint.prepareIssue, fromCdn: false)
-	}
-
-	/// The nonce url
-	var credentialUrl: URL? {
-
-		return self.combine(path: Endpoint.getCredentials, fromCdn: false)
-	}
-
 	/// The public keys url
 	var publicKeysUrl: URL? {
 
@@ -113,12 +95,6 @@ struct NetworkConfiguration {
 
 		return self.combine(path: Endpoint.remoteConfiguration, fromCdn: false)
     }
-
-	/// The providers url
-	var providersUrl: URL? {
-
-		return self.combine(path: Endpoint.providers, fromCdn: false)
-	}
 
 	/// Combine the endpoint info into an url
 	/// - Parameters:

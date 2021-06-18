@@ -6,9 +6,6 @@ name: CTR
 # - Packages:
 
 packages:
-  AppAuth:
-    github: openid/AppAuth-iOS.git
-    majorVersion: 1.4.0
   CocoaLumberjack:
     github: CocoaLumberjack/CocoaLumberjack
     majorVersion: 3.7.2
@@ -21,18 +18,12 @@ packages:
   Firebase:
     github: firebase/firebase-ios-sdk/
     exactVersion: 7.5.1
-  OHHTTPStubs:
-    github: AliSoftware/OHHTTPStubs
-    majorVersion: 9.1.0
   Nimble:
     github: Quick/Nimble
     majorVersion: 9.0.0
   SnapshotTesting:
     github: pointfreeco/swift-snapshot-testing
     majorVersion: 1.8.2
-  IOSSecuritySuite:
-    github: securing/IOSSecuritySuite
-    majorVersion: 1.8.0
   SnapKit:
     github: SnapKit/SnapKit
     majorVersion: 5.0.1
@@ -73,10 +64,6 @@ targetTemplates:
     platform: iOS
     type: application
     dependencies:
-      - package: AppAuth
-        product: AppAuth
-      - package: AppAuth
-        product: AppAuthCore
       - package: CocoaLumberjack
         product: CocoaLumberjack
       - package: CocoaLumberjack
@@ -84,7 +71,6 @@ targetTemplates:
       - package: MBProgressHUD
       - package: Lottie
       - package: SnapKit
-      - package: IOSSecuritySuite
       - framework: clcore.framework
         embed: false
       - framework: openssl.framework
@@ -176,10 +162,6 @@ targetTemplates:
     platform: iOS
     type: bundle.unit-test
     dependencies:
-      - package: OHHTTPStubs
-        product: OHHTTPStubs
-      - package: OHHTTPStubs
-        product: OHHTTPStubsSwift
       - package: Nimble
       - package: SnapshotTesting
       - framework: Vendor/ViewControllerPresentationSpy.framework
@@ -190,7 +172,6 @@ targetTemplates:
 # - Targets
 
 targets:
-  
   Verifier:
     templates:
       - Standard_iOS
@@ -282,6 +263,7 @@ schemeTemplates:
 # - Schemes
 
 schemes:
+
   DCC Scanner Dev:
     templates:
       - DevelopmentConfigScheme

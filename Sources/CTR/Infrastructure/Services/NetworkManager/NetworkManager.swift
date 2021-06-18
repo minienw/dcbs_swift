@@ -4,7 +4,6 @@
 *
 *  SPDX-License-Identifier: EUPL-1.2
 */
-// swiftlint:disable type_body_length
 
 import Foundation
 
@@ -29,43 +28,6 @@ class NetworkManager: NetworkManaging, Logging {
 			delegateQueue: nil)
 	}
 
-	/// Get the access tokens for the various event providers
-	/// - Parameters:
-	///   - tvsToken: the tvs token
-	///   - completion: completion handler
-	func fetchEventAccessTokens(
-		tvsToken: String,
-		completion: @escaping (Result<[EventFlow.AccessToken], NetworkError>) -> Void) {
-
-		let headers: [HTTPHeaderKey: String] = [
-			HTTPHeaderKey.authorization: "Bearer \(tvsToken)"
-		]
-
-		let urlRequest = constructRequest(
-			url: networkConfiguration.vaccinationAccessTokensUrl,
-			method: .POST,
-			headers: headers
-		)
-		
-		func open(result: Result<ArrayEnvelope<EventFlow.AccessToken>, NetworkError>) {
-			completion(result.map { $0.items })
-		}
-		sessionDelegate?.setSecurityStrategy(SecurityStrategy.data)
-		decodeSignedJSONData(request: urlRequest, completion: open)
-	}
-
-	/// Get the nonce
-	/// - Parameter completion: completion handler
-	func prepareIssue(completion: @escaping (Result<PrepareIssueEnvelope, NetworkError>) -> Void) {
-
-		let urlRequest = constructRequest(
-			url: networkConfiguration.prepareIssueUrl,
-			method: .GET
-		)
-		sessionDelegate?.setSecurityStrategy(SecurityStrategy.data)
-		decodeSignedJSONData(request: urlRequest, completion: completion)
-	}
-
 	/// Get the public keys
 	/// - Parameter completion: completion handler
 	func getPublicKeys(completion: @escaping (Result<(IssuerPublicKeys, Data), NetworkError>) -> Void) {
@@ -77,7 +39,7 @@ class NetworkManager: NetworkManaging, Logging {
 		sessionDelegate?.setSecurityStrategy(SecurityStrategy.data)
 		decodeSignedJSONData(request: urlRequest, completion: completion)
 	}
-
+	
 	/// Get the remote configuration
 	/// - Parameter completion: completion handler
 	func getRemoteConfiguration(completion: @escaping (Result<(RemoteConfiguration, Data), NetworkError>) -> Void) {
@@ -87,166 +49,6 @@ class NetworkManager: NetworkManaging, Logging {
 		)
 		sessionDelegate?.setSecurityStrategy(SecurityStrategy.config)
 		decodeSignedJSONData(request: urlRequest, completion: completion)
-	}
-
-	func fetchGreencards(
-		dictionary: [String: AnyObject],
-		completion: @escaping (Result<RemoteGreenCards.Response, NetworkError>) -> Void) {
-
-		do {
-			let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
-			let urlRequest = constructRequest(
-				url: networkConfiguration.credentialUrl,
-				method: .POST,
-				body: jsonData
-			)
-			sessionDelegate?.setSecurityStrategy(SecurityStrategy.data)
-			decodeSignedJSONData(request: urlRequest, completion: completion)
-		} catch {
-			logError("Could not serialize dictionary")
-			completion(.failure(.encodingError))
-		}
-	}
-
-	/// Get the test providers
-	/// - Parameter completion: completion handler
-	func fetchTestProviders(completion: @escaping (Result<[TestProvider], NetworkError>) -> Void) {
-
-		let urlRequest = constructRequest(
-			url: networkConfiguration.providersUrl,
-			method: .GET
-		)
-		func open(result: Result<ArrayEnvelope<TestProvider>, NetworkError>) {
-			completion(result.map { $0.items })
-		}
-
-		sessionDelegate?.setSecurityStrategy(SecurityStrategy.data)
-		decodeSignedJSONData(request: urlRequest, completion: open)
-	}
-
-	/// Get the event providers
-	/// - Parameter completion: completion handler
-	func fetchEventProviders(completion: @escaping (Result<[EventFlow.EventProvider], NetworkError>) -> Void) {
-
-		let urlRequest = constructRequest(
-			url: networkConfiguration.providersUrl,
-			method: .GET
-		)
-		func open(result: Result<ArrayEnvelope<EventFlow.EventProvider>, NetworkError>) {
-			completion(result.map { $0.items })
-		}
-
-		sessionDelegate?.setSecurityStrategy(SecurityStrategy.data)
-		decodeSignedJSONData(request: urlRequest, completion: open)
-	}
-
-	/// Get a test result
-	/// - Parameters:
-	///   - provider: the the test provider
-	///   - token: the token to fetch
-	///   - code: the code for verification
-	///   - completion: the completion handler
-	func fetchTestResult(
-		provider: TestProvider,
-		token: RequestToken,
-		code: String?,
-		completion: @escaping (Result<(EventFlow.EventResultWrapper, SignedResponse), NetworkError>) -> Void) {
-
-		guard let providerUrl = provider.resultURL else {
-			self.logError("No url provided for \(provider)")
-			completion(.failure(NetworkError.invalidRequest))
-			return
-		}
-
-		let headers: [HTTPHeaderKey: String] = [
-			HTTPHeaderKey.authorization: "Bearer \(token.token)",
-			HTTPHeaderKey.tokenProtocolVersion: token.protocolVersion
-		]
-		var body: Data?
-
-		if let requiredCode = code {
-			let dictionary: [String: AnyObject] = ["verificationCode": requiredCode as AnyObject]
-			body = try? JSONSerialization.data(withJSONObject: dictionary, options: .prettyPrinted)
-		}
-		let urlRequest = constructRequest(url: providerUrl, method: .POST, body: body, headers: headers)
-		sessionDelegate?.setSecurityStrategy(SecurityStrategy.provider(provider))
-		decodedAndReturnSignedJSONData(request: urlRequest, ignore400: true, completion: completion)
-	}
-
-	/// Get a unomi result (check if a event provider knows me)
-	/// - Parameters:
-	///   - provider: the event provider
-	///   - filter: filter on test or vaccination
-	///   - completion: the completion handler
-	func fetchEventInformation(
-		provider: EventFlow.EventProvider,
-		filter: String?,
-		completion: @escaping (Result<(EventFlow.EventInformationAvailable, SignedResponse), NetworkError>) -> Void) {
-
-		guard let providerUrl = provider.unomiURL else {
-			self.logError("No url provided for \(provider.name)")
-			completion(.failure(NetworkError.invalidRequest))
-			return
-		}
-
-		guard let accessToken = provider.accessToken?.unomiAccessToken else {
-			self.logError("No unomi token provided for \(provider.name)")
-			completion(.failure(NetworkError.invalidRequest))
-			return
-		}
-
-		let headers: [HTTPHeaderKey: String] = [
-			HTTPHeaderKey.authorization: "Bearer \(accessToken)",
-			HTTPHeaderKey.tokenProtocolVersion: "3.0"
-		]
-
-		var body: Data?
-		if let filter = filter {
-			let dictionary: [String: AnyObject] = ["filter": filter as AnyObject]
-			body = try? JSONSerialization.data(withJSONObject: dictionary, options: [])
-		}
-
-		let urlRequest = constructRequest(url: providerUrl, method: .POST, body: body, headers: headers)
-		sessionDelegate?.setSecurityStrategy(SecurityStrategy.provider(provider))
-		decodedAndReturnSignedJSONData(request: urlRequest, ignore400: true, completion: completion)
-	}
-
-	/// Get  events from an event provider
-	/// - Parameters:
-	///   - provider: the event provider
-	///   - filter: filter on test or vaccination
-	///   - completion: the completion handler
-	func fetchEvents(
-		provider: EventFlow.EventProvider,
-		filter: String?,
-		completion: @escaping (Result<(EventFlow.EventResultWrapper, SignedResponse), NetworkError>) -> Void) {
-
-		guard let providerUrl = provider.eventURL else {
-			self.logError("No url provided for \(provider.name)")
-			completion(.failure(NetworkError.invalidRequest))
-			return
-		}
-
-		guard let accessToken = provider.accessToken?.eventAccessToken else {
-			self.logError("No event token provided for \(provider.name)")
-			completion(.failure(NetworkError.invalidRequest))
-			return
-		}
-
-		let headers: [HTTPHeaderKey: String] = [
-			HTTPHeaderKey.authorization: "Bearer \(accessToken)",
-			HTTPHeaderKey.tokenProtocolVersion: "3.0"
-		]
-
-		var body: Data?
-		if let filter = filter {
-			let dictionary: [String: AnyObject] = ["filter": filter as AnyObject]
-			body = try? JSONSerialization.data(withJSONObject: dictionary, options: [])
-		}
-
-		let urlRequest = constructRequest(url: providerUrl, method: .POST, body: body, headers: headers)
-		sessionDelegate?.setSecurityStrategy(SecurityStrategy.provider(provider))
-		decodedAndReturnSignedJSONData(request: urlRequest, ignore400: true, completion: completion)
 	}
 	
 	// MARK: - Construct Request
