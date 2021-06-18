@@ -29,13 +29,16 @@ class HeaderTitleMessageButtonView: ScrolledStackWithHeaderView {
 	/// The title label
 	private let titleLabel: Label = {
 
-        return Label(title1: nil, montserrat: true).multiline().header()
+        let label = Label(title1: nil, montserrat: true).multiline().header()
+        label.textAlignment = .center
+        return label
 	}()
 
 	let contentTextView: TextView = {
 
 		let view = TextView()
 		view.translatesAutoresizingMaskIntoConstraints = false
+        view.textAlignment = .center
 		return view
 	}()
 
@@ -199,6 +202,7 @@ class HeaderTitleMessageButtonView: ScrolledStackWithHeaderView {
 		didSet {
 			titleLabel.attributedText = title?.setLineHeight(
 				ViewTraits.titleLineHeight,
+                alignment: .center,
 				kerning: ViewTraits.titleKerning
 			)
 		}
@@ -207,7 +211,7 @@ class HeaderTitleMessageButtonView: ScrolledStackWithHeaderView {
 	/// The  message
 	var message: String? {
 		didSet {
-			contentTextView.html(message)
+            contentTextView.html(message, textAlignment: .center)
 		}
 	}
 

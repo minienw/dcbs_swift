@@ -139,7 +139,7 @@ class Button: UIButton {
     private func updateRoundedCorners() {
 
         if rounded {
-            layer.cornerRadius = min(bounds.width, bounds.height) / 2
+            layer.cornerRadius = 4
         }
     }
 

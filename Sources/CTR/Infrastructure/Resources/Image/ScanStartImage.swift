@@ -9,6 +9,6 @@ import UIKit
 
 extension UIImage {
 
-	static var scanStart: UIImage? { return UIImage(named: "ScanStart") }
+	static var scanStart: UIImage? { return UIImage(named: "VerifierAppIcon") }
 
 }

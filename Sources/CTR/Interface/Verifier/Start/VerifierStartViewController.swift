@@ -45,11 +45,13 @@ class VerifierStartViewController: BaseViewController {
 			self?.viewModel.primaryButtonTapped()
 		}
 
-		viewModel.$showError.binding = { [weak self] in
-			if $0 {
-				self?.showError(.errorTitle, message: .verifierStartInternet)
-			}
-		}
+        view.backgroundColor = Theme.colors.viewControllerBackground
+        navigationItem.setRightBarButton(UIBarButtonItem(image: .about, style: .plain, target: self, action: #selector(aboutTapped)), animated: false)
+//		viewModel.$showError.binding = { [weak self] in
+//			if $0 {
+//				// self?.showError(.errorTitle, message: .verifierStartInternet)
+//			}
+//		}
 
 		sceneView.contentTextView.linkTouched { [weak self] _ in
 
@@ -90,4 +92,8 @@ class VerifierStartViewController: BaseViewController {
 			sceneView.showImage()
 		}
 	}
+    
+    @objc private func aboutTapped() {
+        viewModel.aboutTappd()
+    }
 }

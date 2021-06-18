@@ -66,6 +66,7 @@ class VerifierScanViewController: ScanViewController {
 		)
 		// Only show an arrow as back button
 		styleBackButton(buttonText: "")
+        
 	}
 
 	override func found(code: String) {

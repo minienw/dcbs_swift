@@ -175,3 +175,12 @@
 /* MARK: - Verifier About */
 "verifier.about.title" = "About this app";
 "verifier.about.text" = "CoronaCheck Scanner is created so that certain locations and activities can open their doors again. Think for example of football matches and concerts. With this app, visitors are able to prove they're vaccinated or they’ve recently tested negative for corona. This way, the Netherlands can head out more often.";
+
+
+/* MARK: - DCC SCANNER */
+"onboarding.page_1_title" = "Scan de getoonde QR code";
+"onboarding.page_1_desc" = "De reiziger toont de code op zijn Digitaal Corona paspoort. Scan de code met deze app";
+"onboarding.page_2_title" = "Check code";
+"onboarding.page_2_desc" = "De app geeft aan of de getoonde QR code correct is of niet. Bij een incorrecte code mag de reiziger de reis niet voortzetten.";
+"onboarding.page_3_title" = "Voor wie is de scanner?";
+"onboarding.page_3_desc" = "Deze app is bedoelt voor organisaties die reizigers vervoeren. Met behulp van deze app kan de vervoerder zien of de reiziger de juiste vaccins heeft om te kunnen reizen.";

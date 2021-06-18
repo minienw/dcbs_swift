@@ -62,17 +62,7 @@ class CryptoManager: CryptoManaging, Logging {
 		
 		// Initialize crypto library
 		cryptoLibUtility.initialize()
-		
-		if cryptoData.holderSecretKey == nil && AppFlavor.flavor == .holder {
-			if let result = MobilecoreGenerateHolderSk(),
-			   let data = result.value {
-				self.cryptoData = CryptoData(
-					holderSecretKey: data,
-					nonce: nil,
-					stoken: nil
-				)
-			}
-		}
+
 	}
 	
 	// MARK: - Getters and Setters
@@ -201,7 +191,8 @@ class CryptoManager: CryptoManaging, Logging {
 			self.logError("Error Proof: \(result.error)")
 			return (attributes: nil, errorMessage: result.error)
 		}
-		
+        let str = String(decoding: value, as: UTF8.self)
+        print(str)
 		do {
 			let object = try JSONDecoder().decode(CryptoAttributes.self, from: value)
 			return (attributes: object, errorMessage: nil)

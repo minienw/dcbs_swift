@@ -31,7 +31,8 @@ class SharedCoordinator: Coordinator, Logging {
 	var window: UIWindow
 
 	/// The side panel controller that holds both the menu and the main view
-	var sidePanel: SidePanelController?
+    
+	//var sidePanel: SidePanelController?
 
 	var onboardingManager: OnboardingManaging = Services.onboardingManager
 	var forcedInformationManager: ForcedInformationManaging = Services.forcedInformationManager
@@ -63,13 +64,11 @@ class SharedCoordinator: Coordinator, Logging {
 
 		// To be overwritten
 	}
-
-    // MARK: - Universal Link handling
-
-    /// Override point for coordinators which wish to deal with universal links.
-    func consume(universalLink: UniversalLink) -> Bool {
-        return false
+    
+    func openContentFrom() -> UINavigationController {
+        return navigationController
     }
+
 }
 
 // MARK: - Dismissable
@@ -78,12 +77,12 @@ extension SharedCoordinator: Dismissable {
 
 	func dismiss() {
 
-		if sidePanel?.selectedViewController?.presentedViewController != nil {
-			sidePanel?.selectedViewController?.dismiss(animated: true, completion: nil)
+        if openContentFrom().presentedViewController != nil {
+            openContentFrom().presentedViewController?.dismiss(animated: true, completion: nil)
 		} else {
-			(sidePanel?.selectedViewController as? UINavigationController)?.popViewController(animated: false)
+            openContentFrom().popViewController(animated: false)
 		}
-	}
+    }
 }
 
 // MARK: - OpenUrlProtocol
@@ -104,14 +103,7 @@ extension SharedCoordinator: OpenUrlProtocol {
 
 		if shouldOpenInApp {
 			let safariController = SFSafariViewController(url: url)
-
-			if let presentedViewController = sidePanel?.selectedViewController?.presentedViewController {
-				presentedViewController.presentingViewController?.dismiss(animated: true, completion: {
-					self.sidePanel?.selectedViewController?.present(safariController, animated: true)
-				})
-			} else {
-				sidePanel?.selectedViewController?.present(safariController, animated: true)
-			}
+            openContentFrom().present(safariController, animated: true)
 		} else {
 			UIApplication.shared.open(url)
 		}

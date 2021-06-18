@@ -83,12 +83,6 @@ class OnboardingCoordinator: Coordinator, Logging {
 		navigationController.pushViewController(viewController, animated: true)
 	}
 
-    // MARK: - Universal Link handling
-
-    /// Override point for coordinators which wish to deal with universal links.
-    func consume(universalLink: UniversalLink) -> Bool {
-        return false
-    }
 }
 
 // MARK: - OpenUrlProtocol
@@ -113,13 +107,7 @@ extension OnboardingCoordinator: OnboardingCoordinatorDelegate {
 	
 	func showPrivacyPage() {
 
-		let urlString: String
-
-		if AppFlavor.flavor == .holder {
-			urlString = .holderUrlPrivacy
-		} else {
-			urlString = .verifierUrlPrivacy
-		}
+		let urlString: String = .verifierUrlPrivacy
 
 		guard let privacyUrl = URL(string: urlString) else {
 			logError("No privacy url for \(urlString)")

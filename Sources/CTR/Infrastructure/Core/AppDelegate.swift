@@ -7,7 +7,6 @@
 
 import UIKit
 import AppAuth
-import Firebase
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -30,13 +29,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		styleUI()
 		previousBrightness = UIScreen.main.brightness
 
-		if Configuration().getEnvironment() != "production",
-		   Configuration().getEnvironment() != "development",
-		   !ProcessInfo.processInfo.isTesting {
-
-			FirebaseApp.configure()
-		}
-
+        TrustListUpdateScheduler.init().start()
 		if #available(iOS 13.0, *) {
 			// Use Scene lifecycle
 		} else {
@@ -99,13 +92,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     /// Entry point for Universal links in iOS 11/12 only (see SceneDelegate for iOS 13+)
     /// Used for both running and cold-booted apps
-    func application(_: UIApplication, continue userActivity: NSUserActivity, restorationHandler _: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-
-        // Parse an activity from the userActivity
-        guard let universalLink = UniversalLink(userActivity: userActivity) else { return false }
-
-        return appCoordinator?.receive(universalLink: universalLink) ?? false
-    }
 
 	func applicationDidEnterBackground(_ application: UIApplication) {
 		if let brightness = previousBrightness {

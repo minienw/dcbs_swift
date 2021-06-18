@@ -15,6 +15,8 @@ enum AboutMenuIdentifier: String {
 	case privacyStatement
 
 	case terms
+    
+    case contact
 }
 
 ///// Struct for information to display the different test providers
@@ -57,32 +59,25 @@ class AboutViewModel: Logging {
 		self.coordinator = coordinator
 		self.flavor = flavor
 
-		self.title = flavor == .holder ? .holderAboutTitle : .verifierAboutTitle
-		self.message = flavor == .holder ? .holderAboutText : .verifierAboutText
-		self.listHeader = flavor == .holder ? .holderAboutReadMore : .verifierAboutReadMore
+		self.title = .verifierAboutTitle
+		self.message = .verifierAboutText
+		self.listHeader = .verifierAboutReadMore
 
-		let versionString: String = flavor == .holder ? .holderLaunchVersion : .verifierLaunchVersion
+		let versionString: String = .verifierLaunchVersion
 		version = String(
 			format: versionString,
 			versionSupplier.getCurrentVersion(),
 			versionSupplier.getCurrentBuild()
 		)
 
-		flavor == .holder ? setupMenuHolder() : setupMenuVerifier()
-	}
-
-	private func setupMenuHolder() {
-
-		menu = [
-			AboutMenuOption(identifier: .privacyStatement, name: .holderMenuPrivacy) ,
-			AboutMenuOption(identifier: .accessibility, name: .holderMenuAccessibility)
-		]
+		setupMenuVerifier()
 	}
 
 	private func setupMenuVerifier() {
 
 		menu = [
-			AboutMenuOption(identifier: .terms, name: .verifierMenuPrivacy) ,
+            AboutMenuOption(identifier: .contact, name: .verifierMenuSupport),
+			AboutMenuOption(identifier: .terms, name: .verifierMenuPrivacy),
 			AboutMenuOption(identifier: .accessibility, name: .verifierMenuAccessibility)
 		]
 	}
@@ -95,12 +90,10 @@ class AboutViewModel: Logging {
 			case .terms:
 				openUrlString(.verifierUrlPrivacy)
 			case .accessibility:
-				if flavor == .holder {
-					openUrlString(.holderUrlAccessibility)
-				} else {
-					openUrlString(.verifierUrlAccessibility)
-				}
-		}
+                openUrlString(.verifierUrlAccessibility)
+            case .contact:
+                openUrlString(.verifierUrlSupport)
+        }
 	}
 
 	private func openUrlString(_ urlString: String) {

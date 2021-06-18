@@ -63,11 +63,11 @@ class LaunchViewModel {
 		self.cryptoLibUtility = cryptoLibUtility
 		self.walletManager = walletManager
 
-		title = flavor == .holder ? .holderLaunchTitle : .verifierLaunchTitle
-		message = flavor == .holder  ? .holderLaunchText : .verifierLaunchText
-		appIcon = flavor == .holder ? .holderAppIcon : .verifierAppIcon
+		title = .verifierLaunchTitle
+		message = .verifierLaunchText
+		appIcon = .verifierAppIcon
 
-		let versionString: String = flavor == .holder ? .holderLaunchVersion : .verifierLaunchVersion
+		let versionString: String = .verifierLaunchVersion
 		version = String(
 			format: versionString,
 			versionSupplier.getCurrentVersion(),
@@ -82,10 +82,6 @@ class LaunchViewModel {
 			interruptForJailBreakDialog = false
 			updateDependencies()
 		}
-
-		if flavor == .holder {
-			proofManager.migrateExistingProof()
-		}
 	}
 
 	/// Update the dependencies
@@ -97,12 +93,7 @@ class LaunchViewModel {
 
 	private func shouldShowJailBreakAlert() -> Bool {
 
-		guard flavor == .holder else {
-			// Only enable for the holder
-			return false
-		}
-
-		return !userSettings.jailbreakWarningShown && jailBreakDetector.isJailBroken()
+		return false
 	}
 
 	func userDismissedJailBreakWarning() {
@@ -164,7 +155,8 @@ class LaunchViewModel {
 		} onError: { [weak self] error in
 
 			self?.isUpdatingIssuerPublicKeys = false
-			self?.issuerPublicKeysStatus = .internetRequired
+            /// In DCC scanner app, we don't block the user when no internet is available
+			self?.issuerPublicKeysStatus = .noActionNeeded
 			self?.handleState()
 		}
 	}

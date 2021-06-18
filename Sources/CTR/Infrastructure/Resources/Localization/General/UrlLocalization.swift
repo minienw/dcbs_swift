@@ -50,4 +50,9 @@ extension String {
 
 		return Localization.string(for: "verifier.url.accessibility")
 	}
+    
+    static var verifierUrlSupport: String {
+
+        return Localization.string(for: "verifier.url.support")
+    }
 }

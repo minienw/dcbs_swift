@@ -53,9 +53,23 @@ class ProofManager: ProofManaging, Logging {
 	/// Initializer
 	required init() {
 		// Required by protocol
-		
-//		removeTestWrapper()
 	}
+    
+    func shouldUpdateKeys() -> Bool {
+        guard let hoursSinceLast = hoursSinceFetched() else { return true }
+        return hoursSinceLast >= 1
+    }
+    
+    func shouldShowOutdatedKeysBanner() -> Bool {
+        guard let hoursSinceLast = hoursSinceFetched() else { return true }
+        return hoursSinceLast >= 24
+    }
+    
+    func hoursSinceFetched() -> Int? {
+        guard let lastFetch = keysFetchedTimestamp else { return nil }
+        let now = Date()
+        return Calendar.current.dateComponents([.hour], from: lastFetch, to: now).hour ?? 0
+    }
 	
 	/// Get the providers
 	func fetchCoronaTestProviders(
@@ -104,7 +118,7 @@ class ProofManager: ProofManaging, Logging {
 			switch resultwrapper {
 				case .success((let keys, let data)):
 					
-					if let manager = self?.cryptoManager, manager.setIssuerDomesticPublicKeys(keys) {
+                    if let manager = self?.cryptoManager, manager.setIssuerDomesticPublicKeys(keys) {
 						self?.keysFetchedTimestamp = Date()
 						self?.cryptoLibUtility.store(data, for: .publicKeys)
 						onCompletion?()

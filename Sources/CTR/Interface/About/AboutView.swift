@@ -27,8 +27,9 @@ class AboutView: ScrolledStackView {
 	}()
 
 	private let listHeaderLabel: Label = {
-
-        return Label(caption1SemiBold: nil).multiline().header()
+        let label = Label(caption1SemiBold: nil).multiline().header()
+        label.isHidden = true
+        return label
 	}()
 
 	/// The stack view for the menu items

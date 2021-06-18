@@ -33,14 +33,15 @@ packages:
   IOSSecuritySuite:
     github: securing/IOSSecuritySuite
     majorVersion: 1.8.0
+  SnapKit:
+    github: SnapKit/SnapKit
+    majorVersion: 5.0.1
 
 # - Configurations:
 
 configs:
   Development: debug
-  FirebaseTest: debug
-  FirebaseAcceptance: debug
-  FirebaseProduction: release # should be identical to AppStore build.
+  Acceptance: acc
   AppStore: release
 
 # - Project Level settings:
@@ -60,12 +61,8 @@ settings:
   configs:
     Development:
       LOG_LEVEL: debug
-    FirebaseTest:
+    Acceptance:
       LOG_LEVEL: debug
-    FirebaseAcceptance:
-      LOG_LEVEL: debug
-    FirebaseProduction:
-      LOG_LEVEL: error
     AppStore:
       LOG_LEVEL: error
 
@@ -86,8 +83,7 @@ targetTemplates:
         product: CocoaLumberjackSwift
       - package: MBProgressHUD
       - package: Lottie
-      - package: Firebase
-        product: FirebaseCrashlytics
+      - package: SnapKit
       - package: IOSSecuritySuite
       - framework: clcore.framework
         embed: false
@@ -112,12 +108,11 @@ targetTemplates:
           NETWORK_CONFIGURATION: Development
           CODE_SIGN_IDENTITY: iPhone Developer
           VALIDATE_PRODUCT: NO
-        FirebaseTest:
-          NETWORK_CONFIGURATION: Test
-        FirebaseAcceptance:
+        Acceptance:
+          PRODUCT_MODULE_NAME: CTR
           NETWORK_CONFIGURATION: ACC
-        FirebaseProduction:
-          NETWORK_CONFIGURATION: Production
+          CODE_SIGN_IDENTITY: iPhone Developer
+          VALIDATE_PRODUCT: NO
         AppStore:
           NETWORK_CONFIGURATION: Production
     info:
@@ -174,52 +169,7 @@ targetTemplates:
           else
             echo "warning: SwiftLint not found, run 'make dev' in the project root folder"
           fi
-    postCompileScripts:
-      - name: Copy Firebase Plist (FirebaseTest/FirebaseAcceptance only)
-        basedOnDependencyAnalysis: false
-        script: |
-          if [ "$CONFIGURATION" == "FirebaseAcceptance" ] || [ "$CONFIGURATION" == "FirebaseTest" ]
-          then
-            # Get a reference to the folder which contains the configuration subfolders.
-            CONFIGURATIONS_FOLDER=Sources/CTR/Configuration/Firebase/${APP_FLAVOR}/${CONFIGURATION}
-            # Get a reference to the filename of a 'GoogleService-Info.plist' file.
-            GOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist
-            # Get a reference to the 'GoogleService-Info.plist' for the current configuration.
-            GOOGLESERVICE_INFO_PLIST_LOCATION=${PROJECT_DIR}/${CONFIGURATIONS_FOLDER}/${GOOGLESERVICE_INFO_PLIST}
-
-            # Check if 'GoogleService-Info.plist' file for current configuration exist.
-            if [ ! -f $GOOGLESERVICE_INFO_PLIST_LOCATION ]
-            then
-              echo "No '${GOOGLESERVICE_INFO_PLIST}' file found for the configuration '${CONFIGURATION}' in location '${GOOGLESERVICE_INFO_PLIST_LOCATION}'."
-              exit 1
-            fi
-
-            # Get a reference to the destination location for the GoogleService-Info.plist.
-            GOOGLESERVICE_INFO_PLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app
-
-            # Copy 'GoogleService-Info.plist' for current configution to destination.
-            cp "${GOOGLESERVICE_INFO_PLIST_LOCATION}" "${GOOGLESERVICE_INFO_PLIST_DESTINATION}"
-            echo "Successfully copied the '${GOOGLESERVICE_INFO_PLIST}' file for the '${CONFIGURATION}' configuration from '${GOOGLESERVICE_INFO_PLIST_LOCATION}' to '${GOOGLESERVICE_INFO_PLIST_DESTINATION}'."
-          else
-            echo "Skipping adding Google Service Plist as Configuration is '$CONFIGURATION'"
-          fi
-    postBuildScripts:
-      - name: Upload Crashlytics (FirebaseTest/FirebaseAcceptance only)
-        basedOnDependencyAnalysis: true
-        inputFiles:
-          - ${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}
-          - $(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)
-        script: |
-          if [ "$CONFIGURATION" == "FirebaseAcceptance" ] || [ "$CONFIGURATION" == "FirebaseTest" ]
-          then
-            if command -v "${BUILD_DIR%Build/*}SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run" > /dev/null; then
-              "${BUILD_DIR%Build/*}SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run"
-            else
-              "${BUILD_DIR%Build/*}SourcePackages/checkouts/Crashlytics/run"
-            fi
-          else
-            echo "Skipping uploading to Crashlytics as Configuration is '$CONFIGURATION'"
-          fi
+    
 
 
   Standard_UnitTesting:
@@ -232,7 +182,6 @@ targetTemplates:
         product: OHHTTPStubsSwift
       - package: Nimble
       - package: SnapshotTesting
-      - target: Holder
       - framework: Vendor/ViewControllerPresentationSpy.framework
         embed: true
     settings:
@@ -241,62 +190,7 @@ targetTemplates:
 # - Targets
 
 targets:
-  Holder:
-    templates:
-      - Standard_iOS
-    sources:
-      - path: Sources
-        excludes:
-          - "CTR/Configuration/Firebase"
-          - "CTR/Interface/Verifier/Launch"
-          - "CTR/Infrastructure/Resources/Localization/Verifier/*.lproj"
-          - "CTR/Configuration/verifier-Info.plist"
-    settings:
-      base:
-        APP_FLAVOR: holder
-        ASSETCATALOG_COMPILER_APPICON_NAME: AppIconHolder
-        INFOPLIST_FILE: Sources/CTR/Configuration/holder-Info.plist
-
-      configs:
-        Development:
-          DISPLAY_NAME: "🤖 Dev Holder"
-          PRODUCT_NAME: CTR
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.ctr.dev
-          PROVISIONING_PROFILE_SPECIFIER: CoronaCheck Holder Dev
-          CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Dev.entitlements
-        FirebaseTest:
-          DISPLAY_NAME: "🐞 Test Holder"
-          PRODUCT_NAME: CTR TEST
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.ctr.test
-          PROVISIONING_PROFILE_SPECIFIER: CoronaCheck Holder Test
-        FirebaseAcceptance:
-          DISPLAY_NAME: "💡 Acc Holder"
-          PRODUCT_NAME: CTR ACC
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.ctr.acc
-          PROVISIONING_PROFILE_SPECIFIER: CoronaCheck Holder Acc
-          CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Acc.entitlements
-        FirebaseProduction:
-          DISPLAY_NAME: "Prod Holder"
-          PRODUCT_NAME: CTR PROD
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.ctr
-          PROVISIONING_PROFILE_SPECIFIER: CoronaCheck Holder Prod
-          CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Prod.entitlements
-        AppStore:
-          DISPLAY_NAME: CoronaCheck
-          PRODUCT_NAME: CTR
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.ctr
-          PROVISIONING_PROFILE_SPECIFIER: CoronaCheck Holder AppStore
-          CODE_SIGN_ENTITLEMENTS: Sources/CTR/Configuration/Holder-Prod.entitlements
-    info:
-      path: Sources/CTR/Configuration/holder-Info.plist
-      properties:
-        CFBundleURLTypes:
-            - CFBundleTypeRole: Editor
-              CFBundleURLName: nl.rijksoverheid.ctr
-              CFBundleURLSchemes:
-                - coronacheck
-        UILaunchStoryboardName: LaunchScreenHolder
-
+  
   Verifier:
     templates:
       - Standard_iOS
@@ -314,25 +208,17 @@ targets:
         INFOPLIST_FILE: Sources/CTR/Configuration/verifier-Info.plist
       configs:
         Development:
-          DISPLAY_NAME: "🤖 Dev Scanner"
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.ctr.verifier.dev
-          PROVISIONING_PROFILE_SPECIFIER: CoronaCheck Verifier Dev
-        FirebaseTest:
-          DISPLAY_NAME: "🐞 Test Scanner"
-          PROVISIONING_PROFILE_SPECIFIER: CoronaCheck Verifier Test
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.ctr.verifier.test
-        FirebaseAcceptance:
-          DISPLAY_NAME: "💡 Acc Scanner"
-          PROVISIONING_PROFILE_SPECIFIER: CoronaCheck Verifier Acc
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.ctr.verifier.acc
-        FirebaseProduction:
-          DISPLAY_NAME: "Prod Scanner"
-          PROVISIONING_PROFILE_SPECIFIER: CoronaCheck Verifier Prod
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.ctr.verifier
+          DISPLAY_NAME: "🤖 Dev DCC Scanner"
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.dccscan.dev
+          PROVISIONING_PROFILE_SPECIFIER: DCC Scanner App Dev
+        Acceptance:
+          DISPLAY_NAME: Scanner
+          PROVISIONING_PROFILE_SPECIFIER: DCC Scanner App Dev
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.dccscan.dev
         AppStore:
           DISPLAY_NAME: Scanner
           PROVISIONING_PROFILE_SPECIFIER: CoronaCheck Verifier AppStore
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.ctr.verifier
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.dccscan
     info:
       path: Sources/CTR/Configuration/verifier-Info.plist
       properties:
@@ -396,46 +282,7 @@ schemeTemplates:
 # - Schemes
 
 schemes:
-  Holder Dev:
-    templates:
-      - DevelopmentConfigScheme
-      - TestScheme # This scheme has unit tests too
-    templateAttributes:
-      appTargetName: Holder
-      testTargetName: CTRTests
-      configEnvironment: Development
-    run:
-      language: nl
-
-  Holder Test:
-    templates:
-      - ConfigScheme
-    templateAttributes:
-      appTargetName: Holder
-      configEnvironment: FirebaseTest
-
-  Holder Acceptance:
-    templates:
-      - ConfigScheme
-    templateAttributes:
-      appTargetName: Holder
-      configEnvironment: FirebaseAcceptance
-
-  Holder Production:
-    templates:
-      - ConfigScheme
-    templateAttributes:
-      appTargetName: Holder
-      configEnvironment: FirebaseProduction
-
-  Holder AppStore:
-    templates:
-      - ConfigScheme
-    templateAttributes:
-      appTargetName: Holder
-      configEnvironment: AppStore
-
-  Verifier Dev:
+  DCC Scanner Dev:
     templates:
       - DevelopmentConfigScheme
     templateAttributes:
@@ -444,28 +291,16 @@ schemes:
     run:
       language: nl
 
-  Verifier Test:
+  DCC Scanner Acc:
     templates:
-      - ConfigScheme
+      - DevelopmentConfigScheme
     templateAttributes:
       appTargetName: Verifier
-      configEnvironment: FirebaseTest
+      configEnvironment: Acceptance
+    run:
+      language: nl
 
-  Verifier Acceptance:
-    templates:
-      - ConfigScheme
-    templateAttributes:
-      appTargetName: Verifier
-      configEnvironment: FirebaseAcceptance
-
-  Verifier Production:
-    templates:
-      - ConfigScheme
-    templateAttributes:
-      appTargetName: Verifier
-      configEnvironment: FirebaseProduction
-
-  Verifier AppStore:
+  DCC Scanner AppStore:
     templates:
       - ConfigScheme
     templateAttributes:

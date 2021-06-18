@@ -30,4 +30,6 @@ extension UIImage {
 	static var smallCross: UIImage? { UIImage(named: "SmallCross") }
 
 	static var myQR: UIImage? { UIImage(named: "MyQR") }
+    
+    static var about: UIImage? { UIImage(named: "About") }
 }
