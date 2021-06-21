@@ -41,11 +41,11 @@ enum DCCTestManufacturer: String {
             case .cansino:
                 return "CanSino Biologics"
             case .chinaSinopharm:
-                return "China Sinopharm International Corp. - Beijing locatie"
+                return "Sinopharm Beijing"
             case .europeSinopharm:
-                return "Sinopharm Weiqida Europe Pharmaceutical s.r.o. - Praag locatie"
+                return "Sinopharm Praag"
             case .zhijunSinopharm:
-                return "Sinopharm Zhijun (Shenzhen) Pharmaceutical Co. Ltd. - Shenzhen locatie"
+                return "Sinopharm Shenzhen"
             case .novavax:
                 return "Novavax CZ AS"
             case .gamaleya:

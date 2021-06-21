@@ -17,6 +17,8 @@ enum AccessAction {
 
 class VerifierResultViewModel: PreventableScreenCapture, Logging {
 
+    static var timeUntilAutoClose = 60
+    
 	/// The logging category
 	var loggingCategory: String = "VerifierResultViewModel"
 
@@ -31,6 +33,8 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 
 	/// A timer auto close the scene
 	private var autoCloseTimer: Timer?
+    
+    private var proofManager: ProofManaging?
 
 	// MARK: - Bindable properties
 
@@ -60,6 +64,9 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 
 	/// Allow Access?
 	@Bindable var allowAccess: AccessAction = .denied
+    
+    /// Current auto close timer ticks
+    @Bindable var autoCloseTicks = 0
 
 	/// Initialzier
 	/// - Parameters:
@@ -68,6 +75,7 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 	///   - maxValidity: the maximum validity of a test in hours
 	init(
 		coordinator: (VerifierCoordinatorDelegate & Dismissable),
+        proofManager: ProofManaging,
 		cryptoResults: (DCCQR?, String?),
 		maxValidity: Int) {
 
@@ -88,7 +96,7 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 
 		NotificationCenter.default.addObserver(
 			self,
-			selector: #selector(autoCloseScene),
+			selector: #selector(closeScene),
 			name: UIApplication.didEnterBackgroundNotification,
 			object: nil
 		)
@@ -105,6 +113,7 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 		guard let attributes = cryptoResults.attributes else {
 			allowAccess = .denied
 			showAccessDeniedInvalidQR()
+            proofManager?.fetchIssuerPublicKeys(onCompletion: nil, onError: nil)
 			return
 		}
 		
@@ -114,22 +123,11 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 			showAccessDeniedDomesticDcc()
 		} else if attributes.isSpecimen {
 			allowAccess = .demo
-			setHolderIdentity(attributes)
 			showAccessDemo()
 		} else {
 			allowAccess = .verified
-			setHolderIdentity(attributes)
 			showAccessAllowed()
 		}
-	}
-
-	func setHolderIdentity(_ attributes: DCCQR) {
-
-		// TODO: Update
-//		firstName = determineAttributeValue(attributes.firstNameInitial)
-//		lastName = determineAttributeValue(attributes.lastNameInitial)
-//		dayOfBirth = determineAttributeValue(attributes.birthDay)
-//		monthOfBirth = determineMonthOfBirth(attributes.birthMonth)
 	}
 
 	/// Determine the value for display
@@ -239,31 +237,43 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 	// MARK: - AutoCloseTimer
 
 	/// Start the auto close timer, close after configuration.getAutoCloseTime() seconds
-	private func startAutoCloseTimer() {
+	func startAutoCloseTimer() {
 
 		guard autoCloseTimer == nil else {
 			return
 		}
 
 		autoCloseTimer = Timer.scheduledTimer(
-			timeInterval: TimeInterval(configuration.getAutoCloseTime()),
+			timeInterval: 1,
 			target: self,
-			selector: (#selector(autoCloseScene)),
+			selector: (#selector(autoCloseTick)),
 			userInfo: nil,
 			repeats: true
 		)
 	}
 
-	private func stopAutoCloseTimer() {
+	func stopAutoCloseTimer() {
 
 		autoCloseTimer?.invalidate()
 		autoCloseTimer = nil
 	}
+    
+    func isAutoCloseTimerActive() -> Bool {
+        return autoCloseTimer != nil
+    }
 
-	@objc private func autoCloseScene() {
+	@objc private func autoCloseTick() {
 
-		logInfo("Auto closing the result view")
-		stopAutoCloseTimer()
-		dismiss()
+        if autoCloseTicks >= VerifierResultViewModel.timeUntilAutoClose {
+            closeScene()
+        } else {
+            autoCloseTicks += 1
+        }
 	}
+    
+    @objc func closeScene() {
+        logInfo("Auto closing the result view")
+        stopAutoCloseTimer()
+        dismiss()
+    }
 }

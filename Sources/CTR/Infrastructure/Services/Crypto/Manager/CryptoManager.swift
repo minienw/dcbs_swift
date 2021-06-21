@@ -97,8 +97,6 @@ class CryptoManager: CryptoManaging, Logging {
             self.logError("Error Proof: \(result.error)")
             return (attributes: nil, errorMessage: result.error)
         }
-        let data = String(data: value, encoding: .utf8)
-        print(data)
         do {
             let object = try JSONDecoder().decode(DCCQR.self, from: value)
             return (attributes: object, errorMessage: nil)

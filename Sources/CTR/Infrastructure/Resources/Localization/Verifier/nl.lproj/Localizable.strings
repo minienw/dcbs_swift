@@ -163,3 +163,32 @@
 "certificates_outdated_button" = "Update";
 "certificates_outdated_desc" = "Maak verbinding met internet en probeer het opnieuw";
 "certificates_outdated_title" = "Uw certificaten zijn oud.";
+
+"item_dose_x" = "Vaccin dosis %i";
+"item_dose_x_x" = "Vaccin dosis %i / %i";
+"item_disease" = "Ziekte / Vaccin";
+"item_country" = "Lidstaat";
+"item_identifier" = "Certificaat nummer";
+"item_date_of_birth_x" = "Geboortedatum %@";
+
+"item_test_header" = "Test";
+"item_test_target" = "Ziekte";
+"item_test_type" = "Test type";
+"item_test_name" = "Test naam";
+"item_test_manufacturer" = "Fabrikant";
+"item_test_location" = "Test locatie";
+"item_test_country" = "Test land";
+
+"item_recovery_header" = "Herstel";
+"item_recovery_type" = "Ziekte";
+"item_recovery_first_date" = "1e positieve test";
+"item_recovery_from" = "Geldig van";
+"item_recovery_to" = "Geldig tot";
+"item_recovery_country" = "Test land";
+"item_certificate_issuer" = "Certificaat
+uitgever";
+"item_unknown" = "Onbekend";
+
+"resume" = "Verder";
+"pause" = "Pauze";
+"destination_x" = "Bestemmingsland: %@";

@@ -7,15 +7,14 @@
 */
 
 import Foundation
+import UIKit
 
-enum TargetedDisease: String {
-    case covid19 = "840539006"
+class ResultRecoveryView: TMCBaseView {
     
-    var displayName: String {
-        switch self {
-        
-            case .covid19:
-                return "Covid-19"
-        }
+    @IBOutlet var label: UILabel!
+    
+    func setup(disease: TargetedDisease) {
+        label.text = "\(disease.displayName)\n\("item_recovery_header".localized())"
     }
+    
 }

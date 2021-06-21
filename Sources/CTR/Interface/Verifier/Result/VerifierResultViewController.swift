@@ -52,6 +52,9 @@ class VerifierResultViewController: BaseViewController, Logging {
         } else {
             self.sceneView.setupForDenied()
         }
+        viewModel.$autoCloseTicks.binding = { [weak self] in
+            self?.setNavigationTimer(time: $0, isPaused: false)
+        }
 
 		viewModel.$hideForCapture.binding = { [weak self] in
 
@@ -62,8 +65,8 @@ class VerifierResultViewController: BaseViewController, Logging {
             #endif
 		}
 		
-
 		addCloseButton(action: #selector(closeButtonTapped))
+        setNavigationTimer(time: 0, isPaused: false)
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -72,6 +75,42 @@ class VerifierResultViewController: BaseViewController, Logging {
 		// Make the navbar the same color as the background.
 		navigationController?.navigationBar.backgroundColor = .clear
 	}
+    
+    func setNavigationTimer(time: Int, isPaused: Bool) {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 95, height: 28))
+        
+        let circle = CustomView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
+        circle.cornerRadius = 14
+        circle.backgroundColor = Theme.colors.primary
+        let timeLabel = UILabel(frame: circle.frame)
+        timeLabel.text = "\(VerifierResultViewModel.timeUntilAutoClose - time)"
+        timeLabel.font = Theme.fonts.subheadBold
+        timeLabel.textColor = .white
+        timeLabel.textAlignment = .center
+        circle.addSubview(timeLabel)
+        view.addSubview(circle)
+        
+        let playPauseLabel = UILabel(frame: CGRect(x: 35, y: 0, width: 60, height: 28))
+        playPauseLabel.text = "\(isPaused ? "resume" : "pause")".localized()
+        playPauseLabel.textColor = Theme.colors.primary
+        playPauseLabel.font = Theme.fonts.footnoteMontserrat
+        view.addSubview(playPauseLabel)
+        
+        let button = UIButton(frame: view.frame)
+        button.addTarget(self, action: #selector(didTapPauseTimer), for: .touchUpInside)
+        view.addSubview(button)
+        
+        navigationItem.setRightBarButton(UIBarButtonItem(customView: view), animated: false)
+    }
+    
+    @objc func didTapPauseTimer() {
+        if viewModel.isAutoCloseTimerActive() {
+            viewModel.stopAutoCloseTimer()
+        } else {
+            viewModel.startAutoCloseTimer()
+        }
+        setNavigationTimer(time: viewModel.autoCloseTicks, isPaused: !viewModel.isAutoCloseTimerActive())
+    }
 
 	/// User tapped on the button
 	@objc func closeButtonTapped() {

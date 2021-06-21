@@ -18,9 +18,9 @@ enum VaccineProphylaxis: String {
         switch self {
         
             case .MRNA:
-                return "SARS-CoV-2 mRNA vaccine"
+                return "mRNA vaccine"
             case .antigen:
-                return "SARS-CoV-2 antigen vaccine"
+                return "Antigen vaccine"
             case .covid19Vaccines:
                 return "covid-19 vaccines"
         }

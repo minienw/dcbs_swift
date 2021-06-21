@@ -34,12 +34,13 @@ configs:
   Development: debug
   Acceptance: acc
   AppStore: release
+  AppStore Acc: acc
 
 # - Project Level settings:
 
 settings:
   base:
-    IPHONEOS_DEPLOYMENT_TARGET: 11.0
+    IPHONEOS_DEPLOYMENT_TARGET: 12.3
     SWIFT_VERSION: 5.0
     VERSIONING_SYSTEM: apple-generic
     CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED: YES
@@ -55,6 +56,8 @@ settings:
     Acceptance:
       LOG_LEVEL: debug
     AppStore:
+      LOG_LEVEL: error
+    AppStore Acc:
       LOG_LEVEL: error
 
 # - Target Templates (i.e. shared default settings for targets):
@@ -77,8 +80,8 @@ targetTemplates:
         embed: false
     settings:
       base:
-        MARKETING_VERSION: 2.0.0
-        CURRENT_PROJECT_VERSION: 30
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 1
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         SWIFT_OBJC_BRIDGING_HEADER: Sources/CTR/Infrastructure/Services/Crypto/Utility/CTR-Bridging-Header.h
         TARGETED_DEVICE_FAMILY: 1
@@ -101,6 +104,8 @@ targetTemplates:
           VALIDATE_PRODUCT: NO
         AppStore:
           NETWORK_CONFIGURATION: Production
+        AppStore Acc:
+          NETWORK_CONFIGURATION: ACC
     info:
       properties:
         # Dynamic properties (APP_FLAVOR etc) here are set at build time, so can still vary based on a Configuration.
@@ -190,16 +195,20 @@ targets:
       configs:
         Development:
           DISPLAY_NAME: "🤖 Dev DCC Scanner"
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.dccscan.dev
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.dcbs.dccscanner.dev
           PROVISIONING_PROFILE_SPECIFIER: DCC Scanner App Dev
         Acceptance:
           DISPLAY_NAME: Scanner
           PROVISIONING_PROFILE_SPECIFIER: DCC Scanner App Dev
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.dccscan.dev
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.dcbs.dccscanner.dev
         AppStore:
           DISPLAY_NAME: Scanner
-          PROVISIONING_PROFILE_SPECIFIER: CoronaCheck Verifier AppStore
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.dccscan
+          PROVISIONING_PROFILE_SPECIFIER: DCC Scanner App
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.dcbs.dccscanner
+        AppStore Acc:
+          DISPLAY_NAME: Scanner
+          PROVISIONING_PROFILE_SPECIFIER: DCC Scanner App
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.dcbs.dccscanner
     info:
       path: Sources/CTR/Configuration/verifier-Info.plist
       properties:
@@ -288,3 +297,10 @@ schemes:
     templateAttributes:
       appTargetName: Verifier
       configEnvironment: AppStore
+
+  DCC Scanner AppStore Acc:
+    templates:
+      - ConfigScheme
+    templateAttributes:
+      appTargetName: Verifier
+      configEnvironment: AppStore Acc

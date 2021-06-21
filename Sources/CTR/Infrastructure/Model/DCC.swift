@@ -17,11 +17,6 @@ struct DCCQR: Codable {
     
     let dcc: DCC?
     
-    var getIssuer: Country? {
-        guard let issuer = issuer else { return nil }
-        return Country(rawValue: issuer)
-    }
-    
     func getName() -> String {
         return "\((dcc?.name?.lastName ?? "").capitalized) \((dcc?.name?.firstName ?? "").capitalized) "
     }
@@ -87,7 +82,7 @@ struct DCCVaccine: Codable {
     let doseNumber: Int?
     let totalSeriesOfDoses: Int?
     let dateOfVaccination: String? // Date
-    private let countryOfVaccination: String? // Country Code
+    let countryOfVaccination: String? // Country Code
     let certificateIssuer: String? //
     let certificateIdentifier: String? //
     
@@ -104,11 +99,6 @@ struct DCCVaccine: Codable {
     var getTargetedDisease: TargetedDisease? {
         guard let targetedDisease = targetedDisease else { return nil }
         return TargetedDisease(rawValue: targetedDisease)
-    }
-    
-    var getCountryOfVaccination: Country? {
-        guard let countryOfVaccination = countryOfVaccination else { return nil }
-        return Country(rawValue: countryOfVaccination)
     }
     
     var getMarketingHolder: VaccineHolder? {
@@ -139,14 +129,9 @@ struct DCCTest: Codable {
     let dateOfSampleCollection: String?
     private let testResult: String?
     let testingCentre: String?
-    private let countryOfTest: String?
+    let countryOfTest: String?
     let certificateIssuer: String?
     let certificateIdentifier: String?
-    
-    var getCountryOfTest: Country? {
-        guard let countryOfTest = countryOfTest else { return nil }
-        return Country(rawValue: countryOfTest)
-    }
     
     var getTargetedDisease: TargetedDisease? {
         guard let targetedDisease = targetedDisease else { return nil }
@@ -187,7 +172,7 @@ struct DCCRecovery: Codable {
     
     private let targetedDisease: String?
     let dateOfFirstPositiveTest: String?
-    private let countryOfTest: String?
+    let countryOfTest: String?
     let certificateIssuer: String?
     let certificateValidFrom: String?
     let certificateValidTo: String?
@@ -196,11 +181,6 @@ struct DCCRecovery: Codable {
     var getTargetedDisease: TargetedDisease? {
         guard let targetedDisease = targetedDisease else { return nil }
         return TargetedDisease(rawValue: targetedDisease)
-    }
-    
-    var getCountryOfTest: Country? {
-        guard let countryOfTest = countryOfTest else { return nil }
-        return Country(rawValue: countryOfTest)
     }
     
     enum CodingKeys: String, CodingKey {
@@ -214,6 +194,3 @@ struct DCCRecovery: Codable {
     }
     
 }
-
-
-

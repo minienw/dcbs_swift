@@ -10,14 +10,8 @@ import Foundation
 /// Should the app be updated?
 enum LaunchState: Equatable {
 
-	/// The app should be updated
-	case actionRequired(RemoteInformation)
-
 	/// The app is fine.
 	case noActionNeeded
-
-	/// The app needs internet
-	case internetRequired
 	
 	/// The crypto library needs to be initialized
 	case cryptoLibNotInitialized
@@ -33,16 +27,6 @@ enum LaunchState: Equatable {
 		switch (lhs, rhs) {
 			case (noActionNeeded, noActionNeeded):
 				return true
-			case (internetRequired, internetRequired):
-				return true
-			case (let .actionRequired(lhsVersion), let .actionRequired(rhsVersion)):
-				return lhsVersion.minimumVersion == rhsVersion.minimumVersion &&
-					lhsVersion.minimumVersionMessage == rhsVersion.minimumVersionMessage &&
-					lhsVersion.appStoreURL == rhsVersion.appStoreURL &&
-					lhsVersion.informationURL == rhsVersion.informationURL &&
-					lhsVersion.appDeactivated == rhsVersion.appDeactivated &&
-					lhsVersion.configTTL == rhsVersion.configTTL &&
-					lhsVersion.maxValidityHours == rhsVersion.maxValidityHours
 			case (.cryptoLibNotInitialized, cryptoLibNotInitialized):
 				return true
 			default:

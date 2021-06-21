@@ -21,17 +21,17 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="352" height="33"/>
+            <rect key="frame" x="0.0" y="0.0" width="352" height="40"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Disease/Vaccine" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dab-J5-QnW">
-                    <rect key="frame" x="0.0" y="0.0" width="171" height="17.5"/>
+                    <rect key="frame" x="0.0" y="13" width="171" height="14"/>
                     <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="15"/>
                     <color key="textColor" name="DarkColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Covid-19 | mrna" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qUh-fM-fhI">
-                    <rect key="frame" x="181" y="0.0" width="171" height="17.5"/>
+                    <rect key="frame" x="181" y="12" width="171" height="15"/>
                     <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="15"/>
                     <color key="textColor" name="DarkColor"/>
                     <nil key="highlightedColor"/>
@@ -44,8 +44,8 @@
                         <constraint firstAttribute="width" constant="10" id="OQO-1q-AXk"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jlm-Pi-9E9">
-                    <rect key="frame" x="0.0" y="32" width="352" height="1"/>
+                <view alpha="0.20000000000000001" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jlm-Pi-9E9">
+                    <rect key="frame" x="0.0" y="39" width="352" height="1"/>
                     <color key="backgroundColor" name="DarkColor"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="WCa-25-osC"/>
@@ -54,22 +54,23 @@
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstAttribute="top" secondItem="qUh-fM-fhI" secondAttribute="top" id="0Ph-xm-qPe"/>
                 <constraint firstItem="Dab-J5-QnW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="4uI-9j-wej"/>
                 <constraint firstItem="qUh-fM-fhI" firstAttribute="leading" secondItem="gIV-2z-38K" secondAttribute="trailing" id="84n-0l-GhE"/>
                 <constraint firstAttribute="trailing" secondItem="Jlm-Pi-9E9" secondAttribute="trailing" id="Cd0-JF-OlC"/>
                 <constraint firstItem="gIV-2z-38K" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="JAV-eE-tQj"/>
+                <constraint firstAttribute="bottom" secondItem="qUh-fM-fhI" secondAttribute="bottom" constant="13" id="Job-0v-juL"/>
                 <constraint firstAttribute="trailing" secondItem="qUh-fM-fhI" secondAttribute="trailing" id="WIl-dV-luG"/>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="Dab-J5-QnW" secondAttribute="bottom" constant="13" id="bAp-ae-PhQ"/>
                 <constraint firstItem="gIV-2z-38K" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="iZD-Bx-KL5"/>
                 <constraint firstAttribute="bottom" secondItem="Jlm-Pi-9E9" secondAttribute="bottom" id="j7Y-Ox-0xf"/>
-                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="qUh-fM-fhI" secondAttribute="bottom" constant="13" id="nIf-sa-I1c"/>
-                <constraint firstItem="Dab-J5-QnW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="omL-zt-RIT"/>
+                <constraint firstItem="qUh-fM-fhI" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="12" id="lNN-67-PJc"/>
+                <constraint firstItem="Dab-J5-QnW" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="top" constant="12" id="omL-zt-RIT"/>
                 <constraint firstItem="gIV-2z-38K" firstAttribute="leading" secondItem="Dab-J5-QnW" secondAttribute="trailing" id="pCf-Tw-2rR"/>
+                <constraint firstItem="Dab-J5-QnW" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="tXV-sv-NUQ"/>
                 <constraint firstItem="Jlm-Pi-9E9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="xuC-tL-TEU"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="-20.289855072463769" y="-213.28125"/>
+            <point key="canvasLocation" x="-20.289855072463769" y="-210.9375"/>
         </view>
     </objects>
     <resources>

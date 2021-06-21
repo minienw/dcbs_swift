@@ -101,23 +101,6 @@ class AppCoordinator: Coordinator, Logging {
         let coordinator = VerifierCoordinator(navigationController: navigationController, window: window)
         startChildCoordinator(coordinator)
     }
-
-	/// Show the Action Required View
-	/// - Parameter versionInformation: the version information
-	private func showActionRequired(with versionInformation: RemoteInformation) {
-		var viewModel = AppUpdateViewModel(coordinator: self, versionInformation: versionInformation)
-		if versionInformation.isDeactivated {
-			viewModel = EndOfLifeViewModel(coordinator: self, versionInformation: versionInformation)
-		}
-		navigateToAppUpdate(with: viewModel)
-	}
-	
-	/// Show the Internet Required View
-	private func showInternetRequired() {
-
-		let viewModel = InternetRequiredViewModel(coordinator: self)
-		navigateToAppUpdate(with: viewModel)
-	}
 	
 	/// Show the error alert when crypto library is not initialized
 	private func showCryptoLibNotInitializedError() {
@@ -141,25 +124,6 @@ class AppCoordinator: Coordinator, Logging {
 		window.rootViewController?.present(alertController, animated: true)
 	}
 
-	/// Show the Action Required View
-	/// - Parameter versionInformation: the version information
-	private func navigateToAppUpdate(with viewModel: AppUpdateViewModel) {
-
-		guard var topController = window.rootViewController else { return }
-
-		while let newTopController = topController.presentedViewController {
-			topController = newTopController
-		}
-		guard !(topController is AppUpdateViewController) else { return }
-		let updateController = AppUpdateViewController(viewModel: viewModel)
-
-		if topController is UINavigationController {
-			(topController as? UINavigationController)?.viewControllers.last?.present(updateController, animated: true)
-		} else {
-			topController.present(updateController, animated: true)
-		}
-	}
-
 }
 
 // MARK: - AppCoordinatorDelegate
@@ -178,12 +142,6 @@ extension AppCoordinator: AppCoordinatorDelegate {
         switch state {
             case .noActionNeeded:
                 startApplication()
-
-            case .internetRequired:
-                showInternetRequired()
-
-            case let .actionRequired(versionInformation):
-                showActionRequired(with: versionInformation)
 				
             case .cryptoLibNotInitialized:
 				showCryptoLibNotInitializedError()

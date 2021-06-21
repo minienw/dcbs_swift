@@ -119,7 +119,8 @@ extension VerifierCoordinator: VerifierCoordinatorDelegate {
 		
 		let viewController = VerifierResultViewController(
 			viewModel: VerifierResultViewModel(
-				coordinator: self,
+                coordinator: self,
+                proofManager: proofManager,
 				cryptoResults: cryptoResults,
 				maxValidity: maxValidity
 			)

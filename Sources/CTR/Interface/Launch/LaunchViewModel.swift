@@ -146,19 +146,8 @@ class LaunchViewModel {
 
 	/// Handle the state of the updates
 	private func handleState() {
-
-		guard let configStatus = configStatus,
-			  let issuerPublicKeysStatus = issuerPublicKeysStatus else {
-			return
-		}
 		
-		if case .actionRequired = configStatus {
-			// show action
-			coordinator?.handleLaunchState(configStatus)
-		} else if configStatus == .internetRequired || issuerPublicKeysStatus == .internetRequired {
-			// Show no internet
-			coordinator?.handleLaunchState(.internetRequired)
-		} else if !cryptoLibUtility.isInitialized {
+		if !cryptoLibUtility.isInitialized {
 			// Show crypto lib not initialized error
 			coordinator?.handleLaunchState(.cryptoLibNotInitialized)
 		} else {

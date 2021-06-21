@@ -7,17 +7,14 @@
 */
 
 import Foundation
+import UIKit
 
-enum Country: String {
+class ResultItemHeaderView: TMCBaseView {
     
-    case andorra = "AD"
-    case unitedArabEmirates = "AE"
-    case afghanistan = "AF"
-    case antigua = "AG"
+    @IBOutlet var label: UILabel!
     
-    // Add more!!
-    case netherlands = "NL"
-    
-    
+    func setup(title: String) {
+        label.text = title
+    }
     
 }
