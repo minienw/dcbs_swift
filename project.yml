@@ -194,19 +194,19 @@ targets:
         INFOPLIST_FILE: Sources/CTR/Configuration/verifier-Info.plist
       configs:
         Development:
-          DISPLAY_NAME: "🤖 Dev DCC Scanner"
+          DISPLAY_NAME: "🤖 DCC Scanner"
           PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.dcbs.dccscanner.dev
           PROVISIONING_PROFILE_SPECIFIER: DCC Scanner App Dev
         Acceptance:
-          DISPLAY_NAME: Scanner
+          DISPLAY_NAME: DCC Scanner
           PROVISIONING_PROFILE_SPECIFIER: DCC Scanner App Dev
           PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.dcbs.dccscanner.dev
         AppStore:
-          DISPLAY_NAME: Scanner
+          DISPLAY_NAME: DCC Scanner
           PROVISIONING_PROFILE_SPECIFIER: DCC Scanner App
           PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.dcbs.dccscanner
         AppStore Acc:
-          DISPLAY_NAME: Scanner
+          DISPLAY_NAME: DCC Scanner
           PROVISIONING_PROFILE_SPECIFIER: DCC Scanner App
           PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.dcbs.dccscanner
     info:

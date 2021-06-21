@@ -108,16 +108,14 @@ class ResultView: TMCBaseView {
             if vaccines.count >= 1 {
                 vaccineView1.setup(vaccine: vaccines[0])
                 vaccineView1.isHidden = false
-                if vaccines.count > 1 {
-                    addVaccineMeta(vaccine: vaccines[0])
-                }
+                addVaccineMeta(vaccine: vaccines[0], hasHeader: vaccines.count > 1)
             } else {
                 vaccineView1.isHidden = true
             }
             if vaccines.count >= 2 {
                 vaccineView2.setup(vaccine: vaccines[1])
                 vaccineView2.isHidden = false
-                addVaccineMeta(vaccine: vaccines[1])
+                addVaccineMeta(vaccine: vaccines[1], hasHeader: vaccines.count > 1)
             } else {
                 vaccineView2.isHidden = true
             }
@@ -128,10 +126,12 @@ class ResultView: TMCBaseView {
         }
     }
     
-    func addVaccineMeta(vaccine: DCCVaccine) {
+    func addVaccineMeta(vaccine: DCCVaccine, hasHeader: Bool) {
         var targetString = ""
-        if let dose = vaccine.doseNumber {
-            itemsStack.addArrangedSubview(getItemHeader(title: "item_dose_x".localized(params: dose)))
+        if hasHeader {
+            if let dose = vaccine.doseNumber {
+                itemsStack.addArrangedSubview(getItemHeader(title: "item_dose_x".localized(params: dose)))
+            }
         }
         if let target = vaccine.getTargetedDisease {
             targetString += "\(target.displayName)"

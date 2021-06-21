@@ -101,11 +101,11 @@
 
 /* MARK: - Verifier Consent */
 "verifier.consent.title" = "Voorwaarden voor gebruik";
-"verifier.consent.message" = "In de gebruikersvoorwaarden staat hoe Digitaal Corona Certificaat Scanner  werkt en wat je rechten zijn.";
-"verifier.consent.message.underlined" = "gebruikersvoorwaarden";
-"verifier.consent.item.1" = "Je mag gegevens van de bezoeker alleen gebruiken voor <b>controle van het bewijs</b>";
-"verifier.consent.item.2" = "Gegevens van de bezoeker worden <b>nergens centraal opgeslagen</b> ";
-"verifier.consent.button" = "Ik heb de gebruikersvoorwaarden gelezen en ga hiermee akkoord.";
+"verifier.consent.message" = "In de gebruiksvoorwaarden staat hoe de app werkt en wat de rechten zijn.";
+"verifier.consent.message.underlined" = "gebruiksvoorwaarden";
+"verifier.consent.item.1" = "U mag de in de app getoonde gegevens van de reiziger alleen gebruiken voor <b>het uitvoeren van de verplichte gezondheidscontroles voor de betreffende reis.</b>";
+"verifier.consent.item.2" = "Gegevens van u of van de reiziger worden <b>niet centraal, noch in de app opgeslagen.</b> ";
+"verifier.consent.button" = "Ik heb de gebruiksvoorwaarden gelezen en ga ermee akkoord.";
 
 /* MARK: - Verifier Start */
 "verifier.start.title" = "Scan QR-code";
@@ -154,11 +154,11 @@
 
 /* MARK: - DCC SCANNER */
 "onboarding.page_1_title" = "Scan de getoonde QR code";
-"onboarding.page_1_desc" = "De reiziger toont de code op zijn Digitaal Corona paspoort. Scan de code met deze app";
-"onboarding.page_2_title" = "Check code";
-"onboarding.page_2_desc" = "De app geeft aan of de getoonde QR code correct is of niet. Bij een incorrecte code mag de reiziger de reis niet voortzetten.";
+"onboarding.page_1_desc" = "De reiziger toont de code op een mobiel apparaat of papier. Richt uw camera op de code om deze te scannen.";
+"onboarding.page_2_title" = "Check het resultaat";
+"onboarding.page_2_desc" = "De app geeft nu aan of de code geldig is (groen scherm) of niet (rood scherm). Bij een foute code moet de reiziger een ander coronatest- vaccinatie- of herstelbewijs tonen.";
 "onboarding.page_3_title" = "Voor wie is de scanner?";
-"onboarding.page_3_desc" = "Deze app is bedoelt voor organisaties die reizigers vervoeren. Met behulp van deze app kan de vervoerder zien of de reiziger de juiste vaccins heeft om te kunnen reizen.";
+"onboarding.page_3_desc" = "Deze app is bedoeld voor vervoersbedrijven die internationale reizen verzorgen. Met deze app kan worden gecontroleerd of de reiziger volgens de coronaregels mag reizen. De app maakt hiervoor gebruik van het Digital COVID Certificate (DCC).";
 
 "certificates_outdated_button" = "Update";
 "certificates_outdated_desc" = "Maak verbinding met internet en probeer het opnieuw";
@@ -191,3 +191,4 @@ uitgever";
 
 "resume" = "Verder";
 "pause" = "Pauze";
+"destination_x" = "Bestemmingsland: %@";

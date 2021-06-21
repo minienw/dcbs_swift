@@ -56,9 +56,14 @@ class ScanInstructionsViewModel: Logging {
 			), (
 				title: .verifierScanInstructionsDeniedTitle,
 				text: .verifierScanInstructionsDeniedText,
-				image: .redScreen,
+				image: nil,
+                imageDescription: nil
+			), (
+                title: "verifier.instructions.denied.2.title".localized(),
+                text: "verifier.instructions.denied.2.text".localized(),
+                image: .redScreen,
                 imageDescription: .verifierScanInstructionsDeniedImage
-			)
+            )
 		]
 	}
 

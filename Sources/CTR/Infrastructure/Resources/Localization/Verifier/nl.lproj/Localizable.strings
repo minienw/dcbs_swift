@@ -88,45 +88,50 @@
 "new.terms.disagree" = "Niet akkoord";
 
 /* MARK: - Verifier Launch */
-"verifier.launch.title" = "CoronaCheck Scanner";
+"verifier.launch.title" = "DCC Scanner";
 "verifier.launch.text" = "We starten de app voor je op...";
 "verifier.launch.version" = "App versie %@ (build %@)";
 
 /* MARK: - Verifier Menu */
 "verifier.menu.dashboard" = "Scan QR-code";
-"verifier.menu.support" = "Support";
+"verifier.menu.support" = "Contact";
 "verifier.menu.about" = "Over deze app";
 "verifier.menu.feedback" = "Geef ons feedback";
-"verifier.menu.privacy" = "Gebruikersvoorwaarden";
+"verifier.menu.privacy" = "Gebruiksvoorwaarden";
 
 /* MARK: - Verifier Consent */
 "verifier.consent.title" = "Voorwaarden voor gebruik";
-"verifier.consent.message" = "In de gebruikersvoorwaarden staat hoe Digitaal Corona Certificaat Scanner  werkt en wat je rechten zijn.";
-"verifier.consent.message.underlined" = "gebruikersvoorwaarden";
-"verifier.consent.item.1" = "Je mag gegevens van de bezoeker alleen gebruiken voor <b>controle van het bewijs</b>";
-"verifier.consent.item.2" = "Gegevens van de bezoeker worden <b>nergens centraal opgeslagen</b> ";
-"verifier.consent.button" = "Ik heb de gebruikersvoorwaarden gelezen en ga hiermee akkoord.";
+"verifier.consent.message" = "In de gebruiksvoorwaarden staat hoe de app werkt en wat de rechten zijn.";
+"verifier.consent.message.underlined" = "gebruiksvoorwaarden";
+"verifier.consent.item.1" = "U mag de in de app getoonde gegevens van de reiziger alleen gebruiken voor <b>het uitvoeren van de verplichte gezondheidscontroles voor de betreffende reis.</b>";
+"verifier.consent.item.2" = "Gegevens van u of van de reiziger worden <b>niet centraal, noch in de app opgeslagen.</b> ";
+"verifier.consent.button" = "Ik heb de gebruiksvoorwaarden gelezen en ga ermee akkoord.";
 
 /* MARK: - Verifier Start */
 "verifier.start.title" = "Scan QR-code";
-"verifier.start.header" = "Scan nu de QR-codes van jouw reizigers.";
-"verifier.start.message" = "Maar let op: je mag alleen reizigers met een geldige QR-code toegang geven. <a href=\"https://coronacheck.nl/nl/scanner\">Zo werkt scannen.</a>";
+"verifier.start.header" = "Begin met scannen";
+"verifier.start.message" = "<a href=\"https://coronacheck.nl/nl/scanner\">Zo werkt scannen.</a>";
 "verifier.start.button.title" = "Start scannen";
 
 /* MARK: - Verifier Scan Instructions */
 "verifier.instructions.title" = "Zo werkt scannen";
 "verifier.instructions.distance.title" = "1. Houd afstand";
-"verifier.instructions.distance.text" = "Druk op de knop ‘Start scannen’ en vraag de bezoeker de QR-code te laten zien. Dat mag zowel via de Digitaal Corona Certificaat app als op papier. De QR-code geldt als vaccinatiebewijs en kan veilig op afstand uitgelezen worden.";
-"verifier.instructions.scan.title" = "2. Scan de QR-code";
-"verifier.instructions.scan.text" = "Richt de camera van je telefoon op het vaccinatiebewijs van de reiziger en scan de QR-code.";
-"verifier.instructions.access.title" = "3. Groen scherm";
-"verifier.instructions.access.text" = "Groen scherm? De reiziger heeft een geldige negatieve testuitslag. Controleer nu of de gegevens op het groene scherm hetzelfde zijn als de gegevens op het identiteitsbewijs. Check? Dan mag de reiziger naar binnen.";
+"verifier.instructions.distance.text" = "Laat de reiziger een Digital COVID Certificate QR code tonen op een mobiel apparaat of op papier. Houd voldoende afstand bij het richten van de camera en wacht tot de app de QR code heeft herkend. De app gaat automatisch door met controleren.";
+"verifier.instructions.scan.title" = "2. Groen scherm";
+"verifier.instructions.scan.text" = "Een groen scherm betekent dat de getoonde QR code geldig is. Controleer of de ID gegevens overeenkomen met het getoonde ID bewijs van de reiziger. ";
+"verifier.instructions.access.title" = "3. Controleer de gegevens";
+"verifier.instructions.access.text" = "Indien nodig controleert u of volgens de test- vaccinatie- of herstelgegevens die de app weergeeft reizen naar het land van bestemming door de reiziger is toegestaan. Zo ja, dan kunt u de reiziger toegang geven.";
 "verifier.instructions.denied.title" = "4. Rood scherm";
-"verifier.instructions.denied.text" = "Rood scherm? Dat betekent niet dat de reiziger corona heeft. Het betekent alleen dat de QR-code ongeldig is. Er is dus geen bewijs van een recente negatieve testuitslag. Dit kun je doen:<br\><br\><ul><li>Controleer of de bezoeker de QR-code vanuit de Digitaal Corona Certificaat App laat zien. Een schermafbeelding of kopie van een QR-code uit de app geeft altijd een rood scherm.</li><li>Controleer of de bezoeker een Nederlandse QR-code laat zien. Een Europese QR-code geeft een rood scherm.</li><li>Vraag de bezoeker de app volledig af te sluiten en opnieuw op te starten. Scan daarna opnieuw de QR-code.</li><li>Blijft er een rood scherm komen, terwijl de bezoeker wel een vaccinatie of negatieve testuitslag heeft? Stuur de bezoeker naar onze helpdesk, telefoonnummer: <a href=\"tel:08001421\">0800-1421</a>.</li></ul>";
+"verifier.instructions.denied.text" = "Bij een rood scherm is het de QR code <b>ongeldig</b>. Dit betekent  <b>niet</b> dat de reiziger corona heeft of besmettelijk is!
+Er worden geen gegevens uit het DCC getoond. U vraagt de reiziger om een alternatief bewijs (negatief testresultaat, alternatief bewijs van vaccinatie of herstel), om de controle uit te kunnen voeren.";
+
+"verifier.instructions.denied.2.title" = "5. Rood scherm: verklaringen en opties";
+"verifier.instructions.denied.2.text" = "Een rood scherm kan meerdere oorzaken hebben:<ul><li>Het certificaat is niet voorzien van een geldige handtekening door een van de daartoe aangewezen instanties.</li><li>De lijst referentie certificaten van handtekeningen is verouderd, en kan momenteel niet worden bijgewerkt. Kies eventueel de functie Bijwerken certificaatlijst in het menu en probeer de scan opnieuw uit te voeren.</li><li>Er is iets mis met de scanner app. Sluit de app helemaal af en start opnieuw om het nog eens te proberen.</li><li>De app van de reiziger werkt niet goed. Laat de reiziger de app opnieuw starten en scan opnieuw.</li></ul>";
+
 
 /* MARK: - Verifier QR Scan */
-"verifier.scan.title" = "Scan QR-code";
-"verifier.scan.message" = "Richt je telefoon op de QR-code op het scherm van de bezoeker. Of op het papieren bewijs.";
+"verifier.scan.title" = "Scan QR code";
+"verifier.scan.message" = "Richt je telefoon op de getoonde QR code en wacht tot de app de code herkent.";
 "verifier.scan.permission.title" = "Geen toegang tot camera";
 "verifier.scan.permission.message" = "De app wil toegang tot de camera om de QR-code te scannen.";
 "verifier.scan.permission.settings" = "Naar instellingen";
@@ -134,7 +139,7 @@
 /* MARK: - Verifier Result */
 "verifier.result.access.title" = "Geldige QR-code";
 "verifier.result.demo.title" = "Demo QR-code gescand";
-"verifier.result.denied.title" = "Ongeldige QR-code";
+"verifier.result.denied.title" = "Geen geldige DCC QR code";
 "verifier.result.denied.message" = "De reiziger heeft geen geldig bewijs.";
 "verifier.result.denied.link" = "";
 "verifier.result.next" = "Scan volgende";
@@ -149,20 +154,20 @@
 
 /* MARK: - Verifier About */
 "verifier.about.title" = "Over deze app";
-"verifier.about.text" = "De Digitaal Corona Certificaat Scan app is ontwikkeld zodat reizen weer mogelijk is en dat de certificate van de reizigers snel gescand kunnen worden. Met behulp van deze app krijgen reizigers die gevaccineerd zijn weer de mogelijkheid om naar het buitenland te gaan.";
+"verifier.about.text" = "De “DCC cross border Scanner NL” app is ontwikkeld door het ministerie van Infrastructuur en Waterstaat om het reizen binnen de EU te vergemakkelijken. De gezondheidsinformatie van reizigers kan op deze manier internationaal snel worden gecontroleerd. Reizigers kunnen daardoor  veilig, verantwoord en makkelijk door de EU reizen.";
 
 
 /* MARK: - DCC SCANNER */
 "onboarding.page_1_title" = "Scan de getoonde QR code";
-"onboarding.page_1_desc" = "De reiziger toont de code op zijn Digitaal Corona paspoort. Scan de code met deze app";
-"onboarding.page_2_title" = "Check code";
-"onboarding.page_2_desc" = "De app geeft aan of de getoonde QR code correct is of niet. Bij een incorrecte code mag de reiziger de reis niet voortzetten.";
+"onboarding.page_1_desc" = "De reiziger toont de code op een mobiel apparaat of papier. Richt uw camera op de code om deze te scannen.";
+"onboarding.page_2_title" = "Check het resultaat";
+"onboarding.page_2_desc" = "De app geeft nu aan of de code geldig is (groen scherm) of niet (rood scherm). Bij een foute code moet de reiziger een ander coronatest- vaccinatie- of herstelbewijs tonen.";
 "onboarding.page_3_title" = "Voor wie is de scanner?";
-"onboarding.page_3_desc" = "Deze app is bedoelt voor organisaties die reizigers vervoeren. Met behulp van deze app kan de vervoerder zien of de reiziger de juiste vaccins heeft om te kunnen reizen.";
+"onboarding.page_3_desc" = "Deze app is bedoeld voor vervoersbedrijven die internationale reizen verzorgen. Met deze app kan worden gecontroleerd of de reiziger volgens de coronaregels mag reizen. De app maakt hiervoor gebruik van het Digital COVID Certificate (DCC).";
 
-"certificates_outdated_button" = "Update";
-"certificates_outdated_desc" = "Maak verbinding met internet en probeer het opnieuw";
-"certificates_outdated_title" = "Uw certificaten zijn oud.";
+"certificates_outdated_button" = "Bijwerken";
+"certificates_outdated_desc" = "Sommige geldige QR codes zullen in de app als ongeldig worden weergegeven. Check uw internetverbinding en druk op “Bijwerken”.";
+"certificates_outdated_title" = "De certificatenlijst is niet bijgewerkt!";
 
 "item_dose_x" = "Vaccin dosis %i";
 "item_dose_x_x" = "Vaccin dosis %i / %i";

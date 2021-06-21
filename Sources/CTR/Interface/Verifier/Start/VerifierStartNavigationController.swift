@@ -42,7 +42,6 @@ class VerifierStartNavigationController: UINavigationController {
             banner.setLoading(loading: false)
             banner.snp.makeConstraints { make in
                 make.top.equalToSuperview().offset(67)
-                make.height.equalTo(110)
                 make.leading.trailing.equalToSuperview()
             }
             UIView.animate(withDuration: 0.2) {

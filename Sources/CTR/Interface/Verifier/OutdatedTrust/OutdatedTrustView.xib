@@ -24,13 +24,13 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="416" height="106"/>
+            <rect key="frame" x="0.0" y="0.0" width="416" height="109"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kr5-6K-scw" customClass="CustomShadowView" customModule="CTR">
-                    <rect key="frame" x="20" y="15" width="376" height="76"/>
+                    <rect key="frame" x="20" y="15" width="376" height="79"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Uw certificaten zijn oud." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9M7-0l-oVL">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Uw certificaten zijn oud." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9M7-0l-oVL">
                             <rect key="frame" x="16" y="12" width="245" height="20"/>
                             <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="16"/>
                             <color key="textColor" name="SecondaryColor"/>
@@ -39,11 +39,11 @@
                                 <userDefinedRuntimeAttribute type="string" keyPath="translationKey" value="certificates_outdated_title"/>
                             </userDefinedRuntimeAttributes>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gms-oS-wI8">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gms-oS-wI8">
                             <rect key="frame" x="16" y="32" width="245" height="32"/>
                             <string key="text">Maak verbinding met internet en
 probeer het opnieuw</string>
-                            <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="13"/>
+                            <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="11"/>
                             <color key="textColor" name="SecondaryColor"/>
                             <nil key="highlightedColor"/>
                             <userDefinedRuntimeAttributes>
@@ -51,14 +51,14 @@ probeer het opnieuw</string>
                             </userDefinedRuntimeAttributes>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rTq-M9-GwB" customClass="CustomButton" customModule="CTR">
-                            <rect key="frame" x="274" y="21" width="72" height="34"/>
+                            <rect key="frame" x="274" y="22.5" width="90" height="34"/>
                             <color key="backgroundColor" name="PrimaryColor"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="72" id="aLW-Qf-U9U"/>
+                                <constraint firstAttribute="width" constant="90" id="aLW-Qf-U9U"/>
                                 <constraint firstAttribute="height" constant="34" id="mfW-2W-D4I"/>
                             </constraints>
                             <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="15"/>
-                            <state key="normal" title="Update">
+                            <state key="normal" title="Bijwerken">
                                 <color key="titleColor" name="SecondaryColor"/>
                             </state>
                             <userDefinedRuntimeAttributes>
@@ -72,7 +72,7 @@ probeer het opnieuw</string>
                             </connections>
                         </button>
                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Ire-vY-e3R">
-                            <rect key="frame" x="300" y="28" width="20" height="20"/>
+                            <rect key="frame" x="309" y="29.5" width="20" height="20"/>
                             <color key="color" name="SecondaryColor"/>
                         </activityIndicatorView>
                     </subviews>
@@ -80,10 +80,11 @@ probeer het opnieuw</string>
                     <constraints>
                         <constraint firstItem="Ire-vY-e3R" firstAttribute="centerX" secondItem="rTq-M9-GwB" secondAttribute="centerX" id="1xK-Cp-bMa"/>
                         <constraint firstItem="9M7-0l-oVL" firstAttribute="leading" secondItem="kr5-6K-scw" secondAttribute="leading" constant="16" id="4JC-Mb-VmB"/>
-                        <constraint firstAttribute="trailing" secondItem="rTq-M9-GwB" secondAttribute="trailing" constant="30" id="7Gg-jB-M0U"/>
+                        <constraint firstAttribute="trailing" secondItem="rTq-M9-GwB" secondAttribute="trailing" constant="12" id="7Gg-jB-M0U"/>
                         <constraint firstItem="gms-oS-wI8" firstAttribute="leading" secondItem="9M7-0l-oVL" secondAttribute="leading" id="80y-Mm-gZH"/>
                         <constraint firstItem="gms-oS-wI8" firstAttribute="top" secondItem="9M7-0l-oVL" secondAttribute="bottom" id="ASG-FI-HfC"/>
                         <constraint firstItem="Ire-vY-e3R" firstAttribute="centerY" secondItem="rTq-M9-GwB" secondAttribute="centerY" id="Gch-wf-C6q"/>
+                        <constraint firstAttribute="bottom" secondItem="gms-oS-wI8" secondAttribute="bottom" constant="12" id="KV2-eo-80h"/>
                         <constraint firstItem="9M7-0l-oVL" firstAttribute="trailing" secondItem="gms-oS-wI8" secondAttribute="trailing" id="NFz-Su-kQW"/>
                         <constraint firstItem="rTq-M9-GwB" firstAttribute="centerY" secondItem="kr5-6K-scw" secondAttribute="centerY" id="Pkj-Xf-e9h"/>
                         <constraint firstItem="rTq-M9-GwB" firstAttribute="leading" secondItem="gms-oS-wI8" secondAttribute="trailing" constant="13" id="lww-Z1-MZL"/>
@@ -116,7 +117,7 @@ probeer het opnieuw</string>
                 <constraint firstItem="kr5-6K-scw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="wqf-iA-wDS"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="21.739130434782609" y="-166.07142857142856"/>
+            <point key="canvasLocation" x="21.739130434782609" y="-165.06696428571428"/>
         </view>
     </objects>
     <resources>
