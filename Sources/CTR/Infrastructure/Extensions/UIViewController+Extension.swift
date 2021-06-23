@@ -16,4 +16,10 @@ extension UIViewController {
 		navigationController?.navigationBar.backgroundColor = .clear
 		navigationController?.navigationBar.barTintColor = .clear
 	}
+    
+    func resetTranslucentNavigationBar() {
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.backgroundColor = Theme.colors.viewControllerBackground
+        navigationController?.navigationBar.barTintColor = Theme.colors.viewControllerBackground
+    }
 }

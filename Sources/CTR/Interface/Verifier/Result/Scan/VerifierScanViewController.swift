@@ -10,6 +10,10 @@ import UIKit
 class VerifierScanViewController: ScanViewController {
 
 	private let viewModel: VerifierScanViewModel
+    
+    let userSettings = UserSettings()
+    
+    var currentSelectingCountryMode: SelectingCountryMode?
 
 	init(viewModel: VerifierScanViewModel) {
 
@@ -58,6 +62,14 @@ class VerifierScanViewController: ScanViewController {
 				self?.showPermissionError()
 			}
 		}
+        updateCountryPicker()
+        sceneView.selectedCountryView.onTappedDeparture = { [weak self] in
+            self?.openCountryPicker(mode: .departure)
+        }
+        
+        sceneView.selectedCountryView.onTappedDestination = { [weak self] in
+            self?.openCountryPicker(mode: .destination)
+        }
 		
 		addCloseButton(
 			action: #selector(closeButtonTapped),
@@ -68,6 +80,27 @@ class VerifierScanViewController: ScanViewController {
 		styleBackButton(buttonText: "")
         
 	}
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureTranslucentNavigationBar()
+    }
+    
+    func updateCountryPicker() {
+        sceneView.selectedCountryView.setup(departure: userSettings.lastDeparture, destination: userSettings.lastDestination)
+    }
+    
+    func openCountryPicker(mode: SelectingCountryMode) {
+        self.currentSelectingCountryMode = mode
+        let picker = ADCountryPicker()
+        picker.selectingMode = mode
+        picker.showFlags = false
+        picker.showCallingCodes = false
+        picker.pickerTitle = (mode == .departure ? "country_departure_title" : "country_destination_title").localized()
+        picker.delegate = self
+        resetTranslucentNavigationBar()
+        navigationController?.pushViewController(picker, animated: true)
+    }
 
 	override func found(code: String) {
 
@@ -106,4 +139,17 @@ class VerifierScanViewController: ScanViewController {
 		)
 		present(alertController, animated: true, completion: nil)
 	}
+}
+
+extension VerifierScanViewController: ADCountryPickerDelegate {
+    func countryPicker(_ picker: ADCountryPicker, didSelectCountryWithName name: String, code: String, dialCode: String) {
+        if currentSelectingCountryMode == .departure {
+            userSettings.lastDeparture = code
+        } else if currentSelectingCountryMode == .destination {
+            userSettings.lastDestination = code
+        }
+        updateCountryPicker()
+        configureTranslucentNavigationBar()
+        picker.navigationController?.popViewController(animated: true)
+    }
 }

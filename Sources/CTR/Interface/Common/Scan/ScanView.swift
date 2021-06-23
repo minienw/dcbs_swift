@@ -19,7 +19,7 @@ class ScanView: BaseView {
 		// Margins
 		static let margin: CGFloat = 20.0
 		static let topMargin: CGFloat = 20.0
-		static let maskOffset: CGFloat = 100.0
+        static let maskOffset: CGFloat = 194.0
 	}
 
 	/// The message label
@@ -67,6 +67,13 @@ class ScanView: BaseView {
 		view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
 		return view
 	}()
+    
+    let selectedCountryView: SelectedCountryView = {
+
+        let view = SelectedCountryView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
 	/// setup the views
 	override func setupViews() {
@@ -85,6 +92,7 @@ class ScanView: BaseView {
 		overlayView.embed(in: self)
 		overlayView.addSubview(sampleMask)
 
+        addSubview(selectedCountryView)
 		addSubview(dummyView)
 		addSubview(scrollView)
 		scrollView.addSubview(messageLabel)
@@ -98,11 +106,22 @@ class ScanView: BaseView {
 			// Dummy
 			dummyView.topAnchor.constraint(
 				equalTo: safeAreaLayoutGuide.topAnchor,
-				constant: ViewTraits.margin
+				constant: ViewTraits.margin + 70
 			),
 			dummyView.leadingAnchor.constraint(equalTo: leadingAnchor),
 			dummyView.trailingAnchor.constraint(equalTo: trailingAnchor),
 			dummyView.heightAnchor.constraint(equalTo: widthAnchor),
+            
+            selectedCountryView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 38),
+            selectedCountryView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.centerXAnchor),
+            selectedCountryView.leadingAnchor.constraint(
+                equalTo: scrollView.leadingAnchor,
+                constant: ViewTraits.margin
+            ),
+            selectedCountryView.trailingAnchor.constraint(
+                equalTo: scrollView.trailingAnchor,
+                constant: -ViewTraits.margin
+            ),
 
 			// ScrollView
 			scrollView.topAnchor.constraint(equalTo: dummyView.bottomAnchor),

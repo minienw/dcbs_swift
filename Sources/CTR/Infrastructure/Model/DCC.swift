@@ -34,7 +34,29 @@ struct DCCQR: Codable {
     }
     
     var isVerified: Bool {
-        return expirationTime ?? 0 > Date().timeIntervalSince1970
+        if expirationTime ?? 0 < Date().timeIntervalSince1970 {
+            return false
+        }
+        guard let dcc = dcc else { return false }
+        if dcc.vaccines?.isEmpty == true && dcc.recoveries?.isEmpty == true && dcc.tests?.isEmpty == true { return false }
+        
+        if (dcc.vaccines ?? []).contains(where: { vaccine in
+            return vaccine.doseNumber ?? 0 > vaccine.totalSeriesOfDoses ?? 0 || vaccine.getTargetedDisease == nil || vaccine.getVaccineProduct == nil
+        }) {
+            return false
+        }
+        if (dcc.tests ?? []).contains(where: { test in
+            return test.getTestResult == nil || test.getTestType == nil || test.getTargetedDisease == nil
+        }) {
+            return false
+        }
+        
+        if (dcc.recoveries ?? []).contains(where: { recovery in
+            return recovery.getTargetedDisease == nil
+        }) {
+            return false
+        }
+        return true
     }
 }
 

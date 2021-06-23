@@ -14,6 +14,7 @@ class ResultRecoveryView: TMCBaseView {
     @IBOutlet var label: UILabel!
     
     func setup(disease: TargetedDisease) {
+        label.font = Theme.fonts.subheadBoldMontserrat
         label.text = "\(disease.displayName)\n\("item_recovery_header".localized())"
     }
     

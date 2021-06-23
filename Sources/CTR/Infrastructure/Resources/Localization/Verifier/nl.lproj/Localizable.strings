@@ -140,7 +140,8 @@ Er worden geen gegevens uit het DCC getoond. U vraagt de reiziger om een alterna
 "verifier.result.access.title" = "Geldige QR-code";
 "verifier.result.demo.title" = "Demo QR-code gescand";
 "verifier.result.denied.title" = "Geen geldige DCC QR code";
-"verifier.result.denied.message" = "De reiziger heeft geen geldig bewijs.";
+"verifier.result.denied.message" = "De reiziger heeft geen geldig bewijs. Lees mogelijke oorzaken.";
+"verifier.result.denied.message.underline" = "Lees mogelijke oorzaken.";
 "verifier.result.denied.link" = "";
 "verifier.result.next" = "Scan volgende";
 
@@ -197,3 +198,12 @@ uitgever";
 "resume" = "Verder";
 "pause" = "Pauze";
 "destination_x" = "Bestemmingsland: %@";
+
+"country_destination" = "Bestemming";
+"country_departure" = "Vertrek uit";
+"country_destination_title" = "Bestemming";
+"country_departure_title" = "Vertrek uit";
+"country_unselected" = "Land kiezen";
+"privacy_policy" = "Privacy verklaring";
+"holder.url.privacy" = "https://coronacheck.nl/nl/privacy-policy";
+"next_scan" = "Scan volgende";

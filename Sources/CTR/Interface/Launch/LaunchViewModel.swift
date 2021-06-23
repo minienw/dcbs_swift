@@ -81,8 +81,15 @@ class LaunchViewModel {
 	/// Update the dependencies
 	private func updateDependencies() {
 
-		updateConfiguration()
-		updateKeys()
+        let group = DispatchGroup()
+        group.enter()
+        group.enter()
+        updateConfiguration(group: group)
+        updateKeys(group: group)
+        
+        group.notify(queue: .main) {
+            self.handleState()
+        }
 	}
 
 	private func shouldShowJailBreakAlert() -> Bool {
@@ -101,28 +108,29 @@ class LaunchViewModel {
 	}
 
 	/// Update the configuration
-	private func updateConfiguration() {
+    private func updateConfiguration(group: DispatchGroup) {
 
 		// Execute once.
 		guard !isUpdatingConfiguration else {
+            group.leave()
 			return
 		}
 
 		isUpdatingConfiguration = true
 
 		remoteConfigManager.update { [weak self] updateState in
-
 			self?.configStatus = updateState
 			self?.isUpdatingConfiguration = false
-			self?.handleState()
+            group.leave()
 		}
 	}
 
 	/// Update the Issuer Public keys
-	private func updateKeys() {
+	private func updateKeys(group: DispatchGroup) {
 
 		// Execute once.
 		guard !isUpdatingIssuerPublicKeys else {
+            group.leave()
 			return
 		}
 
@@ -133,14 +141,14 @@ class LaunchViewModel {
 
 			self?.isUpdatingIssuerPublicKeys = false
 			self?.issuerPublicKeysStatus = .noActionNeeded
-			self?.handleState()
+            group.leave()
 
 		} onError: { [weak self] error in
 
 			self?.isUpdatingIssuerPublicKeys = false
             /// In DCC scanner app, we don't block the user when no internet is available
 			self?.issuerPublicKeysStatus = .noActionNeeded
-			self?.handleState()
+            group.leave()
 		}
 	}
 

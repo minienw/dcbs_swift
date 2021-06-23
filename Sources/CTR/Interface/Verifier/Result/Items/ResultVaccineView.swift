@@ -16,6 +16,9 @@ class ResultVaccineView: TMCBaseView {
     @IBOutlet var dateLabel: UILabel!
     
     func setup(vaccine: DCCVaccine) {
+        doseLabel.font = Theme.fonts.footnoteMontserrat
+        productLabel.font = Theme.fonts.subheadBoldMontserrat
+        dateLabel.font = Theme.fonts.subheadBoldMontserrat
         doseLabel.text = "item_dose_x_x".localized(params: vaccine.doseNumber ?? 0, vaccine.totalSeriesOfDoses ?? 0)
         productLabel.text = vaccine.getVaccineProduct?.displayName ?? ""
         dateLabel.text = vaccine.dateOfVaccination ?? ""

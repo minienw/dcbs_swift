@@ -16,25 +16,38 @@ class ResultView: TMCBaseView {
     @IBOutlet var deniedView: UIView!
     @IBOutlet var accessView: UIView!
     
-    @IBOutlet var destinationLabel: UILabel!
+    @IBOutlet var deniedLabel: UILabel!
     @IBOutlet var dccNameLabel: UILabel!
     @IBOutlet var dateOfBirthLabel: UILabel!
     @IBOutlet var vaccinesStack: UIStackView!
     @IBOutlet var itemsStack: UIStackView!
+    @IBOutlet var selectedCountryDeniedView: SelectedCountryView!
+    @IBOutlet var selectedCountryView: SelectedCountryView!
     
     var onTappedNextScan: (() -> Void)?
+    var onTappedDeniedMessage: (() -> Void)?
+    
+    func getSelectedCountryView() -> SelectedCountryView {
+        return deniedView.isHidden ? selectedCountryView : selectedCountryDeniedView
+    }
     
     func setupForVerified(dcc: DCCQR) {
         deniedView.isHidden = true
         accessView.isHidden = false
-		
+        subviews.first?.backgroundColor = Theme.colors.access
+        
+        dccNameLabel.font = Theme.fonts.title1
+        dateOfBirthLabel.font = Theme.fonts.subheadBoldMontserrat
         dccNameLabel.text = dcc.getName()
         dateOfBirthLabel.text = "item_date_of_birth_x".localized(params: dcc.getBirthDate())
         setupVaccineViews(dcc: dcc)
         setupTests(dcc: dcc)
         setupRecoveries(dcc: dcc)
-        destinationLabel.text = "destination_x".localized(params: "Nederland")
 	}
+    
+    func updateCountryPicker(settings: UserSettings) {
+        getSelectedCountryView().setup(departure: settings.lastDeparture, destination: settings.lastDestination)
+    }
     
     func setupRecoveries(dcc: DCCQR) {
         guard let recoveries = dcc.dcc?.recoveries else { return }
@@ -76,7 +89,7 @@ class ResultView: TMCBaseView {
             itemsStack.addArrangedSubview(header)
 
             if let target = test.getTargetedDisease {
-                itemsStack.addArrangedSubview(getItem(key: "item_test_target".localized(), value: target.rawValue))
+                itemsStack.addArrangedSubview(getItem(key: "item_test_target".localized(), value: target.displayName))
             }
             if let prophylaxis = test.getTestType {
                 itemsStack.addArrangedSubview(getItem(key: "item_test_type".localized(), value: prophylaxis.displayName))
@@ -171,6 +184,21 @@ class ResultView: TMCBaseView {
 	func setupForDenied() {
         deniedView.isHidden = false
         accessView.isHidden = true
+        let deniedText = "verifier.result.denied.message".localized()
+        let deniedTextUnderline = "verifier.result.denied.message.underline".localized()
+        let style = NSMutableParagraphStyle()
+        style.alignment = .center
+        let attributedString = NSMutableAttributedString(string: deniedText, attributes: [
+            .foregroundColor: Theme.colors.dark,
+            .font: Theme.fonts.title3,
+            .paragraphStyle: style
+        ])
+        attributedString.addAttributes([
+            .underlineStyle: NSUnderlineStyle.single.rawValue,
+            .underlineColor: Theme.colors.dark
+        ], range: NSString(string: deniedText).range(of: deniedTextUnderline))
+        deniedLabel.attributedText = attributedString
+        subviews.first?.backgroundColor = Theme.colors.denied
 	}
 
 	func revealIdentityView(_ onCompletion: (() -> Void)? = nil) {
@@ -180,6 +208,10 @@ class ResultView: TMCBaseView {
     
     @IBAction func nextScanTapped(_ sender: Any) {
         onTappedNextScan?()
+    }
+    
+    @IBAction func tappedDeniedMessage(_ sender: Any) {
+        onTappedDeniedMessage?()
     }
     
 }

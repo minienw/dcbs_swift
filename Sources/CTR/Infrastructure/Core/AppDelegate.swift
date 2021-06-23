@@ -25,7 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		styleUI()
 		previousBrightness = UIScreen.main.brightness
 
-        TrustListUpdateScheduler.instance.start()
 		if #available(iOS 13.0, *) {
 			// Use Scene lifecycle
 		} else {

@@ -186,6 +186,10 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 		stopAutoCloseTimer()
         coordinator?.navigateToScan()
     }
+    
+    func navigateToDeniedHelp() {
+        coordinator?.didFinish(.userTappedProceedToScanInstructions)
+    }
 
 	func linkTapped() {
 

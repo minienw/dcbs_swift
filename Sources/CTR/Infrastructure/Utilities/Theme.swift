@@ -99,6 +99,11 @@ class Fonts {
     var subheadBold: UIFont {
         font(textStyle: .subheadline, isBold: true) // Size 15 points
     }
+    
+    
+    var subheadBoldMontserrat: UIFont {
+        font(textStyle: .subheadline, customFont: "Montserrat-Bold") // Size 15 points
+    }
 
 	var subheadMedium: UIFont {
 		font(textStyle: .subheadline, isMedium: true) // Size 15 points
@@ -114,6 +119,10 @@ class Fonts {
 
     var caption1: UIFont {
         font(textStyle: .caption1, isBold: true) // size 12 points
+    }
+    
+    var caption1Montserrat: UIFont {
+        font(textStyle: .caption1, customFont: "Montserrat-Bold") // size 12 points
     }
 
 	var caption1SemiBold: UIFont {

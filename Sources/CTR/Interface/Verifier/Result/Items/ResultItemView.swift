@@ -15,6 +15,8 @@ class ResultItemView: TMCBaseView {
     @IBOutlet var valueLabel: UILabel!
     
     func setup(key: String, label: String) {
+        keyLabel.font = Theme.fonts.subheadMedium
+        valueLabel.font = Theme.fonts.subheadMontserrat
         keyLabel.text = key
         valueLabel.text = label
     }

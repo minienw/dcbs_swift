@@ -42,7 +42,7 @@ class TextView: UITextView, UITextViewDelegate {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(frame: .zero, textContainer: nil)
     }
     
     private func setup() {

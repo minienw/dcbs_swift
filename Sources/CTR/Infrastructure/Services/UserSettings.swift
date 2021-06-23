@@ -21,4 +21,10 @@ class UserSettings: UserSettingsProtocol {
 
 	@UserDefaults(key: "jailbreakWarningShown", defaultValue: false)
 	var jailbreakWarningShown: Bool // swiftlint:disable:this let_var_whitespace
+    
+    @UserDefaults(key: "lastDeparture", defaultValue: "")
+    var lastDeparture: String
+    
+    @UserDefaults(key: "lastDestination", defaultValue: "")
+    var lastDestination: String
 }
