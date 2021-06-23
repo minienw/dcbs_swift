@@ -31,10 +31,10 @@ class ResultView: TMCBaseView {
         return deniedView.isHidden ? selectedCountryView : selectedCountryDeniedView
     }
     
-    func setupForVerified(dcc: DCCQR) {
+    func setupForVerified(dcc: DCCQR, isSpecimen: Bool) {
         deniedView.isHidden = true
         accessView.isHidden = false
-        subviews.first?.backgroundColor = Theme.colors.access
+        subviews.first?.backgroundColor = isSpecimen ? Theme.colors.greenGrey : Theme.colors.access
         
         dccNameLabel.font = Theme.fonts.title1
         dateOfBirthLabel.font = Theme.fonts.subheadBoldMontserrat

@@ -9,13 +9,13 @@ import UIKit
 
 /// The steps of the onboarding
 enum OnboardingStep: Int {
-
+    
+    case who
+    case access
 	case safelyOnTheRoad
 	case yourQR
 	case validity
-	case access
 	case privacy
-	case who
 }
 
 struct OnboardingPage {

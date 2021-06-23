@@ -12,6 +12,8 @@ enum VerifierStartResult {
 	case userTappedProceedToScan
 
 	case userTappedProceedToScanInstructions
+    
+    case userTappedProceedToScanInstructionsFromInvalidQR
 }
 
 class VerifierStartViewModel: Logging {

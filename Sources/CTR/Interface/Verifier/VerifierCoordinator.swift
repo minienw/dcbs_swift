@@ -102,7 +102,9 @@ extension VerifierCoordinator: VerifierCoordinatorDelegate {
 				navigateToScan()
 
 			case .userTappedProceedToScanInstructions:
-				navigateToScanInstruction()
+				navigateToScanInstruction(shouldScrollToRed: false)
+            case .userTappedProceedToScanInstructionsFromInvalidQR:
+                navigateToScanInstruction(shouldScrollToRed: true)
 		}
 	}
 
@@ -149,11 +151,11 @@ extension VerifierCoordinator: VerifierCoordinatorDelegate {
         dashboardNavigationController?.present(viewController, animated: true, completion: nil)
 	}
 
-	private func navigateToScanInstruction() {
+    private func navigateToScanInstruction(shouldScrollToRed: Bool) {
 
 		let destination = ScanInstructionsViewController(
 			viewModel: ScanInstructionsViewModel(
-				coordinator: self
+                coordinator: self, shouldScrollToRed: shouldScrollToRed
 			)
 		)
         dashboardNavigationController?.pushViewController(destination, animated: true)

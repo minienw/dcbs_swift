@@ -118,16 +118,18 @@
 "verifier.instructions.distance.title" = "1. Houd afstand";
 "verifier.instructions.distance.text" = "Laat de reiziger een Digital COVID Certificate QR code tonen op een mobiel apparaat of op papier. Houd voldoende afstand bij het richten van de camera en wacht tot de app de QR code heeft herkend. De app gaat automatisch door met controleren.";
 "verifier.instructions.scan.title" = "2. Groen scherm";
-"verifier.instructions.scan.text" = "Een groen scherm betekent dat de getoonde QR code geldig is. Controleer of de ID gegevens overeenkomen met het getoonde ID bewijs van de reiziger. ";
+"verifier.instructions.scan.text" = "Een groen scherm betekent dat de getoonde QR code geldig is. Controleer of de ID gegevens overeenkomen met het getoonde ID bewijs van de reiziger.";
 "verifier.instructions.access.title" = "3. Controleer de gegevens";
 "verifier.instructions.access.text" = "Indien nodig controleert u of volgens de test- vaccinatie- of herstelgegevens die de app weergeeft reizen naar het land van bestemming door de reiziger is toegestaan. Zo ja, dan kunt u de reiziger toegang geven.";
 "verifier.instructions.denied.title" = "4. Rood scherm";
-"verifier.instructions.denied.text" = "Bij een rood scherm is het de QR code <b>ongeldig</b>. Dit betekent  <b>niet</b> dat de reiziger corona heeft of besmettelijk is!
+"verifier.instructions.denied.text" = "Bij een rood scherm is het de QR code <b>ongeldig</b>. Dit betekent <b>niet</b> dat de reiziger corona heeft of besmettelijk is!
 Er worden geen gegevens uit het DCC getoond. U vraagt de reiziger om een alternatief bewijs (negatief testresultaat, alternatief bewijs van vaccinatie of herstel), om de controle uit te kunnen voeren.";
 
 "verifier.instructions.denied.2.title" = "5. Rood scherm: verklaringen en opties";
 "verifier.instructions.denied.2.text" = "Een rood scherm kan meerdere oorzaken hebben:<ul><li>Het certificaat is niet voorzien van een geldige handtekening door een van de daartoe aangewezen instanties.</li><li>De lijst referentie certificaten van handtekeningen is verouderd, en kan momenteel niet worden bijgewerkt. Kies eventueel de functie Bijwerken certificaatlijst in het menu en probeer de scan opnieuw uit te voeren.</li><li>Er is iets mis met de scanner app. Sluit de app helemaal af en start opnieuw om het nog eens te proberen.</li><li>De app van de reiziger werkt niet goed. Laat de reiziger de app opnieuw starten en scan opnieuw.</li></ul>";
 
+"verifier.instructions.trustlists.title" = "6. Melding: De certificatenlijst is niet bijgewerkt";
+"verifier.instructions.trustlists.text" = "De app laat in bepaalde gevallen de volgende waarschuwing zien in een rode balk: “De certificatenlijst is niet bijgewerkt!” Deze melding betekent dat bij het ophalen van een controlelijst voor de elektronische handtekeningen iets mis is gegaan, bijvoorbeeld door een ontbrekende verbinding. Het gevolg is dat sommige geldige QR codes als ongeldig worden weergegeven in de app. Met de knop Bijwerken in de meldingen balk kunt u het ophalen handmatig forceren. Maak daarvoor eerst verbinding met het internet.";
 
 /* MARK: - Verifier QR Scan */
 "verifier.scan.title" = "Scan QR code";
@@ -137,11 +139,11 @@ Er worden geen gegevens uit het DCC getoond. U vraagt de reiziger om een alterna
 "verifier.scan.permission.settings" = "Naar instellingen";
 
 /* MARK: - Verifier Result */
-"verifier.result.access.title" = "Geldige QR-code";
+"verifier.result.access.title" = "Geldige QR code";
 "verifier.result.demo.title" = "Demo QR-code gescand";
 "verifier.result.denied.title" = "Geen geldige DCC QR code";
-"verifier.result.denied.message" = "De reiziger heeft geen geldig bewijs. Lees mogelijke oorzaken.";
-"verifier.result.denied.message.underline" = "Lees mogelijke oorzaken.";
+"verifier.result.denied.message" = "Lees hier wat u kunt doen.";
+"verifier.result.denied.message.underline" = "Lees hier wat u kunt doen.";
 "verifier.result.denied.link" = "";
 "verifier.result.next" = "Scan volgende";
 
@@ -167,7 +169,7 @@ Er worden geen gegevens uit het DCC getoond. U vraagt de reiziger om een alterna
 "onboarding.page_3_desc" = "Deze app is bedoeld voor vervoersbedrijven die internationale reizen verzorgen. Met deze app kan worden gecontroleerd of de reiziger volgens de coronaregels mag reizen. De app maakt hiervoor gebruik van het Digital COVID Certificate (DCC).";
 
 "certificates_outdated_button" = "Bijwerken";
-"certificates_outdated_desc" = "Sommige geldige QR codes zullen in de app als ongeldig worden weergegeven. Check uw internetverbinding en druk op “Bijwerken”.";
+"certificates_outdated_desc" = "U kunt de app blijven gebruiken, maar maak verbinding met internet en probeer het nog eens via de knop “Bijwerken”.";
 "certificates_outdated_title" = "De certificatenlijst is niet bijgewerkt!";
 
 "item_dose_x" = "Vaccin dosis %i";
@@ -199,8 +201,8 @@ uitgever";
 "pause" = "Pauze";
 "destination_x" = "Bestemmingsland: %@";
 
-"country_destination" = "Bestemming";
-"country_departure" = "Vertrek uit";
+"country_destination" = "Bestemming:";
+"country_departure" = "Vertrek uit:";
 "country_destination_title" = "Bestemming";
 "country_departure_title" = "Vertrek uit";
 "country_unselected" = "Land kiezen";

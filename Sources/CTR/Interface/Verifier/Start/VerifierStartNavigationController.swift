@@ -18,6 +18,8 @@ class VerifierStartNavigationController: UINavigationController {
     
     var banner: OutdatedTrustView?
     
+    var trustListShouldMoveDown: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         proofManager = ProofManager()
@@ -27,9 +29,27 @@ class VerifierStartNavigationController: UINavigationController {
         
     }
     
+    func moveTrustListBannerUp() {
+        trustListShouldMoveDown = false
+        banner?.snp.remakeConstraints { make in
+            make.top.equalToSuperview().offset(67)
+            make.leading.trailing.equalToSuperview()
+        }
+    }
+    
+    func moveTrustListBannerDown() {
+        trustListShouldMoveDown = true
+        banner?.snp.remakeConstraints { make in
+            make.top.equalToSuperview().offset(177)
+            make.leading.trailing.equalToSuperview()
+        }
+    }
+    
     private func checkTrustLists() {
         if proofManager?.shouldShowOutdatedKeysBanner() != false {
             addTrustListBanner()
+        } else {
+            removeTrustListBanner()
         }
     }
     
@@ -41,7 +61,7 @@ class VerifierStartNavigationController: UINavigationController {
             view.addSubview(banner)
             banner.setLoading(loading: false)
             banner.snp.makeConstraints { make in
-                make.top.equalToSuperview().offset(67)
+                make.top.equalToSuperview().offset(trustListShouldMoveDown ? 177 : 67)
                 make.leading.trailing.equalToSuperview()
             }
             UIView.animate(withDuration: 0.2) {
@@ -58,15 +78,15 @@ class VerifierStartNavigationController: UINavigationController {
                 })
             }
         }
-
     }
     
     private func removeTrustListBanner() {
+        guard let banner = banner else { return }
         OperationQueue.main.addOperation {
             UIView.animate(withDuration: 0.2) {
-                self.banner?.alpha = 0
+                banner.alpha = 0
             } completion: { _ in
-                self.banner?.removeFromSuperview()
+                banner.removeFromSuperview()
                 self.banner = nil
             }
         }

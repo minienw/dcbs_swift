@@ -46,9 +46,9 @@ class VerifierResultViewController: BaseViewController, Logging {
         }
         if let dcc = viewModel.cryptoResults.attributes {
             if dcc.isVerified {
-                self.sceneView.setupForVerified(dcc: dcc)
+                self.sceneView.setupForVerified(dcc: dcc, isSpecimen: false)
             } else if dcc.isSpecimen {
-                self.sceneView.setupForVerified(dcc: dcc)
+                self.sceneView.setupForVerified(dcc: dcc, isSpecimen: true)
             } else {
                 self.sceneView.setupForDenied()
             }

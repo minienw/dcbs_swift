@@ -51,7 +51,9 @@ class ScanInstructionsViewController: BaseViewController {
 
     private func setupContent(_ content: [ScanInstructions]) {
 
-		for item in content {
+        var item5: UIView?
+        
+        for (index, item) in content.enumerated() {
 			if let image = item.image {
 				let imageView = UIImageView(image: image)
                 imageView.isAccessibilityElement = true
@@ -73,6 +75,13 @@ class ScanInstructionsViewController: BaseViewController {
 			}
 			sceneView.stackView.addArrangedSubview(text)
 			sceneView.stackView.setCustomSpacing(56, after: text)
+            if index == 5 {
+                item5 = text
+            }
 		}
+        sceneView.layoutIfNeeded()
+        if viewModel.shouldScrollToRed, let item = item5 {
+            sceneView.scrollView.setContentOffset(CGPoint(x: 0, y: item.frame.maxY), animated: true)
+        }
 	}
 }

@@ -188,7 +188,7 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
     }
     
     func navigateToDeniedHelp() {
-        coordinator?.didFinish(.userTappedProceedToScanInstructions)
+        coordinator?.didFinish(.userTappedProceedToScanInstructionsFromInvalidQR)
     }
 
 	func linkTapped() {

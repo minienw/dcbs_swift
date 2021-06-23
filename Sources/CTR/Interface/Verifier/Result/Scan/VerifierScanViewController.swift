@@ -84,6 +84,13 @@ class VerifierScanViewController: ScanViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureTranslucentNavigationBar()
+        (navigationController as? VerifierStartNavigationController)?.moveTrustListBannerDown()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        (navigationController as? VerifierStartNavigationController)?.moveTrustListBannerUp()
     }
     
     func updateCountryPicker() {

@@ -28,14 +28,17 @@ class ScanInstructionsViewModel: Logging {
 	/// The content of the scene
     @Bindable private(set) var content: [ScanInstructions]
     
+    var shouldScrollToRed: Bool = false
+    
 	// MARK: - Initializer
 
 	/// Initializer
 	/// - Parameters:
 	///   - coordinator: the verifier coordinator delegate
-	init(coordinator: (VerifierCoordinatorDelegate & OpenUrlProtocol)) {
+    init(coordinator: (VerifierCoordinatorDelegate & OpenUrlProtocol), shouldScrollToRed: Bool) {
 		
 		self.coordinator = coordinator
+        self.shouldScrollToRed = shouldScrollToRed
 		self.title = .verifierScanInstructionsTitle
 		self.content = [
 			(
@@ -63,6 +66,11 @@ class ScanInstructionsViewModel: Logging {
                 text: "verifier.instructions.denied.2.text".localized(),
                 image: .redScreen,
                 imageDescription: .verifierScanInstructionsDeniedImage
+            ), (
+                title: "verifier.instructions.trustlists.title".localized(),
+                text: "verifier.instructions.trustlists.text".localized(),
+                image: nil,
+                imageDescription: nil
             )
 		]
 	}

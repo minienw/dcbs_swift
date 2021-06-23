@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	var previousBrightness: CGFloat?
 
     /// set orientations you want to be allowed in this property by default
-    var orientationLock = UIInterfaceOrientationMask.all
+    var orientationLock = UIInterfaceOrientationMask.portrait
 
 	func application(
 		_ application: UIApplication,
