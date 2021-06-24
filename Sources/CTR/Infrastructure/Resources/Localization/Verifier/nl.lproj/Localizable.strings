@@ -141,7 +141,8 @@ Er worden geen gegevens uit het DCC getoond. U vraagt de reiziger om een alterna
 /* MARK: - Verifier Result */
 "verifier.result.access.title" = "Geldige QR code";
 "verifier.result.demo.title" = "Demo QR-code gescand";
-"verifier.result.denied.title" = "Geen geldige DCC QR code";
+"verifier.result.denied.title" = "Geen geldige
+DCC QR code";
 "verifier.result.denied.message" = "Lees hier wat u kunt doen.";
 "verifier.result.denied.message.underline" = "Lees hier wat u kunt doen.";
 "verifier.result.denied.link" = "";
@@ -209,3 +210,16 @@ uitgever";
 "privacy_policy" = "Privacy verklaring";
 "holder.url.privacy" = "https://coronacheck.nl/nl/privacy-policy";
 "next_scan" = "Scan volgende";
+
+"code_green" = "Groen";
+"code_yellow" = "Geel";
+"code_orange" = "Oranje";
+"code_red" = "Rood";
+"select_country_color_title" = "Selecteer de kleurcode van het land";
+"view_color_codes_title" = "Welke landen hebben welke kleurcode?";
+"view_color_codes_button" = "Bekijk";
+"url.view_color_codes" = "https://www.nederlandwereldwijd.nl/documenten/vragen-en-antwoorden/welke-landen-hebben-welke-kleurcode";
+
+"rule_test_required" = "Negatieve Covid-19 test is nodig bij vertrek uit orange of rode landen";
+"rule_test_must_be_negative" = "Negatieve Covid-19 test is nodig bij vertrek uit orange of rode landen";
+"rule_test_outdated" = "De Covid-19 test is te oud. De test mag maximaal %i uur oud zijn";

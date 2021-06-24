@@ -16,6 +16,7 @@ class ResultView: TMCBaseView {
     @IBOutlet var deniedView: UIView!
     @IBOutlet var accessView: UIView!
     
+    @IBOutlet var businessRuleFailures: UIStackView!
     @IBOutlet var deniedLabel: UILabel!
     @IBOutlet var dccNameLabel: UILabel!
     @IBOutlet var dateOfBirthLabel: UILabel!
@@ -24,22 +25,57 @@ class ResultView: TMCBaseView {
     @IBOutlet var selectedCountryDeniedView: SelectedCountryView!
     @IBOutlet var selectedCountryView: SelectedCountryView!
     
+    @IBOutlet var accessBackgroundView: UIView!
+    @IBOutlet var accessLabel: UILabel!
+    @IBOutlet var accessImageView: UIImageView!
+    
     var onTappedNextScan: (() -> Void)?
     var onTappedDeniedMessage: (() -> Void)?
+    
+    var dateFormat: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.YYYY"
+        return formatter
+    }
     
     func getSelectedCountryView() -> SelectedCountryView {
         return deniedView.isHidden ? selectedCountryView : selectedCountryDeniedView
     }
     
-    func setupForVerified(dcc: DCCQR, isSpecimen: Bool) {
+    private func getSpacer(height: Int) -> UIView {
+        let spacer = UIView()
+        spacer.backgroundColor = .clear
+        spacer.snp.makeConstraints { it in it.height.equalTo(height) }
+        return spacer
+    }
+    
+    func setupForVerified(dcc: DCCQR, isSpecimen: Bool, failingItems: [DCCFailableItem]) {
         deniedView.isHidden = true
         accessView.isHidden = false
-        subviews.first?.backgroundColor = isSpecimen ? Theme.colors.greenGrey : Theme.colors.access
+        
+        let showAsFailed = !failingItems.isEmpty
+        for view in businessRuleFailures.arrangedSubviews {
+            businessRuleFailures.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+        for item in failingItems {
+            let failureView = BusinessRuleFailureView()
+            failureView.setup(failure: item)
+            businessRuleFailures.addArrangedSubview(failureView)
+        }
+        businessRuleFailures.addArrangedSubview(getSpacer(height: showAsFailed ? 24 : 36))
+        
+        subviews.first?.backgroundColor = isSpecimen ? Theme.colors.greenGrey : showAsFailed ? Theme.colors.denied : Theme.colors.access
+        accessBackgroundView.backgroundColor = subviews.first?.backgroundColor
+        accessLabel.text = (showAsFailed ? "verifier.result.denied.title" : "verifier.result.access.title").localized()
+        accessImageView.image = UIImage(named: showAsFailed ? "denied_inverted" : "access_inverted")
         
         dccNameLabel.font = Theme.fonts.title1
         dateOfBirthLabel.font = Theme.fonts.subheadBoldMontserrat
         dccNameLabel.text = dcc.getName()
-        dateOfBirthLabel.text = "item_date_of_birth_x".localized(params: dcc.getBirthDate())
+        if let dccData = dcc.dcc, let dob = dccData.getDateOfBirth() {
+            dateOfBirthLabel.text = "item_date_of_birth_x".localized(params: dateFormat.string(from: dob))
+        }
         setupVaccineViews(dcc: dcc)
         setupTests(dcc: dcc)
         setupRecoveries(dcc: dcc)
@@ -60,24 +96,18 @@ class ResultView: TMCBaseView {
                 itemsStack.addArrangedSubview(getItemHeader(title: "item_recovery_header".localized()))
             }
             
-            if let first = recovery.dateOfFirstPositiveTest {
-                itemsStack.addArrangedSubview(getItem(key: "item_recovery_first_date".localized(), value: first))
+            if let date = recovery.getDateOfFirstPositiveTest() {
+                itemsStack.addArrangedSubview(getItem(key: "item_recovery_first_date".localized(), value: dateFormat.string(from: date)))
             }
-            if let from = recovery.certificateValidFrom {
-                itemsStack.addArrangedSubview(getItem(key: "item_recovery_from".localized(), value: from))
+            if let date = recovery.getDateValidFrom() {
+                itemsStack.addArrangedSubview(getItem(key: "item_recovery_from".localized(), value: dateFormat.string(from: date)))
             }
-            if let to = recovery.certificateValidTo {
-                itemsStack.addArrangedSubview(getItem(key: "item_recovery_to".localized(), value: to))
+            if let date = recovery.getDateValidTo() {
+                itemsStack.addArrangedSubview(getItem(key: "item_recovery_to".localized(), value: dateFormat.string(from: date)))
             }
-            if let country = recovery.countryOfTest {
-                itemsStack.addArrangedSubview(getItem(key: "item_recovery_country".localized(), value: country))
-            }
-            if let issuer = recovery.certificateIssuer {
-                itemsStack.addArrangedSubview(getItem(key: "item_certificate_issuer".localized(), value: issuer))
-            }
-            if let certificate = recovery.certificateIdentifier {
-                itemsStack.addArrangedSubview(getItem(key: "item_identifier".localized(), value: certificate))
-            }
+            itemsStack.addArrangedSubview(getItem(key: "item_recovery_country".localized(), value: recovery.countryOfTest))
+            itemsStack.addArrangedSubview(getItem(key: "item_certificate_issuer".localized(), value: recovery.certificateIssuer))
+            itemsStack.addArrangedSubview(getItem(key: "item_identifier".localized(), value: recovery.certificateIdentifier))
         }
     }
     
@@ -85,7 +115,7 @@ class ResultView: TMCBaseView {
         guard let tests = dcc.dcc?.tests else { return }
         for test in tests {
             let header = ResultTestView()
-            header.setup(test: test)
+            header.setup(test: test, dateFormat: dateFormat)
             itemsStack.addArrangedSubview(header)
 
             if let target = test.getTargetedDisease {
@@ -103,15 +133,9 @@ class ResultView: TMCBaseView {
             if let location = test.testingCentre {
                 itemsStack.addArrangedSubview(getItem(key: "item_test_location".localized(), value: location))
             }
-            if let country = test.countryOfTest {
-                itemsStack.addArrangedSubview(getItem(key: "item_test_country".localized(), value: country))
-            }
-            if let issuer = test.certificateIssuer {
-                itemsStack.addArrangedSubview(getItem(key: "item_certificate_issuer".localized(), value: issuer))
-            }
-            if let identifier = test.certificateIdentifier {
-                itemsStack.addArrangedSubview(getItem(key: "item_identifier".localized(), value: identifier))
-            }
+            itemsStack.addArrangedSubview(getItem(key: "item_test_country".localized(), value: test.countryOfTest))
+            itemsStack.addArrangedSubview(getItem(key: "item_certificate_issuer".localized(), value: test.certificateIssuer))
+            itemsStack.addArrangedSubview(getItem(key: "item_identifier".localized(), value: test.certificateIdentifier))
         }
     }
     
@@ -119,14 +143,14 @@ class ResultView: TMCBaseView {
         if let vaccines = dcc.dcc?.vaccines {
             
             if vaccines.count >= 1 {
-                vaccineView1.setup(vaccine: vaccines[0])
+                vaccineView1.setup(vaccine: vaccines[0], dateFormat: dateFormat)
                 vaccineView1.isHidden = false
                 addVaccineMeta(vaccine: vaccines[0], hasHeader: vaccines.count > 1)
             } else {
                 vaccineView1.isHidden = true
             }
             if vaccines.count >= 2 {
-                vaccineView2.setup(vaccine: vaccines[1])
+                vaccineView2.setup(vaccine: vaccines[1], dateFormat: dateFormat)
                 vaccineView2.isHidden = false
                 addVaccineMeta(vaccine: vaccines[1], hasHeader: vaccines.count > 1)
             } else {
@@ -142,9 +166,7 @@ class ResultView: TMCBaseView {
     func addVaccineMeta(vaccine: DCCVaccine, hasHeader: Bool) {
         var targetString = ""
         if hasHeader {
-            if let dose = vaccine.doseNumber {
-                itemsStack.addArrangedSubview(getItemHeader(title: "item_dose_x".localized(params: dose)))
-            }
+            itemsStack.addArrangedSubview(getItemHeader(title: "item_dose_x".localized(params: vaccine.doseNumber)))
         }
         if let target = vaccine.getTargetedDisease {
             targetString += "\(target.displayName)"
@@ -158,15 +180,10 @@ class ResultView: TMCBaseView {
         if targetString != "" {
             itemsStack.addArrangedSubview(getItem(key: "item_disease".localized(), value: targetString))
         }
-        if let country = vaccine.countryOfVaccination {
-            itemsStack.addArrangedSubview(getItem(key: "item_country".localized(), value: country))
-        }
-        if let issuer = vaccine.certificateIssuer {
-            itemsStack.addArrangedSubview(getItem(key: "item_certificate_issuer".localized(), value: issuer))
-        }
-        if let identifier = vaccine.certificateIdentifier {
-            itemsStack.addArrangedSubview(getItem(key: "item_identifier".localized(), value: identifier))
-        }
+        itemsStack.addArrangedSubview(getItem(key: "item_country".localized(), value: vaccine.countryOfVaccination))
+        
+        itemsStack.addArrangedSubview(getItem(key: "item_certificate_issuer".localized(), value: vaccine.certificateIssuer))
+        itemsStack.addArrangedSubview(getItem(key: "item_identifier".localized(), value: vaccine.certificateIdentifier))
     }
     
     func getItemHeader(title: String) -> ResultItemHeaderView {

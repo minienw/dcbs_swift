@@ -64,11 +64,11 @@ class VerifierScanViewController: ScanViewController {
 		}
         updateCountryPicker()
         sceneView.selectedCountryView.onTappedDeparture = { [weak self] in
-            self?.openCountryPicker(mode: .departure)
+            self?.openCountryColorCodePicker()
         }
         
         sceneView.selectedCountryView.onTappedDestination = { [weak self] in
-            self?.openCountryPicker(mode: .destination)
+            self?.openCountryPicker()
         }
 		
 		addCloseButton(
@@ -97,13 +97,30 @@ class VerifierScanViewController: ScanViewController {
         sceneView.selectedCountryView.setup(departure: userSettings.lastDeparture, destination: userSettings.lastDestination)
     }
     
-    func openCountryPicker(mode: SelectingCountryMode) {
-        self.currentSelectingCountryMode = mode
+    func openCountryColorCodePicker() {
+        self.currentSelectingCountryMode = .departure
+        let picker: CountryColorPickerViewController = getVC(in: "CountryColorPicker")
+        picker.onSelectedItem = { [weak self] result in
+            self?.onPickedCountryColor(code: result)
+        }
+        picker.coordinator = viewModel.coordinator
+        resetTranslucentNavigationBar()
+        navigationController?.pushViewController(picker, animated: true)
+    }
+    
+    private func onPickedCountryColor(code: String) {
+        userSettings.lastDeparture = code
+        updateCountryPicker()
+        configureTranslucentNavigationBar()
+    }
+    
+    func openCountryPicker() {
+        self.currentSelectingCountryMode = .destination
         let picker = ADCountryPicker()
-        picker.selectingMode = mode
+        picker.selectingMode = .destination
         picker.showFlags = false
         picker.showCallingCodes = false
-        picker.pickerTitle = (mode == .departure ? "country_departure_title" : "country_destination_title").localized()
+        picker.pickerTitle = "country_destination_title".localized()
         picker.delegate = self
         resetTranslucentNavigationBar()
         navigationController?.pushViewController(picker, animated: true)

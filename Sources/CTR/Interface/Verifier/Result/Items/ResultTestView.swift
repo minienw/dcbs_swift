@@ -15,12 +15,16 @@ class ResultTestView: TMCBaseView {
     @IBOutlet var resultLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
     
-    func setup(test: DCCTest) {
+    func setup(test: DCCTest, dateFormat: DateFormatter) {
         headerLabel.font = Theme.fonts.footnoteMontserrat
         resultLabel.font = Theme.fonts.subheadBoldMontserrat
         dateLabel.font = Theme.fonts.subheadBoldMontserrat
         resultLabel.text = test.getTestResult?.displayName ?? "item_unknown".localized()
-        dateLabel.text = test.dateOfSampleCollection ?? "item_unknown".localized()
+        if let date = test.getDateOfTest() {
+            dateLabel.text = dateFormat.string(from: date)
+        } else {
+            dateLabel.text = "item_unknown".localized()
+        }
     }
     
 }

@@ -23,7 +23,7 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 	var loggingCategory: String = "VerifierResultViewModel"
 
 	/// Coordination Delegate
-	weak private var coordinator: (VerifierCoordinatorDelegate & Dismissable)?
+	weak var coordinator: (VerifierCoordinatorDelegate & Dismissable & OpenUrlProtocol)?
 
 	/// The configuration
 	private var configuration: ConfigurationGeneralProtocol = Configuration()
@@ -74,7 +74,7 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 	///   - scanResults: the decrypted attributes
 	///   - maxValidity: the maximum validity of a test in hours
 	init(
-		coordinator: (VerifierCoordinatorDelegate & Dismissable),
+		coordinator: (VerifierCoordinatorDelegate & Dismissable & OpenUrlProtocol),
         proofManager: ProofManaging,
 		cryptoResults: (DCCQR?, String?),
 		maxValidity: Int) {

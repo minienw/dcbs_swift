@@ -55,6 +55,10 @@ class Fonts {
 	var bodyMontserrat: UIFont {
 		font(textStyle: .body, customFont: "Montserrat-Bold") // Size 17 points
 	}
+    
+    var bodyMontserratSemiBold: UIFont {
+        font(textStyle: .body, customFont: "Montserrat-SemiBold") // Size 17 points
+    }
 
 	var bodyMontserratFixed: UIFont {
 
@@ -99,7 +103,6 @@ class Fonts {
     var subheadBold: UIFont {
         font(textStyle: .subheadline, isBold: true) // Size 15 points
     }
-    
     
     var subheadBoldMontserrat: UIFont {
         font(textStyle: .subheadline, customFont: "Montserrat-Bold") // Size 15 points

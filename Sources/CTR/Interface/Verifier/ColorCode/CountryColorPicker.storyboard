@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Y6W-OH-hqX">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Bold.ttf">
+            <string>Montserrat-Bold</string>
+        </array>
+    </customFonts>
+    <scenes>
+        <!--Country Color Picker View Controller-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController id="Y6W-OH-hqX" customClass="CountryColorPickerViewController" customModule="CTR" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Selecteer de kleurcode van het land" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ue2-Nd-G30">
+                                <rect key="frame" x="20" y="135" width="374" height="49"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="20"/>
+                                <color key="textColor" name="DarkColor"/>
+                                <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="translationKey" value="select_country_color_title"/>
+                                </userDefinedRuntimeAttributes>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="IEl-Lh-rA9">
+                                <rect key="frame" x="20" y="203" width="374" height="208"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0kd-pQ-WwT" customClass="ColorCodeView" customModule="CTR" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="52"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="52" id="Mpe-Ku-bvd"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zf6-zr-u8g" customClass="ColorCodeView" customModule="CTR" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="52" width="374" height="52"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="52" id="ha3-wL-Mcl"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y3B-kj-1Ut" customClass="ColorCodeView" customModule="CTR" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="104" width="374" height="52"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="52" id="6tp-gP-wDq"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GK7-RA-phB" customClass="ColorCodeView" customModule="CTR" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="156" width="374" height="52"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="52" id="SPz-7D-fIo"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Selecteer de kleurcode van het land" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H3e-9S-br3">
+                                <rect key="frame" x="20" y="493" width="374" height="49"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="20"/>
+                                <color key="textColor" name="DarkColor"/>
+                                <nil key="highlightedColor"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="translationKey" value="view_color_codes_title"/>
+                                </userDefinedRuntimeAttributes>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YKl-2U-Dy5" customClass="CustomButton" customModule="CTR" customModuleProvider="target">
+                                <rect key="frame" x="127" y="587" width="160" height="52"/>
+                                <color key="backgroundColor" name="PrimaryColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="52" id="Yf7-mp-Dkq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <inset key="contentEdgeInsets" minX="56" minY="0.0" maxX="56" maxY="0.0"/>
+                                <state key="normal" title="Bekijk">
+                                    <color key="titleColor" name="ViewControllerBackgroundColor"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="translationKey" value="view_color_codes_button"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="viewColorCodesButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="fDK-B2-qDR"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Ue2-Nd-G30" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="Ecc-jV-SmF"/>
+                            <constraint firstItem="H3e-9S-br3" firstAttribute="top" secondItem="IEl-Lh-rA9" secondAttribute="bottom" constant="82" id="IoF-Yp-6TW"/>
+                            <constraint firstItem="Ue2-Nd-G30" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="47" id="S2l-o5-ep3"/>
+                            <constraint firstItem="IEl-Lh-rA9" firstAttribute="top" secondItem="Ue2-Nd-G30" secondAttribute="bottom" constant="19" id="WVv-Pg-Lmm"/>
+                            <constraint firstItem="H3e-9S-br3" firstAttribute="leading" secondItem="Ue2-Nd-G30" secondAttribute="leading" id="YFi-GO-nnY"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="Ue2-Nd-G30" secondAttribute="trailing" constant="20" id="fae-xn-54O"/>
+                            <constraint firstItem="IEl-Lh-rA9" firstAttribute="trailing" secondItem="Ue2-Nd-G30" secondAttribute="trailing" id="g8P-zL-9ga"/>
+                            <constraint firstItem="IEl-Lh-rA9" firstAttribute="leading" secondItem="Ue2-Nd-G30" secondAttribute="leading" id="phu-Bz-8ju"/>
+                            <constraint firstItem="H3e-9S-br3" firstAttribute="trailing" secondItem="Ue2-Nd-G30" secondAttribute="trailing" id="sFu-NY-VRn"/>
+                            <constraint firstItem="YKl-2U-Dy5" firstAttribute="centerX" secondItem="H3e-9S-br3" secondAttribute="centerX" id="wSK-4X-5nl"/>
+                            <constraint firstItem="YKl-2U-Dy5" firstAttribute="top" secondItem="H3e-9S-br3" secondAttribute="bottom" constant="45" id="xVy-zs-C47"/>
+                        </constraints>
+                    </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="greenView" destination="0kd-pQ-WwT" id="uKy-e3-J9n"/>
+                        <outlet property="orangeView" destination="Y3B-kj-1Ut" id="t10-Rg-N8o"/>
+                        <outlet property="redView" destination="GK7-RA-phB" id="bl4-kP-aFk"/>
+                        <outlet property="titleLabel" destination="Ue2-Nd-G30" id="ZY4-0u-4Mb"/>
+                        <outlet property="viewColorCodesButton" destination="YKl-2U-Dy5" id="sQd-dH-xjN"/>
+                        <outlet property="viewColorCodesLabel" destination="H3e-9S-br3" id="r8S-Rq-tAk"/>
+                        <outlet property="yellowView" destination="zf6-zr-u8g" id="eZi-on-VpV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52" y="61"/>
+        </scene>
+    </scenes>
+    <resources>
+        <namedColor name="DarkColor">
+            <color red="0.2196078431372549" green="0.2196078431372549" blue="0.21176470588235294" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="PrimaryColor">
+            <color red="0.082352941176470587" green="0.25882352941176473" blue="0.45098039215686275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="ViewControllerBackgroundColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
