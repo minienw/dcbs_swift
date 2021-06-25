@@ -18,6 +18,8 @@ class CountryColorPickerViewController: BaseViewController {
     @IBOutlet var greenView: ColorCodeView!
     @IBOutlet var yellowView: ColorCodeView!
     @IBOutlet var orangeView: ColorCodeView!
+    @IBOutlet var orangeHighIncidence: ColorCodeView!
+    @IBOutlet var orangeHighRisk: ColorCodeView!
     @IBOutlet var redView: ColorCodeView!
     
     var onSelectedItem: ((String) -> Void)?
@@ -41,6 +43,12 @@ class CountryColorPickerViewController: BaseViewController {
         })
         redView.setup(color: .red, onTapped: { [weak self] in
             self?.selectedCode(code: .red)
+        })
+        orangeHighRisk.setup(color: .orangeHighShipsFlight, onTapped: { [weak self] in
+            self?.selectedCode(code: .orangeHighShipsFlight)
+        })
+        orangeHighIncidence.setup(color: .orangeHighIncidence, onTapped: { [weak self] in
+            self?.selectedCode(code: .orangeHighIncidence)
         })
     }
     

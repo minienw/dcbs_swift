@@ -13,6 +13,8 @@ enum CountryColorCode: String {
     case green = "code_green"
     case yellow = "code_yellow"
     case orange = "code_orange"
+    case orangeHighIncidence = "code_orange_high_incidence"
+    case orangeHighShipsFlight = "code_orange_ships_flight"
     case red = "code_red"
     
 }

@@ -49,15 +49,25 @@ class ResultView: TMCBaseView {
         return spacer
     }
     
+    func resetViews() {
+        for view in businessRuleFailures.arrangedSubviews {
+            businessRuleFailures.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+        for view in itemsStack.arrangedSubviews.filter({ it in
+            it is ResultRecoveryView || it is ResultTestView || it is ResultVaccineView || it is ResultItemView || it is ResultItemHeaderView
+        }) {
+            itemsStack.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+    }
+    
     func setupForVerified(dcc: DCCQR, isSpecimen: Bool, failingItems: [DCCFailableItem]) {
         deniedView.isHidden = true
         accessView.isHidden = false
         
         let showAsFailed = !failingItems.isEmpty
-        for view in businessRuleFailures.arrangedSubviews {
-            businessRuleFailures.removeArrangedSubview(view)
-            view.removeFromSuperview()
-        }
+        resetViews()
         for item in failingItems {
             let failureView = BusinessRuleFailureView()
             failureView.setup(failure: item)
@@ -201,6 +211,7 @@ class ResultView: TMCBaseView {
 	func setupForDenied() {
         deniedView.isHidden = false
         accessView.isHidden = true
+        resetViews()
         let deniedText = "verifier.result.denied.message".localized()
         let deniedTextUnderline = "verifier.result.denied.message.underline".localized()
         let style = NSMutableParagraphStyle()

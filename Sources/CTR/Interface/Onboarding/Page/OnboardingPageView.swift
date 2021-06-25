@@ -105,7 +105,8 @@ class OnboardingPageView: ScrolledStackView {
 			messageLabel.attributedText = .makeFromHtml(
 				text: message,
 				font: Theme.fonts.body,
-				textColor: Theme.colors.dark
+				textColor: Theme.colors.dark,
+                textAlignment: .center
 			)
 		}
 	}
