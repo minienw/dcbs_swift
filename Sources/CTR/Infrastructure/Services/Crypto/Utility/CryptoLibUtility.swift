@@ -86,7 +86,6 @@ final class CryptoLibUtility: CryptoLibUtilityProtocol, Logging {
 	///   - data: Data that needs to be saved
 	///   - file: File type
 	func store(_ data: Data, for file: File) {
-		
 		do {
 			try fileStorage.store(data, as: file.name)
 		} catch {

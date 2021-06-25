@@ -137,7 +137,6 @@ struct DCC: Codable {
     func getDateOfBirth() -> Date? {
         let firstPass = DCCQR.dateFormat.date(from: dateOfBirth)
         let secondPass = DCCQR.dateFormatBackup.date(from: dateOfBirth)
-        print(dateOfBirth)
         return firstPass ?? secondPass
     }
 }

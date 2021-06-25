@@ -213,7 +213,7 @@ uitgever";
 
 "code_green" = "Groen";
 "code_yellow" = "Geel";
-"code_orange" = "Oranje hoog risico";
+"code_orange" = "Oranje";
 "code_orange_high_incidence" = "Oranje hoge incidentie";
 "code_orange_ships_flight" = "Oranje erg hoog risco";
 "code_red" = "Rood";
@@ -222,7 +222,10 @@ uitgever";
 "view_color_codes_button" = "Bekijk";
 "url.view_color_codes" = "https://www.nederlandwereldwijd.nl/documenten/vragen-en-antwoorden/welke-landen-hebben-welke-kleurcode";
 
-"rule_test_required" = "Negatieve Covid-19 test is nodig bij vertrek uit oranje of rode landen";
-"rule_test_must_be_negative" = "Negatieve Covid-19 test is nodig bij vertrek uit oranje of rode landen";
+"rule_test_required" = "Negatieve Covid-19 test is nodig bij vertrek uit oranje landen";
+"rule_test_must_be_negative" = "Negatieve Covid-19 test is nodig bij vertrek uit oranje landen";
 "rule_test_outdated" = "De Covid-19 test is te oud. De test mag maximaal %i uur oud zijn";
-
+"rule_red_not_allowed" = "Reizen uit rode gebieden zijn verboden.";
+"rule_full_vaccination_required" = "Een volledige vaccinatie is nodig bij vertrek uit oranje landen";
+"rule_recovery_not_valid" = "Een valide herstel is nodig bij vertrek uit oranje landen";
+"rule_require_second_test" = "Een tweede %@ test van maximaal %i uur oud is nodig";
