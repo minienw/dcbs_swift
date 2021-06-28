@@ -27,6 +27,14 @@ struct DCCQR: Codable {
     
     let dcc: DCC?
     
+    init(dcc: DCC, expireTime: TimeInterval) {
+        credentialVersion = nil
+        issuer = "nl"
+        issuedAt = Date().timeIntervalSince1970
+        expirationTime = expireTime
+        self.dcc = dcc
+    }
+    
     func getName() -> String {
         return "\((dcc?.name.getLastName() ?? "").capitalized) \((dcc?.name.firstName ?? "").capitalized) "
     }
@@ -44,6 +52,12 @@ struct DCCQR: Codable {
         return Calendar.current.dateComponents([.year], from: userDOB, to: Date()).year
     }
     
+    func getYearOfBirth() -> Int? {
+        guard let userDOB = dcc?.getDateOfBirth() else { return nil }
+        let date = Calendar.current.dateComponents([.year], from: userDOB)
+        return date.year
+    }
+    
     var isVerified: Bool {
         guard let dcc = dcc else { return false }
         if dcc.vaccines?.isEmpty == true && dcc.recoveries?.isEmpty == true && dcc.tests?.isEmpty == true {
@@ -54,11 +68,79 @@ struct DCCQR: Codable {
     
     func processBusinessRules(from: CountryColorCode, to: String) -> [DCCFailableItem] {
         var failingItems = [DCCFailableItem]()
+        let generalItems = processGeneralRules()
+        if !generalItems.isEmpty {
+            failingItems.append(contentsOf: generalItems)
+        }
         let toCode = to.lowercased()
         if toCode == "nl" {
             let items = processNLBusinessRules(from: from, to: toCode)
             if !items.isEmpty {
                 failingItems.append(contentsOf: items)
+            }
+        }
+        return failingItems
+    }
+    
+    private func processGeneralRules() -> [DCCFailableItem] {
+        var failingItems = [DCCFailableItem]()
+        if let yearOfBirth = getYearOfBirth() {
+            if yearOfBirth < 1900 || yearOfBirth > 2099 {
+                failingItems.append(.dateOfBirthOutOfRange)
+            }
+        }
+        if dcc?.getDateOfBirth() == nil {
+            failingItems.append(.invalidDateOfBirth)
+        }
+        for vaccin in dcc?.vaccines ?? [] {
+            if vaccin.getMarketingHolder == nil {
+                failingItems.append(.invalidVaccineHolder)
+            }
+            if vaccin.getVaccine == nil {
+                failingItems.append(.invalidVaccineType)
+            }
+            if vaccin.getVaccineProduct == nil {
+                failingItems.append(.invalidVaccineProduct)
+            }
+            if !vaccin.isCountryValid() {
+                failingItems.append(.invalidCountryCode)
+            }
+            if vaccin.getDateOfVaccination() == nil {
+                failingItems.append(.invalidVaccineDate)
+            }
+        }
+        for test in dcc?.tests ?? [] {
+            if test.getTestResult == nil {
+                failingItems.append(.invalidTestResult)
+            }
+            if test.getTestType == nil {
+                failingItems.append(.invalidTestType)
+            }
+            if test.getTargetedDisease == nil {
+                failingItems.append(.invalidTargetDisease)
+            }
+            if !test.isCountryValid() {
+                failingItems.append(.invalidCountryCode)
+            }
+            if test.getDateOfTest() == nil {
+                failingItems.append(.invalidTestDate)
+            }
+        }
+        for recovery in dcc?.recoveries ?? [] {
+            if recovery.getTargetedDisease == nil {
+                failingItems.append(.invalidTargetDisease)
+            }
+            if !recovery.isCountryValid() {
+                failingItems.append(.invalidCountryCode)
+            }
+            if recovery.getDateValidTo() == nil {
+                failingItems.append(.invalidRecoveryToDate)
+            }
+            if recovery.getDateValidFrom() == nil {
+                failingItems.append(.invalidRecoveryFromDate)
+            }
+            if recovery.getDateOfFirstPositiveTest() == nil {
+                failingItems.append(.invalidRecoveryFirstTestDate)
             }
         }
         return failingItems
@@ -134,11 +216,21 @@ struct DCC: Codable {
         case recoveries = "r"
     }
     
+    init(version: String, dateOfBirth: String, name: DCCNameObject, vaccine: DCCVaccine) {
+        self.version = version
+        self.dateOfBirth = dateOfBirth
+        self.name = name
+        self.vaccines = [vaccine]
+        self.tests = nil
+        self.recoveries = nil
+    }
+    
     func getDateOfBirth() -> Date? {
         let firstPass = DCCQR.dateFormat.date(from: dateOfBirth)
         let secondPass = DCCQR.dateFormatBackup.date(from: dateOfBirth)
         return firstPass ?? secondPass
     }
+
 }
 
 struct DCCNameObject: Codable {
@@ -153,6 +245,12 @@ struct DCCNameObject: Codable {
         return lastName ?? lastNameStandardised.lowercased().capitalized
     }
     
+    init(firstName: String, lastName: String) {
+        self.lastNameStandardised = lastName
+        self.firstName = firstName
+        self.lastName = nil
+    }
+    
     enum CodingKeys: String, CodingKey {
         case firstName = "fn"
         case lastName = "gn"
@@ -161,10 +259,10 @@ struct DCCNameObject: Codable {
 }
 
 struct DCCVaccine: Codable {
-    private let targetedDisease: String
-    private let vaccine: String
-    private let vaccineMedicalProduct: String // EU1/20/1507 (vaccine model?)
-    private let marketingAuthorizationHolder: String // ORG-100031184 issuer?
+    let targetedDisease: String
+    let vaccine: String
+    let vaccineMedicalProduct: String // EU1/20/1507 (vaccine model?)
+    let marketingAuthorizationHolder: String // ORG-100031184 issuer?
     let doseNumber: Int
     let totalSeriesOfDoses: Int
     let dateOfVaccination: String // Date
@@ -196,6 +294,10 @@ struct DCCVaccine: Codable {
         return doseNumber == totalSeriesOfDoses
     }
     
+    func isCountryValid() -> Bool {
+        return IsoCountries.countryForCode(code: countryOfVaccination) != nil
+    }
+    
     enum CodingKeys: String, CodingKey {
         case targetedDisease = "tg"
         case vaccine = "vp"
@@ -212,12 +314,12 @@ struct DCCVaccine: Codable {
 
 struct DCCTest: Codable {
     
-    private let targetedDisease: String
-    private let typeOfTest: String
+    let targetedDisease: String
+    let typeOfTest: String
     let NAATestName: String?
-    private let RATTestNameAndManufac: String?
+    let RATTestNameAndManufac: String?
     let dateOfSampleCollection: String
-    private let testResult: String
+    let testResult: String
     let testingCentre: String?
     let countryOfTest: String
     let certificateIssuer: String
@@ -244,17 +346,29 @@ struct DCCTest: Codable {
         return DCCQR.dateFormat.date(from: dateOfSampleCollection) ?? DCCQR.dateFormatBackup.date(from: dateOfSampleCollection)
     }
     
+    func isCountryValid() -> Bool {
+        return IsoCountries.countryForCode(code: countryOfTest) != nil
+    }
+    
     func getTestIssues(from: CountryColorCode, to: String) -> DCCFailableItem? {
         if let type = getTestType, let dateOfTest = getDateOfTest(), let hoursDifference = Calendar.current.dateComponents([.hour], from: dateOfTest, to: Date()).hour {
             if let maxHours = type.validFor(country: to) {
                 if hoursDifference > maxHours {
-                    return .testDateExpired(hours: maxHours)
+                    return .testDateExpired(hours: hoursDifference)
                 }
             }
         } else {
             return .testDateExpired(hours: 72)
         }
         return nil
+    }
+    
+    func getAgeString() -> String {
+        guard let date = getDateOfTest() else { return "item_unknown".localized() }
+        let diffComponents = Calendar.current.dateComponents([.hour, .minute], from: date, to: Date())
+        let hours = diffComponents.hour ?? 0
+        let minutes = diffComponents.minute ?? 0
+        return "test_ago_x".localized(params: hours, minutes)
     }
     
     enum CodingKeys: String, CodingKey {
@@ -274,7 +388,7 @@ struct DCCTest: Codable {
 
 struct DCCRecovery: Codable {
     
-    private let targetedDisease: String
+    let targetedDisease: String
     let dateOfFirstPositiveTest: String
     let countryOfTest: String
     let certificateIssuer: String
@@ -302,6 +416,10 @@ struct DCCRecovery: Codable {
         guard let from = getDateValidFrom(), let to = getDateValidTo() else { return false }
         let nowTime = date.timeIntervalSince1970
         return nowTime >= from.timeIntervalSince1970 && nowTime <= to.timeIntervalSince1970
+    }
+    
+    func isCountryValid() -> Bool {
+        return IsoCountries.countryForCode(code: countryOfTest) != nil
     }
     
     enum CodingKeys: String, CodingKey {

@@ -24,7 +24,7 @@ class ResultVaccineView: TMCBaseView {
         if let date = vaccine.getDateOfVaccination() {
             dateLabel.text = dateFormat.string(from: date)
         } else {
-            dateLabel.text = "item_unknown".localized()
+            dateLabel.text = vaccine.dateOfVaccination
         }
     }
     

@@ -107,7 +107,7 @@ extension OnboardingCoordinator: OnboardingCoordinatorDelegate {
 	
 	func showPrivacyPage() {
 
-		let urlString: String = .verifierUrlPrivacy
+        let urlString: String = "url.privacy".localized()
 
 		guard let privacyUrl = URL(string: urlString) else {
 			logError("No privacy url for \(urlString)")

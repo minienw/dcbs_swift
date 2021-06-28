@@ -1,5 +1,5 @@
 "general.error.cryptolib.title" = "Sorry, er gaat iets mis";
-"general.error.cryptolib.message" = "Neem contact op met de helpdesk van CoronaCheck en geef de foutcode (%@) door.";
+"general.error.cryptolib.message" = "Neem contact op met de helpdesk van DCC Scanner en geef de foutcode (%@) door.";
 "general.error.cryptolib.retry" = "Probeer opnieuw";
 
 "verifier.scan.torch.enable" = "Zet de zaklamp aan.";
@@ -11,19 +11,11 @@
 "verifier.instructions.denied.image" = "Persoon houdt een telefoon vast met een rood scherm en een zwart kruis.";
 "general.government.logo" = "Logo Rijksoverheid";
 
-/* Link naar web accessibility pagina */
-"verifier.url.accessibility" = "https://coronacheck.nl/nl/accessibility-in-app";
-
 /* Koptekst in de over de app pagina */
 "verifier.about.readmore" = "Lees meer";
 
 /* Menu item voor Toegankelijkheid */
 "verifier.menu.accessibility" = "Toegankelijkheid";
-
-/* MARK: - URL */
-"verifier.url.faq" = "https://coronacheck.nl/nl/faq-scanner-in-app";
-"verifier.url.privacy" = "https://coronacheck.nl/nl/gebruikersvoorwaarden-in-app";
-"verifier.url.support" = "https://coronacheck.nl/nl/support";
 
 "verifier.result.identity.title" = "Controleer nu de gegevens";
 "verifier.result.identity.lastname" = "Achternaam";
@@ -180,7 +172,7 @@ DCC QR code";
 "item_identifier" = "Certificaat nummer";
 "item_date_of_birth_x" = "Geboortedatum %@";
 
-"item_test_header" = "Test";
+"item_test_header" = "%@ test";
 "item_test_target" = "Ziekte";
 "item_test_type" = "Test type";
 "item_test_name" = "Test naam";
@@ -208,7 +200,6 @@ uitgever";
 "country_departure_title" = "Vertrek uit";
 "country_unselected" = "Land kiezen";
 "privacy_policy" = "Privacy verklaring";
-"holder.url.privacy" = "https://coronacheck.nl/nl/privacy-policy";
 "next_scan" = "Scan volgende";
 
 "code_green" = "Groen";
@@ -222,10 +213,38 @@ uitgever";
 "view_color_codes_button" = "Bekijk";
 "url.view_color_codes" = "https://www.nederlandwereldwijd.nl/documenten/vragen-en-antwoorden/welke-landen-hebben-welke-kleurcode";
 
-"rule_test_required" = "Negatieve Covid-19 test is nodig bij vertrek uit oranje landen";
-"rule_test_must_be_negative" = "Negatieve Covid-19 test is nodig bij vertrek uit oranje landen";
-"rule_test_outdated" = "De Covid-19 test is te oud. De test mag maximaal %i uur oud zijn";
+"rule_test_required" = "DCC is correct, maar voor reizen naar Nederland vanuit een land met code oranje is altijd een geldig negatief test resultaat nodig. Vraag om een DCC met een test resultaat.";
+"rule_test_must_be_negative" = "DCC is correct, maar voor reizen naar Nederland vanuit een land met code oranje is altijd een geldig negatief test resultaat nodig. Vraag om een DCC met een test resultaat.";
+"rule_test_outdated" = "DCC bevat een testresultaat van %i uur geleden: dat is langer dan de geldigheidsduur van de test. Controleer dat en vraag indien nodig om een bewijs van een test die minder oud is.";
 "rule_red_not_allowed" = "Reizen uit rode gebieden zijn verboden.";
 "rule_full_vaccination_required" = "Een volledige vaccinatie is nodig bij vertrek uit oranje landen";
 "rule_recovery_not_valid" = "Een valide herstel is nodig bij vertrek uit oranje landen";
-"rule_require_second_test" = "Een tweede %@ test van maximaal %i uur oud is nodig";
+"rule_require_second_test" = "DCC is correct, maar voor lucht- en scheepvaart zijn twee negatieve testresultaten nodig. Vraag om een tweede resultaat van maximaal %i uur oud. Bij aankomst geldt een quarantaine verplichting.";
+
+"rule_invalid_test_result" = "Controleer het test resultaat";
+"rule_invalid_test_type" = "Controleer de test soort";
+"rule_invalid_target_disease" = "Controleer de doel ziekte";
+"rule_invalid_vaccine_holder" = "Controleer de vaccin fabrikant";
+"rule_invalid_vaccine_type" = "Controleer het vaccin type";
+"rule_invalid_vaccine_product" = "Controleer het vaccin product";
+"rule_date_of_birth_out_of_range" = "Controleer de geboortedatum";
+"rule_invalid_country_code" = "Controleer de land code";
+"rule_invalid_date_of_birth" = "Controleer de geboortedatum";
+"rule_invalid_vaccine_date" = "Controleer de vaccinatie datum";
+"rule_invalid_test_date" = "Controleer de test datum";
+"rule_invalid_recovery_first_test_date" = "Controleer de eerste test datum";
+"rule_invalid_recovery_from_date" = "Controleer de geldig van datum";
+"rule_invalid_recovery_to_date" = "Controleer de geldig tot datum";
+
+"test_ago_x" = "%i uur, %i min oud";
+
+
+"test_result_negative" = "Negatief";
+"test_result_positive" = "Positief";
+"test_result_negative_adjective" = "Negatieve";
+"test_result_positive_adjective" = "Positieve";
+
+"url.privacy" = "https://www.rijksoverheid.nl/ministeries/ministerie-van-infrastructuur-en-waterstaat/privacy";
+"url.terms_of_use" = "https://dcccrossborderscanner.nl/dist/termsofuse/gebruiksvoorwaarden.html";
+"url.accessibility" = "https://dcccrossborderscanner.nl/dist/accessibility/toegankelijkheid.html";
+"url.support" = "https://www.rijksoverheid.nl/ministeries/ministerie-van-infrastructuur-en-waterstaat/contact";

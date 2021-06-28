@@ -18,6 +18,22 @@ enum DCCFailableItem {
     case recoveryNotValid
     case requireSecondTest(hours: Int, type: DCCTestType)
     
+    case invalidTestResult
+    case invalidTestType
+    case invalidTargetDisease
+    case invalidVaccineHolder
+    case invalidVaccineType
+    case invalidVaccineProduct
+    case dateOfBirthOutOfRange
+    case invalidCountryCode
+    
+    case invalidDateOfBirth
+    case invalidVaccineDate
+    case invalidTestDate
+    case invalidRecoveryFirstTestDate
+    case invalidRecoveryFromDate
+    case invalidRecoveryToDate
+    
     func displayName() -> String {
         switch self {
         
@@ -34,7 +50,36 @@ enum DCCFailableItem {
             case .recoveryNotValid:
                 return "rule_recovery_not_valid".localized()
             case .requireSecondTest(hours: let hours, type: let type):
-                return "rule_require_second_test".localized(params: type.displayName, hours)
+                return "rule_require_second_test".localized(params: hours)
+            case .invalidTestResult:
+                return "rule_invalid_test_result".localized()
+            case .invalidTestType:
+                return "rule_invalid_test_type".localized()
+            case .invalidTargetDisease:
+                return "rule_invalid_target_disease".localized()
+            case .invalidVaccineHolder:
+                return "rule_invalid_vaccine_holder".localized()
+            case .invalidVaccineType:
+                return "rule_invalid_vaccine_type".localized()
+            case .invalidVaccineProduct:
+                return "rule_invalid_vaccine_product".localized()
+            case .dateOfBirthOutOfRange:
+                return "rule_date_of_birth_out_of_range".localized()
+            case .invalidCountryCode:
+                return "rule_invalid_country_code".localized()
+                
+            case .invalidDateOfBirth:
+                return "rule_invalid_date_of_birth".localized()
+            case .invalidVaccineDate:
+                return "rule_invalid_vaccine_date".localized()
+            case .invalidTestDate:
+                return "rule_invalid_test_date".localized()
+            case .invalidRecoveryFirstTestDate:
+                 return "rule_invalid_recovery_first_test_date".localized()
+            case .invalidRecoveryFromDate:
+                return "rule_invalid_recovery_from_date".localized()
+            case .invalidRecoveryToDate:
+                return "rule_invalid_recovery_to_date".localized()
         }
     }
     

@@ -17,10 +17,19 @@ enum DCCTestResult: String {
         switch self {
         
             case .notDetected:
-                return "Negatief"
+                return "test_result_negative".localized()
             case .detected:
-                return "Positief"
+                return "test_result_positive".localized()
         }
     }
-    
+   
+    var displayNameAdjective: String {
+        switch self {
+        
+            case .notDetected:
+                return "test_result_negative_adjective".localized()
+            case .detected:
+                return "test_result_positive_adjective".localized()
+        }
+    }
 }

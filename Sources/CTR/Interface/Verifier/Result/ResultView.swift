@@ -85,6 +85,8 @@ class ResultView: TMCBaseView {
         dccNameLabel.text = dcc.getName()
         if let dccData = dcc.dcc, let dob = dccData.getDateOfBirth() {
             dateOfBirthLabel.text = "item_date_of_birth_x".localized(params: dateFormat.string(from: dob))
+        } else {
+            dateOfBirthLabel.text = "item_date_of_birth_x".localized(params: dcc.dcc?.dateOfBirth ?? "item_unknown".localized())
         }
         setupVaccineViews(dcc: dcc)
         setupTests(dcc: dcc)
@@ -98,22 +100,24 @@ class ResultView: TMCBaseView {
     func setupRecoveries(dcc: DCCQR) {
         guard let recoveries = dcc.dcc?.recoveries else { return }
         for recovery in recoveries {
-            if let target = recovery.getTargetedDisease {
-                let header = ResultRecoveryView()
-                header.setup(disease: target)
-                itemsStack.addArrangedSubview(header)
-            } else {
-                itemsStack.addArrangedSubview(getItemHeader(title: "item_recovery_header".localized()))
-            }
+            let header = ResultRecoveryView()
+            header.setup(recovery: recovery)
+            itemsStack.addArrangedSubview(header)
             
             if let date = recovery.getDateOfFirstPositiveTest() {
                 itemsStack.addArrangedSubview(getItem(key: "item_recovery_first_date".localized(), value: dateFormat.string(from: date)))
+            } else {
+                itemsStack.addArrangedSubview(getItem(key: "item_recovery_first_date".localized(), value: recovery.dateOfFirstPositiveTest))
             }
             if let date = recovery.getDateValidFrom() {
                 itemsStack.addArrangedSubview(getItem(key: "item_recovery_from".localized(), value: dateFormat.string(from: date)))
+            } else {
+                itemsStack.addArrangedSubview(getItem(key: "item_recovery_from".localized(), value: recovery.certificateValidFrom))
             }
             if let date = recovery.getDateValidTo() {
                 itemsStack.addArrangedSubview(getItem(key: "item_recovery_to".localized(), value: dateFormat.string(from: date)))
+            } else {
+                itemsStack.addArrangedSubview(getItem(key: "item_recovery_to".localized(), value: recovery.certificateValidTo))
             }
             itemsStack.addArrangedSubview(getItem(key: "item_recovery_country".localized(), value: recovery.countryOfTest))
             itemsStack.addArrangedSubview(getItem(key: "item_certificate_issuer".localized(), value: recovery.certificateIssuer))
@@ -128,21 +132,14 @@ class ResultView: TMCBaseView {
             header.setup(test: test, dateFormat: dateFormat)
             itemsStack.addArrangedSubview(header)
 
-            if let target = test.getTargetedDisease {
-                itemsStack.addArrangedSubview(getItem(key: "item_test_target".localized(), value: target.displayName))
-            }
-            if let prophylaxis = test.getTestType {
-                itemsStack.addArrangedSubview(getItem(key: "item_test_type".localized(), value: prophylaxis.displayName))
-            }
-            if let naaTestName = test.NAATestName {
-                itemsStack.addArrangedSubview(getItem(key: "item_test_name".localized(), value: naaTestName))
-            }
-            if let manuf = test.getTestManufacturer {
-                itemsStack.addArrangedSubview(getItem(key: "item_test_manufacturer".localized(), value: manuf.displayName))
-            }
-            if let location = test.testingCentre {
-                itemsStack.addArrangedSubview(getItem(key: "item_test_location".localized(), value: location))
-            }
+            itemsStack.addArrangedSubview(getItem(key: "item_test_target".localized(), value: test.getTargetedDisease?.displayName ?? test.targetedDisease))
+            
+            itemsStack.addArrangedSubview(getItem(key: "item_test_type".localized(), value: test.getTestType?.displayName ?? test.typeOfTest))
+            
+            itemsStack.addArrangedSubview(getItem(key: "item_test_name".localized(), value: test.NAATestName ?? ""))
+            itemsStack.addArrangedSubview(getItem(key: "item_test_manufacturer".localized(), value: test.getTestManufacturer?.displayName ?? test.RATTestNameAndManufac ?? ""))
+
+            itemsStack.addArrangedSubview(getItem(key: "item_test_location".localized(), value: test.testingCentre ?? ""))
             itemsStack.addArrangedSubview(getItem(key: "item_test_country".localized(), value: test.countryOfTest))
             itemsStack.addArrangedSubview(getItem(key: "item_certificate_issuer".localized(), value: test.certificateIssuer))
             itemsStack.addArrangedSubview(getItem(key: "item_identifier".localized(), value: test.certificateIdentifier))
@@ -178,20 +175,14 @@ class ResultView: TMCBaseView {
         if hasHeader {
             itemsStack.addArrangedSubview(getItemHeader(title: "item_dose_x".localized(params: vaccine.doseNumber)))
         }
-        if let target = vaccine.getTargetedDisease {
-            targetString += "\(target.displayName)"
-        }
-        if let prophylaxis = vaccine.getVaccine {
-            if targetString != "" {
-                targetString += " | "
-            }
-            targetString += prophylaxis.displayName
-        }
+        targetString += "\(vaccine.getTargetedDisease?.displayName ?? vaccine.targetedDisease)"
         if targetString != "" {
-            itemsStack.addArrangedSubview(getItem(key: "item_disease".localized(), value: targetString))
+            targetString += " | "
         }
+        targetString += vaccine.getVaccine?.displayName ?? vaccine.vaccine
+        itemsStack.addArrangedSubview(getItem(key: "item_disease".localized(), value: targetString))
         itemsStack.addArrangedSubview(getItem(key: "item_country".localized(), value: vaccine.countryOfVaccination))
-        
+        itemsStack.addArrangedSubview(getItem(key: "item_test_manufacturer".localized(), value: vaccine.getMarketingHolder?.displayName ?? vaccine.marketingAuthorizationHolder))
         itemsStack.addArrangedSubview(getItem(key: "item_certificate_issuer".localized(), value: vaccine.certificateIssuer))
         itemsStack.addArrangedSubview(getItem(key: "item_identifier".localized(), value: vaccine.certificateIdentifier))
     }

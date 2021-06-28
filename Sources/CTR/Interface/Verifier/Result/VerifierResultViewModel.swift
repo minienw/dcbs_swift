@@ -191,53 +191,6 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
         coordinator?.didFinish(.userTappedProceedToScanInstructionsFromInvalidQR)
     }
 
-	func linkTapped() {
-
-		switch allowAccess {
-			case .verified, .demo:
-				showVerifiedInfo()
-			case .denied:
-				showDeniedInfo()
-		}
-	}
-
-	private func showVerifiedInfo() {
-
-		let label = Label(body: nil).multiline()
-		label.attributedText = .makeFromHtml(
-			text: .verifierResultCheckText,
-			font: Theme.fonts.body,
-			textColor: Theme.colors.dark
-		)
-
-		coordinator?.displayContent(
-			title: .verifierResultCheckTitle,
-			content: [(label, 16)]
-		)
-	}
-
-	private func showDeniedInfo() {
-
-		let label = Label(body: nil).multiline()
-		label.attributedText = .makeFromHtml(
-			text: .verifierDeniedMessageOne,
-			font: Theme.fonts.body,
-			textColor: Theme.colors.dark
-		)
-
-		let label2 = Label(body: nil).multiline()
-		label2.attributedText = .makeFromHtml(
-			text: .verifierDeniedMessageTwo,
-			font: Theme.fonts.body,
-			textColor: Theme.colors.dark
-		)
-
-		coordinator?.displayContent(
-			title: .verifierDeniedTitle,
-			content: [(label, 16), (label2, 0)]
-		)
-	}
-
 	// MARK: - AutoCloseTimer
 
 	/// Start the auto close timer, close after configuration.getAutoCloseTime() seconds

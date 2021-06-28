@@ -156,8 +156,7 @@ class VerifierResultViewController: BaseViewController, Logging {
 
 	/// User tapped on the link
 	@objc func linkTapped() {
-
-		viewModel.linkTapped()
+        /// Do nothing
 	}
     
     func openCountryPicker() {

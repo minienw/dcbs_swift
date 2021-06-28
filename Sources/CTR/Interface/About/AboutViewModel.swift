@@ -87,13 +87,13 @@ class AboutViewModel: Logging {
 
 		switch identifier {
 			case .privacyStatement:
-				openUrlString(.holderUrlPrivacy)
+                openUrlString("url.privacy".localized())
 			case .terms:
-				openUrlString(.verifierUrlPrivacy)
+                openUrlString("url.terms_of_use".localized())
 			case .accessibility:
-                openUrlString(.verifierUrlAccessibility)
+                openUrlString("url.accessibility".localized())
             case .contact:
-                openUrlString(.verifierUrlSupport)
+                openUrlString("url.support".localized())
         }
 	}
 

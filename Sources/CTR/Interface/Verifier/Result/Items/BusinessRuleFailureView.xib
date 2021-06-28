@@ -19,7 +19,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="De Covid-19 test is te oud. De test mag maximaal 72(x) uur oud zijn" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kUo-jT-FdS">
-                    <rect key="frame" x="32" y="42" width="350" height="122"/>
+                    <rect key="frame" x="16" y="42" width="382" height="122"/>
                     <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
                     <color key="textColor" name="DeniedColor"/>
                     <nil key="highlightedColor"/>
@@ -37,9 +37,9 @@
                 <constraint firstAttribute="bottom" secondItem="W2y-JF-oYH" secondAttribute="bottom" id="3z5-fJ-Umu"/>
                 <constraint firstItem="W2y-JF-oYH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Hvz-H4-XCg"/>
                 <constraint firstAttribute="trailing" secondItem="W2y-JF-oYH" secondAttribute="trailing" id="IKt-Xg-LjK"/>
-                <constraint firstItem="kUo-jT-FdS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="32" id="TXd-yE-PPB"/>
+                <constraint firstItem="kUo-jT-FdS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="16" id="TXd-yE-PPB"/>
                 <constraint firstItem="kUo-jT-FdS" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="42" id="Xub-iU-ELa"/>
-                <constraint firstAttribute="trailing" secondItem="kUo-jT-FdS" secondAttribute="trailing" constant="32" id="Zp8-yz-HNR"/>
+                <constraint firstAttribute="trailing" secondItem="kUo-jT-FdS" secondAttribute="trailing" constant="16" id="Zp8-yz-HNR"/>
                 <constraint firstAttribute="bottom" secondItem="kUo-jT-FdS" secondAttribute="bottom" constant="42" id="uiu-y7-DnH"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
