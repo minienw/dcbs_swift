@@ -190,9 +190,9 @@ issuer";
 "rule_test_required" = "DCC is valid however travelling to The Netherlands from a country with orange colorcode requires a valid negative test result. Ask for a DCC that contains a valid test result.";
 "rule_test_must_be_negative" = "DCC is valid however travelling to The Netherlands from a country with orange colorcode requires a valid negative test result. Ask for a DCC that contains a valid test result.";
 "rule_test_outdated" = "DCC contains a testresult of a test that was taken %i hours ago, which is beyond the valid time frame. Check and ask for a more recent test result if necessary.";
-"rule_red_not_allowed" = "Reizen uit rode gebieden zijn verboden.";
-"rule_full_vaccination_required" = "Een volledige vaccinatie is nodig bij vertrek uit oranje landen";
-"rule_recovery_not_valid" = "Een valide herstel is nodig bij vertrek uit oranje landen";
+"rule_red_not_allowed" = "Travelling from red areas is forbidden.";
+"rule_full_vaccination_required" = "A complete vaccination is required when travelling from orange countries";
+"rule_recovery_not_valid" = "A valid recovery is required when travelling from orange countries";
 "rule_require_second_test" = "DCC is valid, but for travelling by aircraft or boat two negative test results are required. Ask for the second test result. This test must be less than %i hours old. At arrival a quarantine period is mandatory.";
 
 "rule_invalid_test_result" = "Controleer het test resultaat";

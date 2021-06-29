@@ -23,6 +23,8 @@ protocol OnboardingCoordinatorDelegate: AnyObject {
 
 	/// Consent was given
 	func consentGiven()
+    
+    func openTerms()
 }
 
 protocol OnboardingDelegate: AnyObject {
@@ -115,6 +117,17 @@ extension OnboardingCoordinator: OnboardingCoordinatorDelegate {
 		}
 		openUrl(privacyUrl, inApp: true)
 	}
+    
+    func openTerms() {
+
+        let urlString: String = "url.terms_of_use".localized()
+
+        guard let termsURL = URL(string: urlString) else {
+            logError("No terms url for \(urlString)")
+            return
+        }
+        openUrl(termsURL, inApp: true)
+    }
 
 	/// Dismiss the presented viewController
 	func dismiss() {
