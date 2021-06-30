@@ -35,7 +35,7 @@
 "general.close" = "Close";
 "general.previous" = "Previous";
 "general.back" = "Back";
-"general.next" = "next";
+"general.next" = "Next";
 "general.done" = "Done";
 "general.ok" = "Ok";
 "general.error.title" = "Sorry, something went wrong";
@@ -135,7 +135,7 @@ DCC QR code";
 "onboarding.page_3_title" = "Who should use this app?";
 "onboarding.page_3_desc" = "This app can be used by international carriers. The app helps to check if a traveller is allowed to travel to the destination country according to the local COVID restrictions. The app uses the Digital COVID Certificate for this purpose";
 
-"certificates_outdated_button" = "Trust list was not updated";
+"certificates_outdated_button" = "Update lists";
 "certificates_outdated_desc" = "You can continue to use the app. However, some valid QR codes will be displayed as invalid. Make sure you have a working internet connection and try again using the “Update lists” button.";
 "certificates_outdated_title" = "Trust list was not updated";
 
@@ -143,7 +143,7 @@ DCC QR code";
 "item_dose_x_x" = "Vaccine dose %i / %i";
 "item_disease" = "Disease / Vaccine";
 "item_country" = "Country";
-"item_identifier" = "Certificaat number";
+"item_identifier" = "Certificate number";
 "item_date_of_birth_x" = "Date of birth %@";
 
 "item_test_header" = "%@ test";
@@ -195,20 +195,20 @@ issuer";
 "rule_recovery_not_valid" = "A valid recovery is required when travelling from orange countries";
 "rule_require_second_test" = "DCC is valid, but for travelling by aircraft or boat two negative test results are required. Ask for the second test result. This test must be less than %i hours old. At arrival a quarantine period is mandatory.";
 
-"rule_invalid_test_result" = "Controleer het test resultaat";
-"rule_invalid_test_type" = "Controleer de test soort";
-"rule_invalid_target_disease" = "Controleer de doel ziekte";
-"rule_invalid_vaccine_holder" = "Controleer de vaccin fabrikant";
-"rule_invalid_vaccine_type" = "Controleer het vaccin type";
-"rule_invalid_vaccine_product" = "Controller het vaccin product";
-"rule_date_of_birth_out_of_range" = "Controleer de geboortedatum";
-"rule_invalid_country_code" = "Controleer de land code";
-"rule_invalid_date_of_birth" = "Controleer de geboortedatum";
-"rule_invalid_vaccine_date" = "Controleer de vaccinatie datum";
-"rule_invalid_test_date" = "Controleer de test datum";
-"rule_invalid_recovery_first_test_date" = "Controleer de eerste test datum";
-"rule_invalid_recovery_from_date" = "Controleer de geldig van datum";
-"rule_invalid_recovery_to_date" = "Controleer de geldig tot datum";
+"rule_invalid_test_result" = "The testresult is not recognized, ask for different proof of testing.";
+"rule_invalid_test_type" = "The testing type is not recognized. Check the validity of the test, or request a different proof of testing.";
+"rule_invalid_target_disease" = "The QR code might not be a COVID related certificate. Check if the disease displayed is COVID or Corona related.";
+"rule_invalid_vaccine_holder" = "The manufacturer of the vaccine is not recognized. Check the manufacturer, or ask for a different certificate.";
+"rule_invalid_vaccine_type" = "The vaccine type is not recognized. Check the vaccin type, or ask for a different certificate.";
+"rule_invalid_vaccine_product" = "The vaccine is not properly recognized. Check the vaccine, or ask for a different certificate.";
+"rule_date_of_birth_out_of_range" = "The date of birth appears to be incorrect. Check the date of birth with the ID of the traveller.";
+"rule_invalid_country_code" = "The country code is not recognized. Check the countrycode.";
+"rule_invalid_date_of_birth" = "The date of birth appears to be incorrect. Check the date of birth with the ID of the traveller.";
+"rule_invalid_vaccine_date" = "The vaccine date is not correct. Check if the vaccine is still valid.";
+"rule_invalid_test_date" = "The test date is incorect. Check if the test is still valid.";
+"rule_invalid_recovery_first_test_date" = "The test date for this recovery certificate is not valid. Check if the date is between 11 and 180 days old.";
+"rule_invalid_recovery_from_date" = "The date from which this recovery certificate is valid is incorrect. Check the recovery start date.";
+"rule_invalid_recovery_to_date" = "The date until which this recover certificate is valid is incorrect. Check if the certificate is still valid today.";
 
 "test_ago_x" = "%i hour, %i min old";
 

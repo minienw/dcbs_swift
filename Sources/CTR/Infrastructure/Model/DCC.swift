@@ -291,7 +291,7 @@ struct DCCVaccine: Codable {
     }
     
     func isFullyVaccinated() -> Bool {
-        return doseNumber == totalSeriesOfDoses
+        return doseNumber >= totalSeriesOfDoses
     }
     
     func isCountryValid() -> Bool {
@@ -350,15 +350,25 @@ struct DCCTest: Codable {
         return IsoCountries.countryForCode(code: countryOfTest) != nil
     }
     
+    func getTestAgeInHours(toDate: Date) -> Int? {
+        guard let dateOfTest = getDateOfTest() else { return nil }
+        let difference = Calendar.current.dateComponents([.hour, .minute], from: dateOfTest, to: toDate)
+        var hours = difference.hour ?? 0
+        if (difference.minute ?? 0) > 0 {
+            hours += 1
+        }
+        return hours
+    }
+    
     func getTestIssues(from: CountryColorCode, to: String) -> DCCFailableItem? {
-        if let type = getTestType, let dateOfTest = getDateOfTest(), let hoursDifference = Calendar.current.dateComponents([.hour], from: dateOfTest, to: Date()).hour {
+        if let type = getTestType, let hoursDifference = getTestAgeInHours(toDate: Date()) {
             if let maxHours = type.validFor(country: to) {
                 if hoursDifference > maxHours {
                     return .testDateExpired(hours: hoursDifference)
                 }
             }
         } else {
-            return .testDateExpired(hours: 72)
+            return .invalidTestDate
         }
         return nil
     }

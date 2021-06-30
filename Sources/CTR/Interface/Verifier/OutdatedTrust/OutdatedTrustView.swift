@@ -22,7 +22,7 @@ class OutdatedTrustView: TMCBaseView {
     
     func setLoading(loading: Bool) {
         spinner.isHidden = !loading
-        updateButton.setTitle(loading ? "" : Localization.string(for: "certificates_outdated_button"), for: .normal)
+        updateButton.setTitle(Localization.string(for: "certificates_outdated_button"), for: .normal)
     }
     
 }

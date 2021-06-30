@@ -12,7 +12,7 @@ class AppleTestMessage: Codable {
     
     let appStoreConnectMessage: String
     
-    static let july1st: TimeInterval = 1625090400
+    static let july1st: TimeInterval = 1625176800
     
     static func isValid(qrData: String) -> Bool {
         let date = Date()
