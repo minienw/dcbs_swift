@@ -11,13 +11,13 @@ import Foundation
 extension UILabel {
 
     @IBInspectable var translationKey: String? {
+        get {
+            return text
+        }
         set (newValue) {
             if let key = newValue {
                 text = Localization.string(for: key)
             }
-        }
-        get {
-            return text
         }
     }
 }
@@ -25,13 +25,13 @@ extension UILabel {
 extension UIButton {
 
     @IBInspectable var translationKey: String? {
+        get {
+            return title(for: .normal)
+        }
         set (newValue) {
             if let key = newValue {
                 setTitle(Localization.string(for: key), for: .normal)
             }
-        }
-        get {
-            return title(for: .normal)
         }
     }
 

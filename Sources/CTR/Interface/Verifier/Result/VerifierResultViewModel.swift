@@ -73,11 +73,7 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 	///   - coordinator: the dismissable delegate
 	///   - scanResults: the decrypted attributes
 	///   - maxValidity: the maximum validity of a test in hours
-	init(
-		coordinator: (VerifierCoordinatorDelegate & Dismissable & OpenUrlProtocol),
-        proofManager: ProofManaging,
-		cryptoResults: (DCCQR?, String?),
-		maxValidity: Int) {
+	init(coordinator: (VerifierCoordinatorDelegate & Dismissable & OpenUrlProtocol), proofManager: ProofManaging, cryptoResults: (DCCQR?, String?), maxValidity: Int) {
 
 		self.coordinator = coordinator
 		self.cryptoResults = cryptoResults

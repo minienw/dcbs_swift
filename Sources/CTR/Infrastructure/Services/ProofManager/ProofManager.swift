@@ -60,7 +60,7 @@ class ProofManager: ProofManaging, Logging {
 			
 			// Response is of type (Result<(IssuerPublicKeys, Data), NetworkError>)
 			switch resultwrapper {
-				case .success((let _, let data)):
+				case .success((_, let data)):
 					
                     self?.keysFetchedTimestamp = Date()
                     self?.cryptoLibUtility.store(data, for: .publicKeys)

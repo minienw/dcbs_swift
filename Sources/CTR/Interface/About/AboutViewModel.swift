@@ -86,14 +86,14 @@ class AboutViewModel: Logging {
 	func menuOptionSelected(_ identifier: AboutMenuIdentifier) {
 
 		switch identifier {
-			case .privacyStatement:
-                openUrlString("url.privacy".localized())
-			case .terms:
-                openUrlString("url.terms_of_use".localized())
-			case .accessibility:
-                openUrlString("url.accessibility".localized())
-            case .contact:
-                openUrlString("url.support".localized())
+        case .privacyStatement:
+            openUrlString("url.privacy".localized())
+        case .terms:
+            openUrlString("url.terms_of_use".localized())
+        case .accessibility:
+            openUrlString("url.accessibility".localized())
+        case .contact:
+            openUrlString("url.support".localized())
         }
 	}
 

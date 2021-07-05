@@ -98,13 +98,12 @@ extension VerifierCoordinator: VerifierCoordinatorDelegate {
 	func didFinish(_ result: VerifierStartResult) {
 
 		switch result {
-			case .userTappedProceedToScan:
-				navigateToScan()
-
-			case .userTappedProceedToScanInstructions:
-				navigateToScanInstruction(shouldScrollToRed: false)
-            case .userTappedProceedToScanInstructionsFromInvalidQR:
-                navigateToScanInstruction(shouldScrollToRed: true)
+        case .userTappedProceedToScan:
+            navigateToScan()
+        case .userTappedProceedToScanInstructions:
+            navigateToScanInstruction(shouldScrollToRed: false)
+        case .userTappedProceedToScanInstructionsFromInvalidQR:
+            navigateToScanInstruction(shouldScrollToRed: true)
 		}
 	}
 

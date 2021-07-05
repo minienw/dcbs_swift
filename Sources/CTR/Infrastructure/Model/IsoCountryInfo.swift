@@ -19,7 +19,6 @@ public struct IsoCountryInfo {
     public let continent: String
 }
 
-// swiftlint:disable type_body_length
 public class IsoCountries {
 
     static func countryForCode(code: String) -> IsoCountryInfo? {
@@ -27,6 +26,7 @@ public class IsoCountries {
             it.alpha2 == code
         }
     }
+    
     // swiftlint:disable line_length
     static let allCountries: [IsoCountryInfo] = [
         IsoCountryInfo(name: "Afghanistan", numeric: "004", alpha2: "AF", alpha3: "AFG", calling: "+93", currency: "AFN", continent: "AS" ),

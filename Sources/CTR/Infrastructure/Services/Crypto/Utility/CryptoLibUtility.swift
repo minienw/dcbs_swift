@@ -35,7 +35,6 @@ final class CryptoLibUtility: CryptoLibUtilityProtocol, Logging {
 		let rawValue: Int
 		
 		var name: String {
-			// TODO: Remove config
 			if self == File.publicKeys {
 				return "public_keys.json"
 			} else {

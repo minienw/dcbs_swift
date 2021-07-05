@@ -17,7 +17,6 @@ class CustomShadowView: UIView {
     @IBInspectable var shadowOffsetX: CGFloat = 0
     @IBInspectable var shadowOffsetY: CGFloat = 0
     
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         let shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: cornerRadius)

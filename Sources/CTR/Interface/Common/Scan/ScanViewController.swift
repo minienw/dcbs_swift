@@ -144,8 +144,6 @@ class ScanViewController: BaseViewController, AVCaptureMetadataOutputObjectsDele
 	}
 
 	func found(code: String) {
-
-		print("CTR: Found code: \(code)")
 	}
 
 	override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

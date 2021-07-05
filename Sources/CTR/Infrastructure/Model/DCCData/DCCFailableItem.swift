@@ -49,7 +49,7 @@ enum DCCFailableItem {
                 return "rule_full_vaccination_required".localized()
             case .recoveryNotValid:
                 return "rule_recovery_not_valid".localized()
-            case .requireSecondTest(hours: let hours, type: let type):
+            case .requireSecondTest(hours: let hours, _):
                 return "rule_require_second_test".localized(params: hours)
             case .invalidTestResult:
                 return "rule_invalid_test_result".localized()

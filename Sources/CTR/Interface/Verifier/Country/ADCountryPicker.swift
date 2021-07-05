@@ -11,6 +11,7 @@ import UIKit
 
 struct Section {
     var countries: [ADCountry] = []
+    
     mutating func addCountry(_ country: ADCountry) {
         countries.append(country)
     }
@@ -28,7 +29,7 @@ open class ADCountryPicker: UITableViewController {
     static var callingCodes = { () -> [[String: String]] in
         let resourceBundle = Bundle(for: ADCountryPicker.classForCoder())
         guard let path = resourceBundle.path(forResource: "CallingCodes", ofType: "plist") else { return [] }
-        return NSArray(contentsOfFile: path) as! [[String: String]]
+        return NSArray(contentsOfFile: path) as? [[String: String]] ?? [[:]]
     }()
     
     fileprivate var searchController: UISearchController!
@@ -86,7 +87,7 @@ open class ADCountryPicker: UITableViewController {
         // sort each section
         for section in sections {
             var sec = section
-            sec.countries = collation.sortedArray(from: section.countries, collationStringSelector: #selector(getter: ADCountry.name)) as! [ADCountry]
+            sec.countries = collation.sortedArray(from: section.countries, collationStringSelector: #selector(getter: ADCountry.name)) as? [ADCountry] ?? []
         }
         
         _sections = sections
@@ -338,7 +339,7 @@ extension ADCountryPicker {
             if image != nil {
                 cell.imageView?.image = image?.fitImage(size: CGSize(width: self.flagHeight, height: flagHeight))
             } else {
-                cell.imageView?.image = UIImage.init(color: .lightGray, size: CGSize(width: CGFloat(flagHeight), height: CGFloat(flagHeight) / CGFloat(1.5)))?.fitImage(size: CGSize(width: CGFloat(self.flagHeight), height: CGFloat(flagHeight) / CGFloat(1.5)))
+                cell.imageView?.image = UIImage(color: .lightGray, size: CGSize(width: CGFloat(flagHeight), height: CGFloat(flagHeight) / CGFloat(1.5)))?.fitImage(size: CGSize(width: CGFloat(self.flagHeight), height: CGFloat(flagHeight) / CGFloat(1.5)))
             }
         }
         
