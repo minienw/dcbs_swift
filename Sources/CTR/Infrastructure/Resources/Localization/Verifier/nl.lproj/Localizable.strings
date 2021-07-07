@@ -249,4 +249,4 @@ uitgever";
 "url.accessibility" = "https://dcccrossborderscanner.nl/dist/accessibility/toegankelijkheid.html";
 "url.support" = "https://www.rijksoverheid.nl/ministeries/ministerie-van-infrastructuur-en-waterstaat/contact";
 
-"rule_vaccination_14_days" = "De vaccinatie moet ten minste 14 dagen oud zijn.";
+"rule_vaccination_14_days" = "De vaccinatie in dit certificaat is nog niet geldig. De geldigheid gaat 14 dagen na laatste vaccinatie in.";

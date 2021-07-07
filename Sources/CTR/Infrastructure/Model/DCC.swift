@@ -93,7 +93,7 @@ struct DCCQR: Codable {
             failingItems.append(.invalidDateOfBirth)
         }
         for vaccin in dcc?.vaccines ?? [] {
-            if (vaccin.getVaccinationAge()?.day ?? 0) < 14 {
+            if (vaccin.getVaccinationAge()?.day ?? 0) < 14 && Date().timeIntervalSince1970 >= 1625868000 {
                 failingItems.append(.vaccinationMustBe14DaysOld)
             }
             if vaccin.getMarketingHolder == nil {

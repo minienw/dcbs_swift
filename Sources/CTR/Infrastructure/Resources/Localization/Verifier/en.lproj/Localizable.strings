@@ -222,3 +222,5 @@ issuer";
 "url.terms_of_use" = "https://dcccrossborderscanner.nl/dist/termsofuse/termsofuse.html";
 "url.accessibility" = "https://dcccrossborderscanner.nl/dist/accessibility/accessibility.html";
 "url.support" = "https://www.government.nl/ministries/ministry-of-infrastructure-and-water-management/contact";
+
+"rule_vaccination_14_days" = "This  vaccination certificate is not yet valid. Vaccin certificates become valid 14 days after the last vaccination date.";
