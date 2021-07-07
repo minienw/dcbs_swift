@@ -12,12 +12,12 @@ class TrustListUpdateScheduler {
     
     static let instance = TrustListUpdateScheduler()
     
-    let proofManager: ProofManager
+    let proofManager: ProofManaging
     
     var timer: Timer?
     
     init() {
-        proofManager = ProofManager()
+        proofManager = Services.proofManager
     }
     
     func start() {

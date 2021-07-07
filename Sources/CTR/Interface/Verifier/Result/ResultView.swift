@@ -16,6 +16,7 @@ class ResultView: TMCBaseView {
     @IBOutlet var deniedView: UIView!
     @IBOutlet var accessView: UIView!
     
+    @IBOutlet var scrollView: HeaderScrollView!
     @IBOutlet var businessRuleFailures: UIStackView!
     @IBOutlet var deniedLabel: UILabel!
     @IBOutlet var dccNameLabel: UILabel!
@@ -34,7 +35,7 @@ class ResultView: TMCBaseView {
     
     var dateFormat: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd.MM.YYYY"
+        formatter.dateFormat = "dd MMM YYYY"
         return formatter
     }
     
@@ -75,9 +76,11 @@ class ResultView: TMCBaseView {
         }
         businessRuleFailures.addArrangedSubview(getSpacer(height: showAsFailed ? 24 : 36))
         
-        subviews.first?.backgroundColor = isSpecimen ? Theme.colors.greenGrey : showAsFailed ? Theme.colors.denied : Theme.colors.access
-        accessBackgroundView.backgroundColor = subviews.first?.backgroundColor
-        accessLabel.text = (showAsFailed ? "verifier.result.denied.title" : "verifier.result.access.title").localized()
+        let colour = isSpecimen ? Theme.colors.greenGrey : showAsFailed ? Theme.colors.denied : Theme.colors.access
+        subviews.first?.backgroundColor = colour
+        accessBackgroundView.backgroundColor = colour
+        scrollView.addHeaderColor(colour)
+        accessLabel.text = (showAsFailed ? "travel_not_met" : "travel_met").localized()
         accessImageView.image = UIImage(named: showAsFailed ? "denied_inverted" : "access_inverted")
         
         dccNameLabel.font = Theme.fonts.title1
@@ -101,7 +104,7 @@ class ResultView: TMCBaseView {
         guard let recoveries = dcc.dcc?.recoveries else { return }
         for recovery in recoveries {
             let header = ResultRecoveryView()
-            header.setup(recovery: recovery)
+            header.setup(recovery: recovery, dateFormat: dateFormat)
             itemsStack.addArrangedSubview(header)
             
             if let date = recovery.getDateOfFirstPositiveTest() {
@@ -218,6 +221,7 @@ class ResultView: TMCBaseView {
         ], range: NSString(string: deniedText).range(of: deniedTextUnderline))
         deniedLabel.attributedText = attributedString
         subviews.first?.backgroundColor = Theme.colors.denied
+        scrollView.addHeaderColor(Theme.colors.denied)
 	}
 
 	func revealIdentityView(_ onCompletion: (() -> Void)? = nil) {

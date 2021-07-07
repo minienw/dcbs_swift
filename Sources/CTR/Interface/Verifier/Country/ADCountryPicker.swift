@@ -48,14 +48,14 @@ open class ADCountryPicker: UITableViewController {
     
     static func countryForCode(code: String) -> ADCountry {
         let locale = Locale.current
-        let displayName = (locale as NSLocale).displayName(forKey: NSLocale.Key.countryCode, value: code)
+        let displayName = (locale as NSLocale).displayName(forKey: NSLocale.Key.countryCode, value: code) ?? "country_other".localized()
         let countryData = callingCodes.filter { $0["code"] == code }
         let country: ADCountry
         
         if !countryData.isEmpty, let dialCode = countryData[0]["dial_code"] {
-            country = ADCountry(name: displayName!, code: code, dialCode: dialCode)
+            country = ADCountry(name: displayName, code: code, dialCode: dialCode)
         } else {
-            country = ADCountry(name: displayName!, code: code)
+            country = ADCountry(name: displayName, code: code)
         }
         return country
     }
@@ -153,7 +153,7 @@ open class ADCountryPicker: UITableViewController {
         self.navigationItem.title = pickerTitle
         
         if selectingMode == .destination {
-            customCountriesCode = ["AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE", "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE", "CH", "LI", "IS", "NO"]
+            customCountriesCode = ["NL", "OTHER"]
         }
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
         createSearchBar()

@@ -14,18 +14,29 @@ class VerifierStartNavigationController: UINavigationController {
     
     var timer: Timer?
     
-    var proofManager: ProofManager?
+    var proofManager: ProofManaging?
     
     var banner: OutdatedTrustView?
+    var updatingBanner: UpdatingTrustListView?
     
     var trustListShouldMoveDown: Bool = false
     
+    init(rootViewController: UIViewController, proofManaging: ProofManaging) {
+        self.proofManager = proofManaging
+        super.init(rootViewController: rootViewController)
+    }
+    
+    required init?(coder: NSCoder) {
+
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        proofManager = ProofManager()
         timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { _ in
             self.checkTrustLists()
         })
+        proofManager?.setDelegate(delegate: self)
         
     }
     
@@ -50,6 +61,34 @@ class VerifierStartNavigationController: UINavigationController {
             addTrustListBanner()
         } else {
             removeTrustListBanner()
+        }
+    }
+    
+    private func displayUpdatingTrustListBanner() {
+        guard updatingBanner == nil else { return }
+        updatingBanner = UpdatingTrustListView()
+        guard let banner = updatingBanner else { return }
+        view.addSubview(banner)
+        banner.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(67)
+            make.width.equalTo(204)
+            make.height.equalTo(48)
+            make.centerX.equalToSuperview()
+        }
+        UIView.animate(withDuration: 0.01) {
+            banner.alpha = 1
+        }
+    }
+    
+    private func hideUpdatingTrustListBanner() {
+        guard let banner = updatingBanner else { return }
+        OperationQueue.main.addOperation {
+            UIView.animate(withDuration: 0.2, delay: 1) {
+                banner.alpha = 0
+            } completion: { _ in
+                banner.removeFromSuperview()
+                self.updatingBanner = nil
+            }
         }
     }
     
@@ -90,5 +129,14 @@ class VerifierStartNavigationController: UINavigationController {
                 self.banner = nil
             }
         }
+    }
+}
+
+extension VerifierStartNavigationController: ProofManagingDelegate {
+    func didStartKeyFetch() {
+        displayUpdatingTrustListBanner()
+    }
+    func didEndKeyFetch() {
+        hideUpdatingTrustListBanner()
     }
 }

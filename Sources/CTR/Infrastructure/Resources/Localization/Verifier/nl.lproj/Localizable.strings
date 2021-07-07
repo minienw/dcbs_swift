@@ -114,11 +114,12 @@
 "verifier.instructions.access.title" = "3. Controleer de gegevens";
 "verifier.instructions.access.text" = "Indien nodig controleert u of volgens de test- vaccinatie- of herstelgegevens die de app weergeeft reizen naar het land van bestemming door de reiziger is toegestaan. Zo ja, dan kunt u de reiziger toegang geven.";
 "verifier.instructions.denied.title" = "4. Rood scherm";
-"verifier.instructions.denied.text" = "Bij een rood scherm is het de QR code <b>ongeldig</b>. Dit betekent <b>niet</b> dat de reiziger corona heeft of besmettelijk is!
-Er worden geen gegevens uit het DCC getoond. U vraagt de reiziger om een alternatief bewijs (negatief testresultaat, alternatief bewijs van vaccinatie of herstel), om de controle uit te kunnen voeren.";
+"verifier.instructions.denied.text" = "Bij een rood scherm is de QR code mogelijk <b>ongeldig</b>. Dit betekent <b>niet</b> dat de reiziger corona heeft of besmettelijk is!
+Eerste actie is om het nog eens te proberen omdat de app automatisch een aantal zaken controleert. Een tweede keer scannen kan dus toch een groen resultaat geven.
+Als het een rood scherm blijft na de tweede poging, worden er geen gegevens uit het DCC getoond. U vraagt de reiziger om een alternatief bewijs (negatief testresultaat, alternatief bewijs van vaccinatie of herstel), om de controle uit te kunnen voeren.";
 
 "verifier.instructions.denied.2.title" = "5. Rood scherm: verklaringen en opties";
-"verifier.instructions.denied.2.text" = "Een rood scherm kan meerdere oorzaken hebben:<ul><li>Het certificaat is niet voorzien van een geldige handtekening door een van de daartoe aangewezen instanties.</li><li>De lijst referentie certificaten van handtekeningen is verouderd, en kan momenteel niet worden bijgewerkt. Kies eventueel de functie Bijwerken certificaatlijst in het menu en probeer de scan opnieuw uit te voeren.</li><li>Er is iets mis met de scanner app. Sluit de app helemaal af en start opnieuw om het nog eens te proberen.</li><li>De app van de reiziger werkt niet goed. Laat de reiziger de app opnieuw starten en scan opnieuw.</li></ul>";
+"verifier.instructions.denied.2.text" = "Een rood scherm kan meerdere oorzaken hebben:<ul><li>Het certificaat is niet voorzien van een geldige handtekening door een van de daartoe aangewezen instanties.</li><li>De lijst referentie certificaten van handtekeningen is verouderd, en kan momenteel niet worden bijgewerkt. U kunt de status van het bijwerken controleren in het Over de App scherm.</li><li>Er is iets mis met de scanner app. Sluit de app helemaal af en start opnieuw om het nog eens te proberen.</li><li>De app van de reiziger werkt niet goed. Laat de reiziger de app opnieuw starten en scan opnieuw.</li></ul>";
 
 "verifier.instructions.trustlists.title" = "6. Melding: De certificatenlijst is niet bijgewerkt";
 "verifier.instructions.trustlists.text" = "De app laat in bepaalde gevallen de volgende waarschuwing zien in een rode balk: “De certificatenlijst is niet bijgewerkt!” Deze melding betekent dat bij het ophalen van een controlelijst voor de elektronische handtekeningen iets mis is gegaan, bijvoorbeeld door een ontbrekende verbinding. Het gevolg is dat sommige geldige QR codes als ongeldig worden weergegeven in de app. Met de knop Bijwerken in de meldingen balk kunt u het ophalen handmatig forceren. Maak daarvoor eerst verbinding met het internet.";
@@ -248,3 +249,26 @@ uitgever";
 "url.terms_of_use" = "https://dcccrossborderscanner.nl/dist/termsofuse/gebruiksvoorwaarden.html";
 "url.accessibility" = "https://dcccrossborderscanner.nl/dist/accessibility/toegankelijkheid.html";
 "url.support" = "https://www.rijksoverheid.nl/ministeries/ministerie-van-infrastructuur-en-waterstaat/contact";
+
+
+"x_days" = "%i dagen";
+"x_day" = "%i dag";
+"x_hour" = "%i uur";
+"x_hours" = "%i uur";
+"old" = "oud";
+"cant_calculate_days_old" = "Kan dagen oud niet berekenen";
+
+"vaccin_header" = "Vaccin: %@, Dosis %i / %i";
+"vaccin_complete" = "COMPLEET";
+"vaccin_incomplete" = "INCOMPLEET";
+
+"travel_not_met" = "Niet geldig voor
+gekozen reis";
+"travel_met" = "Geldig voor
+gekozen reis";
+
+"last_trustlist_update" = "Laatste certificatenlijst update:";
+"updating_trustlist" = "Certificatenlijst
+bijwerken";
+
+"country_other" = "Anders";

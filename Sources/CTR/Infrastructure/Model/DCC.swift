@@ -290,6 +290,11 @@ struct DCCVaccine: Codable {
         return DCCQR.dateFormat.date(from: dateOfVaccination) ?? DCCQR.dateFormatBackup.date(from: dateOfVaccination)
     }
     
+    func getVaccinationAge() -> DateComponents? {
+        guard let date = getDateOfVaccination() else { return nil }
+        return Calendar.current.dateComponents([.day, .hour], from: date, to: Date())
+    }
+    
     func isFullyVaccinated() -> Bool {
         return doseNumber >= totalSeriesOfDoses
     }
@@ -420,6 +425,11 @@ struct DCCRecovery: Codable {
     
     func getDateValidTo() -> Date? {
         return DCCQR.dateFormat.date(from: certificateValidTo) ?? DCCQR.dateFormatBackup.date(from: certificateValidTo)
+    }
+    
+    func getRecoveryAge() -> DateComponents? {
+        guard let date = getDateOfFirstPositiveTest() else { return nil }
+        return Calendar.current.dateComponents([.day, .hour], from: date, to: Date())
     }
     
     func isValidRecovery(date: Date) -> Bool {

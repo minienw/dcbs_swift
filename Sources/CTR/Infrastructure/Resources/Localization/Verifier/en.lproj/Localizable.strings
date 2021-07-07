@@ -92,11 +92,12 @@
 "verifier.instructions.access.title" = "3. Check Corona status";
 "verifier.instructions.access.text" = "If necessary check if the data in the test, vaccination or recovery information that is shown by your app indicates that traveling to the destination country by this traveler is allowed. If so access can be granted to the traveller.";
 "verifier.instructions.denied.title" = "4. Red screen";
-"verifier.instructions.denied.text" = "A red screen indicates that the QR code is <b>invalid</b>. This does <b>not</b> mean that the traveller is infected with COVID!
-Data in the QR code will not be shown by the app. The traveller needs to present other proof of negative testing, vaccination or recovery in order to be able to perform the mandatory control.";
+"verifier.instructions.denied.text" = "A red screen indicates that the QR code appears to be <b>invalid</b>. This does <b>not</b> mean that the traveller is infected with COVID!
+Always try a second scan. Since the app does some auto-repair actions in the background this second scan might very well lead to a valid result.
+If the red screen persists, data in the QR code will not be shown by the app. The traveller needs to present other proof of negative testing, vaccination or recovery in order to be able to perform the mandatory control.";
 
 "verifier.instructions.denied.2.title" = "5. Red screen: causes and options to fix";
-"verifier.instructions.denied.2.text" = "A red screen can have multiple causes:<ul><li>The certificate does not have a valid signature by a designated organization.</li><li>The trustlist of reference certificates for the signatures is expired, and cannot be updated at the moment. Choose ‘update trustlists’ in the menu and try again to scan the QR code.</li><li>Something is wrong with the scanner app. Close it entirely and restart to try scanning the QR code again.</li><li>Something is wrong with the app of the traveler. Ask the traveler to restart the app and try again.</li></ul>";
+"verifier.instructions.denied.2.text" = "A red screen can have multiple causes:<ul><li>The certificate does not have a valid signature by a designated organization.</li><li>The trustlist of reference certificates for the signatures is expired, and cannot be updated at the moment. You can check the update status of trustlist in through the About the App screen.</li><li>Something is wrong with the scanner app. Close it entirely and restart to try scanning the QR code again.</li><li>Something is wrong with the app of the traveler. Ask the traveler to restart the app and try again.</li></ul>";
 
 "verifier.instructions.trustlists.title" = "6. Message: Trust list was not updated";
 "verifier.instructions.trustlists.text" = "Certain conditions result in a message in a red bar on top of your screen: “Trust list was not updated”. This message indicates that something went wrong while fetching the list of trusted issuers of the electronic signatures, possibly due to connection issues. This leads to certain valid QR codes will show as invalid in the app. Using the “Update lists” button you can manually retry the fetching operation. First make sure you are connected to the Internet.";
@@ -124,7 +125,7 @@ DCC QR code";
 
 /* MARK: - Verifier About */
 "verifier.about.title" = "About the app";
-"verifier.about.text" = "The “DCC cross border Scanner NL” app is developed by the Ministry of Infrastructure and Wateraffairs in The Netherlands to simplify travelling through EU countries. Health information of travellers can be checked against travelling policies by international carriers quickly and efficiently. Safe travelling will be quicker and easier that way.";
+"verifier.about.text" = "The “DCC cross border Scanner NL” app is developed by the Ministry of Infrastructure and Water Management in The Netherlands to simplify travelling through EU countries. Health information of travellers can be checked against travelling policies by international carriers quickly and efficiently. Safe travelling will be quicker and easier that way.";
 
 
 /* MARK: - DCC SCANNER */
@@ -222,3 +223,24 @@ issuer";
 "url.terms_of_use" = "https://dcccrossborderscanner.nl/dist/termsofuse/termsofuse.html";
 "url.accessibility" = "https://dcccrossborderscanner.nl/dist/accessibility/accessibility.html";
 "url.support" = "https://www.government.nl/ministries/ministry-of-infrastructure-and-water-management/contact";
+
+
+"x_days" = "%i days";
+"x_day" = "%i day";
+"x_hour" = "%i hour";
+"x_hours" = "%i hours";
+"old" = "old";
+"cant_calculate_days_old" = "Can't calculate days old";
+
+"vaccin_header" = "Vaccine: %@, Dose %i / %i";
+"vaccin_complete" = "COMPLETE";
+"vaccin_incomplete" = "INCOMPLETE";
+
+"travel_not_met" = "Not valid for
+chosen trip";
+"travel_met" = "Valid for
+chosen trip";
+
+"last_trustlist_update" = "Last succesfull update date and time";
+"updating_trustlist" = "Updating
+trust lists";

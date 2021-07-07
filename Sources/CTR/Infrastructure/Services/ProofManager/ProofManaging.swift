@@ -7,6 +7,11 @@
 
 import Foundation
 
+protocol ProofManagingDelegate: AnyObject {
+    func didStartKeyFetch()
+    func didEndKeyFetch()
+}
+
 protocol ProofManaging: AnyObject {
 
 	init()
@@ -18,6 +23,11 @@ protocol ProofManaging: AnyObject {
 	func fetchIssuerPublicKeys(
 		onCompletion: (() -> Void)?,
 		onError: ((Error) -> Void)?)
+    
+    func lastUpdateTime() -> Date?
+    func shouldShowOutdatedKeysBanner() -> Bool
+    func setDelegate(delegate: ProofManagingDelegate)
+    func shouldUpdateKeys() -> Bool
 }
 
 enum ProofError: Error {

@@ -16,7 +16,8 @@ class ProofManager: ProofManaging, Logging {
 	var networkManager: NetworkManaging = Services.networkManager
 	var cryptoManager: CryptoManaging = Services.cryptoManager
 	var cryptoLibUtility: CryptoLibUtility = Services.cryptoLibUtility
-
+    weak var delegate: ProofManagingDelegate?
+    
 	/// Array of constants
 	private struct Constants {
 		static let keychainService = "ProofManager\(Configuration().getEnvironment())\(ProcessInfo.processInfo.isTesting ? "Test" : "")"
@@ -29,6 +30,10 @@ class ProofManager: ProofManaging, Logging {
 	required init() {
 		// Required by protocol
 	}
+    
+    func setDelegate(delegate: ProofManagingDelegate) {
+        self.delegate = delegate
+    }
     
     func shouldUpdateKeys() -> Bool {
         guard let hoursSinceLast = hoursSinceFetched() else { return true }
@@ -45,6 +50,10 @@ class ProofManager: ProofManaging, Logging {
         let now = Date()
         return Calendar.current.dateComponents([.hour], from: lastFetch, to: now).hour ?? 0
     }
+    
+    func lastUpdateTime() -> Date? {
+        return keysFetchedTimestamp
+    }
 	
 	/// Fetch the issuer public keys
 	/// - Parameters:
@@ -53,7 +62,8 @@ class ProofManager: ProofManaging, Logging {
 	func fetchIssuerPublicKeys(
 		onCompletion: (() -> Void)?,
 		onError: ((Error) -> Void)?) {
-		
+        
+        OperationQueue.main.addOperation { self.delegate?.didStartKeyFetch() }
 		let ttl = TimeInterval(remoteConfigManager.getConfiguration().configTTL ?? 0)
 		
 		networkManager.getPublicKeys { [weak self] resultwrapper in
@@ -64,6 +74,7 @@ class ProofManager: ProofManaging, Logging {
 					
                     self?.keysFetchedTimestamp = Date()
                     self?.cryptoLibUtility.store(data, for: .publicKeys)
+                    OperationQueue.main.addOperation { self?.delegate?.didEndKeyFetch() }
                     onCompletion?()
 				case let .failure(error):
 					
@@ -76,6 +87,7 @@ class ProofManager: ProofManaging, Logging {
 					} else {
 						onError?(error)
 					}
+                    OperationQueue.main.addOperation { self?.delegate?.didEndKeyFetch() }
 			}
 		}
 	}

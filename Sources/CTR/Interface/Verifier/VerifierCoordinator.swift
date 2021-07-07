@@ -90,7 +90,7 @@ extension VerifierCoordinator: VerifierCoordinatorDelegate {
 				proofManager: proofManager
 			)
 		)
-		dashboardNavigationController = VerifierStartNavigationController(rootViewController: dashboardViewController)
+		dashboardNavigationController = VerifierStartNavigationController(rootViewController: dashboardViewController, proofManaging: proofManager)
 
 		window.rootViewController = dashboardNavigationController
 	}
@@ -176,7 +176,7 @@ extension VerifierCoordinator: VerifierCoordinatorDelegate {
     func navigateToAbout() {
         let versionSupplier = AppVersionSupplier()
         let destination = AboutViewController(viewModel:
-                                                AboutViewModel(coordinator: self, versionSupplier: versionSupplier, flavor: .verifier)
+                                                AboutViewModel(coordinator: self, versionSupplier: versionSupplier, proofManager: proofManager, flavor: .verifier)
         )
         dashboardNavigationController?.pushViewController(destination, animated: true)
     }

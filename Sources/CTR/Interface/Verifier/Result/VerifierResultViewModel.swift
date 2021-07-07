@@ -77,6 +77,7 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 
 		self.coordinator = coordinator
 		self.cryptoResults = cryptoResults
+        self.proofManager = proofManager
 
 		primaryButtonTitle = .verifierResultButtonTitle
 		super.init()

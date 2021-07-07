@@ -2058,5 +2058,13 @@
 		<key>name</key>
 		<string>Western Sahara</string>
 	</dict>
+	<dict>
+		<key>code</key>
+		<string>OTHER</string>
+		<key>dial_code</key>
+		<string>+0</string>
+		<key>name</key>
+		<string>Other</string>
+	</dict>
 </array>
 </plist>

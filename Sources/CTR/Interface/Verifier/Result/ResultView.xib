@@ -29,6 +29,7 @@
                 <outlet property="deniedLabel" destination="Hc9-to-vzU" id="cpQ-Ob-fxA"/>
                 <outlet property="deniedView" destination="Jd0-DN-tS4" id="RaR-qX-jNG"/>
                 <outlet property="itemsStack" destination="HJ8-e9-WLO" id="18B-FX-bLE"/>
+                <outlet property="scrollView" destination="jkt-v2-0Cb" id="EVI-c2-aFO"/>
                 <outlet property="selectedCountryDeniedView" destination="61A-C4-k6l" id="H8e-dE-KuN"/>
                 <outlet property="selectedCountryView" destination="7dP-Ab-0el" id="Spp-qo-ecG"/>
                 <outlet property="vaccineView1" destination="AJd-cs-Z9E" id="k1j-Rj-Tfl"/>
@@ -45,14 +46,14 @@
                     <rect key="frame" x="0.0" y="44" width="428" height="882"/>
                     <color key="backgroundColor" name="ViewControllerBackgroundColor"/>
                 </view>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jkt-v2-0Cb">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jkt-v2-0Cb" customClass="HeaderScrollView" customModule="CTR" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="44" width="428" height="754"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0n7-qi-tCD">
-                            <rect key="frame" x="0.0" y="0.0" width="428" height="339"/>
+                            <rect key="frame" x="0.0" y="0.0" width="428" height="359"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="uBd-PP-DUS">
-                                    <rect key="frame" x="0.0" y="0.0" width="428" height="339"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="428" height="359"/>
                                     <subviews>
                                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jd0-DN-tS4">
                                             <rect key="frame" x="0.0" y="0.0" width="428" height="278"/>
@@ -68,7 +69,7 @@
                                                         <constraint firstAttribute="height" constant="46" id="fVr-mJ-swK"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Geen geldige QR-code" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZ1-Fe-RuV">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Geen geldige QR-code" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZ1-Fe-RuV">
                                                     <rect key="frame" x="111.33333333333333" y="55.333333333333336" width="205.66666666666669" height="23.333333333333336"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="20"/>
                                                     <color key="textColor" name="ViewControllerBackgroundColor"/>
@@ -77,7 +78,7 @@
                                                         <userDefinedRuntimeAttribute type="string" keyPath="translationKey" value="verifier.result.denied.title"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="De reiziger heeft geen geldig bewijs. Lees mogelijke oorzaken." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hc9-to-vzU">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="De reiziger heeft geen geldig bewijs. Lees mogelijke oorzaken." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hc9-to-vzU">
                                                     <rect key="frame" x="30" y="278" width="368" height="0.0"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="20"/>
                                                     <color key="textColor" name="DarkColor"/>
@@ -124,20 +125,20 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dQj-YY-ZsV">
-                                            <rect key="frame" x="0.0" y="0.0" width="428" height="339"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="428" height="359"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ihB-yn-yCw">
                                                     <rect key="frame" x="0.0" y="0.0" width="428" height="187.66666666666666"/>
                                                     <color key="backgroundColor" name="AccessColor"/>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Geldige QR-code" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JdI-yj-ZcL">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Geldige QR-code" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JdI-yj-ZcL">
                                                     <rect key="frame" x="136" y="55.000000000000007" width="156" height="23.333333333333336"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="20"/>
                                                     <color key="textColor" name="ViewControllerBackgroundColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="HJ8-e9-WLO">
-                                                    <rect key="frame" x="32" y="187.66666666666663" width="364" height="151.33333333333337"/>
+                                                    <rect key="frame" x="32" y="187.66666666666663" width="364" height="171.33333333333337"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="wRV-PB-xct">
                                                             <rect key="frame" x="0.0" y="0.0" width="364" height="0.0"/>
@@ -145,7 +146,7 @@
                                                                 <constraint firstAttribute="height" placeholder="YES" id="mqw-tC-rYp"/>
                                                             </constraints>
                                                         </stackView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Piet jan klaas pietersen" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bjc-Tk-djU">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Piet jan klaas pietersen" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bjc-Tk-djU">
                                                             <rect key="frame" x="0.0" y="0.0" width="364" height="31.666666666666668"/>
                                                             <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="27"/>
                                                             <color key="textColor" name="DarkColor"/>
@@ -158,7 +159,7 @@
                                                                 <constraint firstAttribute="height" constant="6" id="Whm-1G-IkS"/>
                                                             </constraints>
                                                         </view>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Date of birth: 25.03.1985" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XiA-G8-Cya">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Date of birth: 25.03.1985" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XiA-G8-Cya">
                                                             <rect key="frame" x="0.0" y="37.666666666666657" width="364" height="17.666666666666671"/>
                                                             <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="15"/>
                                                             <color key="textColor" name="DarkColor"/>
@@ -172,11 +173,14 @@
                                                             </constraints>
                                                         </view>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="x3Z-vD-zAH">
-                                                            <rect key="frame" x="0.0" y="71.333333333333343" width="364" height="80"/>
+                                                            <rect key="frame" x="0.0" y="71.333333333333343" width="364" height="100"/>
                                                             <subviews>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AJd-cs-Z9E" customClass="ResultVaccineView" customModule="CTR" customModuleProvider="target">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="176.66666666666666" height="80"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="176.66666666666666" height="100"/>
                                                                     <color key="backgroundColor" name="TertiaryColor"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="100" placeholder="YES" id="vje-CU-jzF"/>
+                                                                    </constraints>
                                                                     <userDefinedRuntimeAttributes>
                                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                                                             <real key="value" value="4"/>
@@ -184,7 +188,7 @@
                                                                     </userDefinedRuntimeAttributes>
                                                                 </view>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TOx-sI-9Gk" customClass="ResultVaccineView" customModule="CTR" customModuleProvider="target">
-                                                                    <rect key="frame" x="187.66666666666663" y="0.0" width="176.33333333333337" height="80"/>
+                                                                    <rect key="frame" x="187.66666666666663" y="0.0" width="176.33333333333337" height="100"/>
                                                                     <color key="backgroundColor" name="TertiaryColor"/>
                                                                     <userDefinedRuntimeAttributes>
                                                                         <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
@@ -194,8 +198,12 @@
                                                                 </view>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="AJd-cs-Z9E" firstAttribute="height" secondItem="x3Z-vD-zAH" secondAttribute="height" id="cIo-bf-gga"/>
-                                                                <constraint firstAttribute="height" constant="80" id="ofK-sG-xbX"/>
+                                                                <constraint firstAttribute="bottom" secondItem="AJd-cs-Z9E" secondAttribute="bottom" priority="750" id="6ij-EN-ELv"/>
+                                                                <constraint firstItem="AJd-cs-Z9E" firstAttribute="top" secondItem="x3Z-vD-zAH" secondAttribute="top" priority="750" id="DCM-wM-AwR"/>
+                                                                <constraint firstItem="TOx-sI-9Gk" firstAttribute="top" relation="greaterThanOrEqual" secondItem="x3Z-vD-zAH" secondAttribute="top" id="QNi-9h-bVC"/>
+                                                                <constraint firstItem="AJd-cs-Z9E" firstAttribute="top" relation="greaterThanOrEqual" secondItem="x3Z-vD-zAH" secondAttribute="top" id="fph-dO-7ei"/>
+                                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="TOx-sI-9Gk" secondAttribute="bottom" id="w2u-ni-5XC"/>
+                                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="AJd-cs-Z9E" secondAttribute="bottom" id="wpL-hv-GPl"/>
                                                             </constraints>
                                                         </stackView>
                                                     </subviews>

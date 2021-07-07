@@ -18,33 +18,47 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ResultVaccineView" customModule="CTR" customModuleProvider="target">
             <connections>
-                <outlet property="dateLabel" destination="OX2-H4-J8g" id="j1l-qJ-cZ4"/>
+                <outlet property="dateLabel" destination="Wwg-Gl-IY4" id="Xg6-7s-uhQ"/>
+                <outlet property="daysOldLabel" destination="OX2-H4-J8g" id="pWl-rb-Fb8"/>
                 <outlet property="doseLabel" destination="WMD-ES-Mf3" id="ZAL-UL-DW7"/>
                 <outlet property="productLabel" destination="jrS-NL-qJT" id="ICb-Bw-Ed2"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CustomView" customModule="CTR" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="337" height="110"/>
+            <rect key="frame" x="0.0" y="0.0" width="337" height="105"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="eXn-jB-WLQ">
-                    <rect key="frame" x="0.0" y="0.0" width="337" height="110"/>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="eXn-jB-WLQ">
+                    <rect key="frame" x="0.0" y="10" width="337" height="85"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Dose 1" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WMD-ES-Mf3">
-                            <rect key="frame" x="0.0" y="0.0" width="337" height="36.5"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" ambiguous="YES" text="Dose 1" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WMD-ES-Mf3">
+                            <rect key="frame" x="0.0" y="0.0" width="337" height="24"/>
                             <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="13"/>
                             <color key="textColor" name="DarkColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Biontech/Pfizer" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jrS-NL-qJT">
-                            <rect key="frame" x="0.0" y="36.5" width="337" height="37"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" ambiguous="YES" text="Biontech/Pfizer" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jrS-NL-qJT">
+                            <rect key="frame" x="0.0" y="24" width="337" height="18.5"/>
                             <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="15"/>
                             <color key="textColor" name="DarkColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="26.05.2021" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OX2-H4-J8g">
-                            <rect key="frame" x="0.0" y="73.5" width="337" height="36.5"/>
+                        <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oub-xO-tN1">
+                            <rect key="frame" x="0.0" y="42.5" width="337" height="8"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="8" id="Oe5-Tl-aCe"/>
+                            </constraints>
+                        </view>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" ambiguous="YES" text="26 May 2021" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wwg-Gl-IY4">
+                            <rect key="frame" x="0.0" y="50.5" width="337" height="16"/>
+                            <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="13"/>
+                            <color key="textColor" name="DarkColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" ambiguous="YES" text="10 days old" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OX2-H4-J8g">
+                            <rect key="frame" x="0.0" y="66.5" width="337" height="18.5"/>
                             <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="15"/>
                             <color key="textColor" name="DarkColor"/>
                             <nil key="highlightedColor"/>
@@ -54,8 +68,8 @@
             </subviews>
             <color key="backgroundColor" name="TertiaryColor"/>
             <constraints>
-                <constraint firstItem="eXn-jB-WLQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="JLd-zs-tVa"/>
-                <constraint firstAttribute="bottom" secondItem="eXn-jB-WLQ" secondAttribute="bottom" id="UUR-s7-jBA"/>
+                <constraint firstItem="eXn-jB-WLQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="JLd-zs-tVa"/>
+                <constraint firstAttribute="bottom" secondItem="eXn-jB-WLQ" secondAttribute="bottom" constant="10" id="UUR-s7-jBA"/>
                 <constraint firstAttribute="trailing" secondItem="eXn-jB-WLQ" secondAttribute="trailing" id="X2q-TR-BbR"/>
                 <constraint firstItem="eXn-jB-WLQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="aR4-Ax-Khi"/>
             </constraints>
@@ -65,7 +79,7 @@
                     <real key="value" value="4"/>
                 </userDefinedRuntimeAttribute>
             </userDefinedRuntimeAttributes>
-            <point key="canvasLocation" x="-31.159420289855074" y="-187.5"/>
+            <point key="canvasLocation" x="-31.159420289855074" y="-188.50446428571428"/>
         </view>
     </objects>
     <resources>

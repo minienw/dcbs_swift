@@ -42,6 +42,7 @@ class AboutViewModel: Logging {
 	@Bindable private(set) var message: String
 	@Bindable private(set) var version: String
 	@Bindable private(set) var listHeader: String
+    @Bindable private(set) var trustListUpdateTime: Date?
 	@Bindable private(set) var menu: [AboutMenuOption] = []
 
 	// MARK: - Initializer
@@ -51,10 +52,7 @@ class AboutViewModel: Logging {
 	///   - coordinator: the coordinator delegate
 	///   - versionSupplier: the version supplier
 	///   - flavor: the app flavor
-	init(
-		coordinator: OpenUrlProtocol,
-		versionSupplier: AppVersionSupplierProtocol,
-		flavor: AppFlavor) {
+	init(coordinator: OpenUrlProtocol, versionSupplier: AppVersionSupplierProtocol, proofManager: ProofManaging, flavor: AppFlavor) {
 
 		self.coordinator = coordinator
 		self.flavor = flavor
@@ -69,6 +67,7 @@ class AboutViewModel: Logging {
 			versionSupplier.getCurrentVersion(),
 			versionSupplier.getCurrentBuild()
 		)
+        trustListUpdateTime = proofManager.lastUpdateTime()
 
 		setupMenuVerifier()
 	}
