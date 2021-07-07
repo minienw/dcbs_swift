@@ -93,24 +93,28 @@ targetTemplates:
         DEBUG_INFORMATION_FORMAT: dwarf-with-dsym # Firebase warns that this must be set for all targets.
         CODE_SIGN_STYLE: Manual
         CODE_SIGN_IDENTITY: iPhone Distribution
-        DEVELOPMENT_TEAM: C2H38GV99H
       configs:
         Development:
           PRODUCT_MODULE_NAME: CTR
           NETWORK_CONFIGURATION: Development
           CODE_SIGN_IDENTITY: iPhone Developer
           VALIDATE_PRODUCT: NO
+          DEVELOPMENT_TEAM: C2H38GV99H
         Acceptance:
           PRODUCT_MODULE_NAME: CTR
           NETWORK_CONFIGURATION: ACC
           CODE_SIGN_IDENTITY: iPhone Developer
           VALIDATE_PRODUCT: NO
+          DEVELOPMENT_TEAM: C2H38GV99H
         AppStore:
           NETWORK_CONFIGURATION: Production
+          DEVELOPMENT_TEAM: C2H38GV99H
         Enterprise:
           NETWORK_CONFIGURATION: Production
+          DEVELOPMENT_TEAM: 4936NV9Q2W
         AppStore Acc:
           NETWORK_CONFIGURATION: ACC
+          DEVELOPMENT_TEAM: C2H38GV99H
     info:
       properties:
         # Dynamic properties (APP_FLAVOR etc) here are set at build time, so can still vary based on a Configuration.
@@ -211,7 +215,7 @@ targets:
         Enterprise:
           DISPLAY_NAME: DCC Scanner
           PROVISIONING_PROFILE_SPECIFIER: DCC Scanner In House
-          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.dcbs.dccscanner
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.dcbs.dccscanner.enterprise
     info:
       path: Sources/CTR/Configuration/verifier-Info.plist
       properties:
