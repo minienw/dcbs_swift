@@ -6,7 +6,6 @@
 */
 
 import UIKit
-import Firebase
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		styleUI()
 		previousBrightness = UIScreen.main.brightness
-        FirebaseApp.configure()
 		if #available(iOS 13.0, *) {
 			// Use Scene lifecycle
 		} else {
