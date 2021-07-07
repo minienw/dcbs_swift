@@ -248,3 +248,5 @@ uitgever";
 "url.terms_of_use" = "https://dcccrossborderscanner.nl/dist/termsofuse/gebruiksvoorwaarden.html";
 "url.accessibility" = "https://dcccrossborderscanner.nl/dist/accessibility/toegankelijkheid.html";
 "url.support" = "https://www.rijksoverheid.nl/ministeries/ministerie-van-infrastructuur-en-waterstaat/contact";
+
+"rule_vaccination_14_days" = "De vaccinatie moet ten minste 14 dagen oud zijn.";
