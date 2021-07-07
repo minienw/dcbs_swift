@@ -34,6 +34,8 @@ enum DCCFailableItem {
     case invalidRecoveryFromDate
     case invalidRecoveryToDate
     
+    case vaccinationMustBe14DaysOld
+    
     func displayName() -> String {
         switch self {
         
@@ -80,6 +82,9 @@ enum DCCFailableItem {
                 return "rule_invalid_recovery_from_date".localized()
             case .invalidRecoveryToDate:
                 return "rule_invalid_recovery_to_date".localized()
+                
+            case .vaccinationMustBe14DaysOld:
+                return "rule_vaccination_14_days".localized()
         }
     }
     

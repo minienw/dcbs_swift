@@ -272,3 +272,4 @@ gekozen reis";
 bijwerken";
 
 "country_other" = "Anders";
+"rule_vaccination_14_days" = "De vaccinatie moet ten minste 14 dagen oud zijn.";
