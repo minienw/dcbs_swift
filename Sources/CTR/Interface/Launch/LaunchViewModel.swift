@@ -84,10 +84,8 @@ class LaunchViewModel {
         let group = DispatchGroup()
         group.enter()
         group.enter()
-        group.enter()
         updateConfiguration(group: group)
         updateKeys(group: group)
-        updateRiskCountries(group: group)
         
         group.notify(queue: .main) {
             self.handleState()
@@ -108,17 +106,6 @@ class LaunchViewModel {
 		// Continu with flow
 		updateDependencies()
 	}
-
-    private func updateRiskCountries(group: DispatchGroup) {
-        
-        CountryRiskManager.instance.fetchCountryRisks {
-            group.leave()
-        } onFailure: { error in
-            print("Failed fetching countries: \(error.localizedDescription)")
-            group.leave()
-        }
-
-    }
     
 	/// Update the configuration
     private func updateConfiguration(group: DispatchGroup) {

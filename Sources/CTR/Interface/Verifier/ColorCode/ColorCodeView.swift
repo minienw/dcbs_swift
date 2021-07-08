@@ -15,9 +15,9 @@ class ColorCodeView: TMCBaseView {
     
     var onItemTapped: (() -> Void)?
     
-    func setup(color: CountryColorCode, onTapped: @escaping () -> Void) {
+    func setup(color: CountryRisk, onTapped: @escaping () -> Void) {
         self.label.font = Theme.fonts.body
-        self.label.text = color.rawValue.localized()
+        self.label.text = color.name() ?? ""
         self.onItemTapped = onTapped
     }
     

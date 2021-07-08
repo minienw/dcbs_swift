@@ -9,58 +9,101 @@
 import Foundation
 import UIKit
 
+protocol CountryColorPickerDelegate: AnyObject {
+    func didChooseItem(area: CountryRisk)
+}
 class CountryColorPickerViewController: BaseViewController {
     
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var viewColorCodesLabel: UILabel!
-    @IBOutlet var viewColorCodesButton: UIButton!
+    @IBOutlet var mainContainer: UIView!
+    @IBOutlet var countriesButton: UIButton!
+    @IBOutlet var coloursButton: UIButton!
     
-    @IBOutlet var greenView: ColorCodeView!
-    @IBOutlet var yellowView: ColorCodeView!
-    @IBOutlet var orangeView: ColorCodeView!
-    @IBOutlet var orangeHighIncidence: ColorCodeView!
-    @IBOutlet var orangeHighRisk: ColorCodeView!
-    @IBOutlet var redView: ColorCodeView!
-    
-    var onSelectedItem: ((String) -> Void)?
+    var countryPicker: ADCountryPicker?
+    var colourPicker: ColorPickerViewController?
     var coordinator: OpenUrlProtocol?
+    weak var delegate: CountryColorPickerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "country_departure_title".localized()
-        titleLabel.font = Theme.fonts.title3Montserrat
-        viewColorCodesLabel.font = Theme.fonts.title3Montserrat
-        viewColorCodesButton.titleLabel?.font = Theme.fonts.bodyMontserratSemiBold
+        setButtonActive(active: true, button: countriesButton)
+        setButtonActive(active: false, button: coloursButton)
+        countriesButton.titleLabel?.font = Theme.fonts.title3Montserrat
+        coloursButton.titleLabel?.font = Theme.fonts.title3Montserrat
         
-        greenView.setup(color: .green, onTapped: { [weak self] in
-            self?.selectedCode(code: .green)
-        })
-        yellowView.setup(color: .yellow, onTapped: { [weak self] in
-            self?.selectedCode(code: .yellow)
-        })
-        orangeView.setup(color: .orange, onTapped: { [weak self] in
-            self?.selectedCode(code: .orange)
-        })
-        redView.setup(color: .red, onTapped: { [weak self] in
-            self?.selectedCode(code: .red)
-        })
-        orangeHighRisk.setup(color: .orangeHighShipsFlight, onTapped: { [weak self] in
-            self?.selectedCode(code: .orangeHighShipsFlight)
-        })
-        orangeHighIncidence.setup(color: .orangeHighIncidence, onTapped: { [weak self] in
-            self?.selectedCode(code: .orangeHighIncidence)
-        })
+        view.layoutSubviews()
+        addCountriesPicker()
+        addColourPicker()
     }
     
-    private func selectedCode(code: CountryColorCode) {
-        self.onSelectedItem?(code.rawValue)
-        self.navigationController?.popViewController(animated: true)
+    @IBAction func countriesButtonTapped(_ sender: Any) {
+        setButtonActive(active: false, button: coloursButton)
+        setButtonActive(active: true, button: countriesButton)
+        self.countryPicker?.view.isHidden = false
+        UIView.animate(withDuration: 0.2) {
+            self.countryPicker?.view.alpha = 1
+            self.colourPicker?.view.alpha = 0
+        } completion: { _ in
+            self.colourPicker?.view.isHidden = true
+        }
+
     }
     
-    @IBAction func viewColorCodesButtonTapped(_ sender: Any) {
-        if let url = URL(string: "url.view_color_codes".localized()) {
-            coordinator?.openUrl(url, inApp: true)
+    @IBAction func coloursButtonTapped(_ sender: Any) {
+        setButtonActive(active: true, button: coloursButton)
+        setButtonActive(active: false, button: countriesButton)
+        self.colourPicker?.view.isHidden = false
+        UIView.animate(withDuration: 0.2) {
+            self.countryPicker?.view.alpha = 0
+            self.colourPicker?.view.alpha = 1
+        } completion: { _ in
+            self.countryPicker?.view.isHidden = true
+        }
+        view.endEditing(true)
+    }
+    
+    func setButtonActive(active: Bool, button: UIButton) {
+        button.alpha = active ? 1 : 0.3
+    }
+    
+    private func addCountriesPicker() {
+        let picker = ADCountryPicker()
+        picker.selectingMode = .departure
+        picker.showFlags = false
+        picker.showCallingCodes = false
+        picker.pickerTitle = ""
+        picker.delegate = self
+        addChild(picker)
+        picker.view.frame = CGRect(x: 0, y: 0, width: mainContainer.frame.width, height: mainContainer.frame.height)
+        mainContainer.addSubview(picker.view)
+        picker.didMove(toParent: self)
+        countryPicker = picker
+        picker.view.alpha = 1
+    }
+    
+    private func addColourPicker() {
+        let picker: ColorPickerViewController = getVC(in: "ColorPicker")
+        picker.onSelectedItem = { [weak self] result in
+            self?.delegate?.didChooseItem(area: result)
+        }
+        picker.coordinator = coordinator
+        
+        addChild(picker)
+        picker.view.frame = CGRect(x: 0, y: 0, width: mainContainer.frame.width, height: mainContainer.frame.height)
+        mainContainer.addSubview(picker.view)
+        picker.didMove(toParent: self)
+        picker.view.alpha = 0
+        colourPicker = picker
+    }
+}
+
+extension CountryColorPickerViewController: ADCountryPickerDelegate {
+    func countryPicker(_ picker: ADCountryPicker, didSelect: CountryRisk) {
+        delegate?.didChooseItem(area: didSelect)
+        if let nav = navigationController {
+            nav.popViewController(animated: true)
+        } else {
+            dismiss(animated: true, completion: nil)
         }
     }
-    
 }

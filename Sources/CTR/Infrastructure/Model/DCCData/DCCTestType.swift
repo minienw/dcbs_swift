@@ -24,12 +24,12 @@ enum DCCTestType: String {
     }
     
     /// In hours
-    func validFor(country: String) -> Int? {
+    func validFor(country: CountryRisk) -> Int? {
         switch self {
             case .nucleidAcid:
-                return country == "nl" ? 72 : nil
+                return 72
             case .rapidImmune:
-                return country == "nl" ? 48 : nil
+                return 48
         }
     }
     

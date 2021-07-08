@@ -100,16 +100,14 @@ class VerifierScanViewController: ScanViewController {
     func openCountryColorCodePicker() {
         self.currentSelectingCountryMode = .departure
         let picker: CountryColorPickerViewController = getVC(in: "CountryColorPicker")
-        picker.onSelectedItem = { [weak self] result in
-            self?.onPickedCountryColor(code: result)
-        }
+        picker.delegate = self
         picker.coordinator = viewModel.coordinator
         resetTranslucentNavigationBar()
         navigationController?.pushViewController(picker, animated: true)
     }
     
-    private func onPickedCountryColor(code: String) {
-        userSettings.lastDeparture = code
+    private func onPickedCountryColor(area: CountryRisk) {
+        userSettings.lastDeparture = area.code ?? ""
         updateCountryPicker()
         configureTranslucentNavigationBar()
     }
@@ -165,15 +163,22 @@ class VerifierScanViewController: ScanViewController {
 	}
 }
 
+extension VerifierScanViewController: CountryColorPickerDelegate {
+    func didChooseItem(area: CountryRisk) {
+        onPickedCountryColor(area: area)
+    }
+}
+
 extension VerifierScanViewController: ADCountryPickerDelegate {
-    func countryPicker(_ picker: ADCountryPicker, didSelectCountryWithName name: String, code: String, dialCode: String) {
+    func countryPicker(_ picker: ADCountryPicker, didSelect: CountryRisk) {
         if currentSelectingCountryMode == .departure {
-            userSettings.lastDeparture = code
+            userSettings.lastDeparture = didSelect.code ?? ""
         } else if currentSelectingCountryMode == .destination {
-            userSettings.lastDestination = code
+            userSettings.lastDestination = didSelect.code ?? ""
         }
         updateCountryPicker()
         configureTranslucentNavigationBar()
         picker.navigationController?.popViewController(animated: true)
     }
+    
 }

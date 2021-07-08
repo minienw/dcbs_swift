@@ -24,8 +24,8 @@ struct Endpoint {
 	// MARK: - API
 	
 	/// Endpoint for the public keys
-	static let publicKeys = Path(components: "verifier", "public_keys")
+	static let publicKeys = Path(components: "dcbs", "public_keys")
 	
 	/// Endpoint for the remote configuration
-	static let remoteConfiguration = Path(components: "verifier", "config")
+	static let remoteConfiguration = Path(components: "dcbs", "config")
 }

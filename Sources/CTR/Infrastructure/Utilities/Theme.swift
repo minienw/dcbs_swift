@@ -185,6 +185,10 @@ final class Colors {
     var tertiary: UIColor { return color(for: "TertiaryColor") }
 
 	var gray: UIColor { return color(for: "DotGray") }
+    
+    var separatorGray: UIColor { return color(for: "SeparatorGrey") }
+    
+    var iconBackground: UIColor { return color(for: "IconBackground") }
 
 	var disabledIcon: UIColor { return color(for: "DisabledIcon") }
 

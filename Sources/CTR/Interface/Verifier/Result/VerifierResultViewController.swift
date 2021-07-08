@@ -16,6 +16,8 @@ class VerifierResultViewController: BaseViewController, Logging {
     var currentSelectingCountryMode: SelectingCountryMode?
     
     let userSettings = UserSettings()
+    
+    let remoteConfig = Services.remoteConfigManager
 
 	init(viewModel: VerifierResultViewModel) {
 
@@ -90,12 +92,12 @@ class VerifierResultViewController: BaseViewController, Logging {
 	}
     
     private func setupResultView() {
-        let from = CountryColorCode(rawValue: userSettings.lastDeparture) ?? .green
         
+        let from = ADCountryPicker.countryForCode(code: userSettings.lastDeparture) ?? .unselected
+        let to = ADCountryPicker.countryForCode(code: userSettings.lastDestination) ?? .unselected
         if let dcc = viewModel.cryptoResults.attributes {
             if dcc.isVerified {
-                
-                let failingItems = dcc.processBusinessRules(from: from, to: userSettings.lastDestination)
+                let failingItems = dcc.processBusinessRules(from: from, to: to)
                 self.sceneView.setupForVerified(dcc: dcc, isSpecimen: false, failingItems: failingItems)
             } else {
                 self.sceneView.setupForDenied()
@@ -174,16 +176,14 @@ class VerifierResultViewController: BaseViewController, Logging {
     func openCountryColorCodePicker() {
         self.currentSelectingCountryMode = .departure
         let picker: CountryColorPickerViewController = getVC(in: "CountryColorPicker")
-        picker.onSelectedItem = { [weak self] result in
-            self?.onPickedCountryColor(code: result)
-        }
+        picker.delegate = self
         picker.coordinator = viewModel.coordinator
         resetTranslucentNavigationBar()
         navigationController?.pushViewController(picker, animated: true)
     }
     
-    private func onPickedCountryColor(code: String) {
-        userSettings.lastDeparture = code
+    private func onPickedCountryColor(area: CountryRisk) {
+        userSettings.lastDeparture = area.code ?? ""
         sceneView.updateCountryPicker(settings: userSettings)
         configureTranslucentNavigationBar()
         setupResultView()
@@ -192,11 +192,17 @@ class VerifierResultViewController: BaseViewController, Logging {
 }
 
 extension VerifierResultViewController: ADCountryPickerDelegate {
-    func countryPicker(_ picker: ADCountryPicker, didSelectCountryWithName name: String, code: String, dialCode: String) {
-        userSettings.lastDestination = code
+    func countryPicker(_ picker: ADCountryPicker, didSelect: CountryRisk) {
+        userSettings.lastDestination = didSelect.code ?? ""
         sceneView.updateCountryPicker(settings: userSettings)
         configureTranslucentNavigationBar()
         picker.navigationController?.popViewController(animated: true)
         setupResultView()
+    }
+}
+
+extension VerifierResultViewController: CountryColorPickerDelegate {
+    func didChooseItem(area: CountryRisk) {
+        onPickedCountryColor(area: area)
     }
 }

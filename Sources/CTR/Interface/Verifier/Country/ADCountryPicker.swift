@@ -9,55 +9,38 @@
 import Foundation
 import UIKit
 
-struct Section {
-    var countries: [ADCountry] = []
+class Section {
+    var countries: [CountryRisk] = []
+    var code: String
     
-    mutating func addCountry(_ country: ADCountry) {
+    init(code: String) {
+        self.code = code
+        self.countries = []
+    }
+    
+    func addCountry(_ country: CountryRisk) {
         countries.append(country)
     }
 }
 
-@objc public protocol ADCountryPickerDelegate: AnyObject {
-    @objc optional func countryPicker(_ picker: ADCountryPicker, didSelectCountryWithName name: String, code: String)
-    func countryPicker(_ picker: ADCountryPicker, didSelectCountryWithName name: String, code: String, dialCode: String)
+protocol ADCountryPickerDelegate: AnyObject {
+    func countryPicker(_ picker: ADCountryPicker, didSelect: CountryRisk)
 }
 
 open class ADCountryPicker: UITableViewController {
     
-    var customCountriesCode: [String]?
-    
-    static var callingCodes = { () -> [[String: String]] in
-        let resourceBundle = Bundle(for: ADCountryPicker.classForCoder())
-        guard let path = resourceBundle.path(forResource: "CallingCodes", ofType: "plist") else { return [] }
-        return NSArray(contentsOfFile: path) as? [[String: String]] ?? [[:]]
-    }()
+    let remoteConfigManager = Services.remoteConfigManager
     
     fileprivate var searchController: UISearchController!
-    fileprivate var filteredList = [ADCountry]()
+    fileprivate var filteredList = [CountryRisk]()
     
-    fileprivate var unsortedCountries: [ADCountry] {
-        var unsortedCountries = [ADCountry]()
-        let countriesCodes = customCountriesCode == nil ? Locale.isoRegionCodes : customCountriesCode!
-        
-        for countryCode in countriesCodes {
-            unsortedCountries.append(ADCountryPicker.countryForCode(code: countryCode))
-        }
-        
-        return unsortedCountries
-    }
-    
-    static func countryForCode(code: String) -> ADCountry {
-        let locale = Locale.current
-        let displayName = (locale as NSLocale).displayName(forKey: NSLocale.Key.countryCode, value: code) ?? "country_other".localized()
-        let countryData = callingCodes.filter { $0["code"] == code }
-        let country: ADCountry
-        
-        if !countryData.isEmpty, let dialCode = countryData[0]["dial_code"] {
-            country = ADCountry(name: displayName, code: code, dialCode: dialCode)
-        } else {
-            country = ADCountry(name: displayName, code: code)
-        }
-        return country
+    static func countryForCode(code: String) -> CountryRisk? {
+        var countries = Services.remoteConfigManager.getConfiguration().countryColors ?? []
+        countries.append(CountryRisk.other)
+        countries.append(CountryRisk.unselected)
+        return countries.first(where: { it in
+            it.code == code
+        })
     }
     
     fileprivate var _sections: [Section]?
@@ -67,27 +50,43 @@ open class ADCountryPicker: UITableViewController {
             return _sections!
         }
         
-        let countries: [ADCountry] = unsortedCountries.map { country in
-            let country = ADCountry(name: country.name, code: country.code, dialCode: country.dialCode)
-            country.section = collation.section(for: country, collationStringSelector: #selector(getter: ADCountry.name))
-            return country
-        }
-        
         // create empty sections
         var sections = [Section]()
-        for _ in 0..<self.collation.sectionIndexTitles.count {
-            sections.append(Section())
+
+        var countries = remoteConfigManager.getConfiguration().countryColors?.filter({ it in
+            if it.isColourCode == true {
+                return false
+            }
+            if selectingMode == .destination && it.code != "NL" {
+                return false
+            }
+            return true
+        }) ?? []
+        if selectingMode == .destination {
+            countries.append(.other)
         }
         
         // put each country in a section
         for country in countries {
-            sections[country.section!].addCountry(country)
+            if let code = country.section() {
+                var section = sections.first { it in
+                    it.code == code
+                }
+                if section == nil {
+                    section = Section(code: code)
+                    sections.append(section!)
+                }
+                section?.addCountry(country)
+            }
         }
-        
+        sections = sections.sorted(by: { it1, it2 in
+            it1.code < it2.code
+        })
         // sort each section
         for section in sections {
-            var sec = section
-            sec.countries = collation.sortedArray(from: section.countries, collationStringSelector: #selector(getter: ADCountry.name)) as? [ADCountry] ?? []
+            section.countries = section.countries.sorted(by: { it1, it2 in
+                it1.name() ?? "" < it2.name() ?? ""
+            })
         }
         
         _sections = sections
@@ -97,13 +96,11 @@ open class ADCountryPicker: UITableViewController {
     
     fileprivate let collation = UILocalizedIndexedCollation.current()
         as UILocalizedIndexedCollation
-    open weak var delegate: ADCountryPickerDelegate?
+    
+    weak var delegate: ADCountryPickerDelegate?
     
     /// Closure which returns country name and ISO code
-    open var didSelectCountryClosure: ((String, String) -> Void)?
-    
-    /// Closure which returns country name, ISO code, calling codes
-    open var didSelectCountryWithCallingCodeClosure: ((String, String, String) -> Void)?
+    var didSelectCountryClosure: ((CountryRisk) -> Void)?
     
     /// Flag to indicate if calling codes should be shown next to the country name. Defaults to false.
     open var showCallingCodes = false
@@ -143,7 +140,7 @@ open class ADCountryPicker: UITableViewController {
     
     var selectingMode: SelectingCountryMode = .departure
     
-    convenience public init(completionHandler: @escaping ((String, String) -> Void)) {
+    convenience init(completionHandler: @escaping ((CountryRisk) -> Void)) {
         self.init()
         self.didSelectCountryClosure = completionHandler
     }
@@ -152,9 +149,6 @@ open class ADCountryPicker: UITableViewController {
         super.viewDidLoad()
         self.navigationItem.title = pickerTitle
         
-        if selectingMode == .destination {
-            customCountriesCode = ["NL", "OTHER"]
-        }
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
         createSearchBar()
         tableView.reloadData()
@@ -174,10 +168,10 @@ open class ADCountryPicker: UITableViewController {
             self.navigationItem.leftBarButtonItem = nil
             self.navigationItem.leftBarButtonItem = closeButton
         }
+        view.backgroundColor = Theme.colors.viewControllerBackground
+        tableView.backgroundColor = Theme.colors.viewControllerBackground
+        tableView.separatorColor = Theme.colors.separatorGray.withAlphaComponent(0.3)
         
-        tableView.sectionIndexColor = alphabetScrollBarTintColor
-        tableView.sectionIndexBackgroundColor = alphabetScrollBarBackgroundColor
-        tableView.separatorColor = UIColor(red: (222) / (255.0), green: (222) / (255.0), blue: (222) / (255.0), alpha: 1)
     }
     
     // MARK: Methods
@@ -199,13 +193,13 @@ open class ADCountryPicker: UITableViewController {
         }
     }
     
-    fileprivate func filter(_ searchText: String) -> [ADCountry] {
+    fileprivate func filter(_ searchText: String) -> [CountryRisk] {
         filteredList.removeAll()
         
         sections.forEach { section -> Void in
             section.countries.forEach({ country -> Void in
-                if country.name.count >= searchText.count {
-                    let result = country.name.compare(searchText, options: [.caseInsensitive, .diacriticInsensitive], range: searchText.startIndex ..< searchText.endIndex)
+                if country.name()?.count ?? 0 >= searchText.count {
+                    let result = (country.name() ?? "").compare(searchText, options: [.caseInsensitive, .diacriticInsensitive], range: searchText.startIndex ..< searchText.endIndex)
                     if result == .orderedSame {
                         filteredList.append(country)
                     }
@@ -216,13 +210,13 @@ open class ADCountryPicker: UITableViewController {
         return filteredList
     }
     
-    fileprivate func getCountry(_ code: String) -> [ADCountry] {
+    fileprivate func getCountry(_ code: String) -> [CountryRisk] {
         filteredList.removeAll()
         
         sections.forEach { section -> Void in
             section.countries.forEach({ country -> Void in
-                if country.code.count >= code.count {
-                    let result = country.code.compare(code, options: [.caseInsensitive, .diacriticInsensitive],
+                if country.code?.count ?? 0 >= code.count {
+                    let result = (country.code ?? "").compare(code, options: [.caseInsensitive, .diacriticInsensitive],
                                                       range: code.startIndex ..< code.endIndex)
                     if result == .orderedSame {
                         filteredList.append(country)
@@ -241,15 +235,7 @@ open class ADCountryPicker: UITableViewController {
     /// - Parameter countryCode: ISO code of country to get flag for
     /// - Returns: the UIImage for given country code if it exists
     public func getFlag(countryCode: String) -> UIImage? {
-        let countries = self.getCountry(countryCode)
-        
-        if !countries.isEmpty {
-            let bundle = "assets.bundle/"
-            return UIImage(named: bundle + countries.first!.code.uppercased() + ".png",
-                           in: Bundle(for: ADCountryPicker.self), compatibleWith: nil)
-        } else {
-            return nil
-        }
+        return nil
     }
     
     /// Returns the country dial code for the given country code
@@ -257,13 +243,7 @@ open class ADCountryPicker: UITableViewController {
     /// - Parameter countryCode: ISO code of country to get dialing code for
     /// - Returns: the dial code for given country code if it exists
     public func getDialCode(countryCode: String) -> String? {
-        let countries = self.getCountry(countryCode)
-        
-        if !countries.isEmpty {
-            return countries.first?.dialCode
-        } else {
-            return nil
-        }
+        return nil
     }
     
     /// Returns the country name for the given country code
@@ -271,13 +251,7 @@ open class ADCountryPicker: UITableViewController {
     /// - Parameter countryCode: ISO code of country to get dialing code for
     /// - Returns: the country name for given country code if it exists
     public func getCountryName(countryCode: String) -> String? {
-        let countries = self.getCountry(countryCode)
-        
-        if !countries.isEmpty {
-            return countries.first?.name
-        } else {
-            return nil
-        }
+        return self.getCountry(countryCode).first?.name()
     }
 }
 
@@ -292,11 +266,7 @@ extension ADCountryPicker {
     }
     
     open override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if CGFloat(self.flagHeight) < CGFloat(tableView.rowHeight) {
-            return CGFloat(max(self.flagHeight, 25))
-        }
-        
-        return max(tableView.rowHeight, CGFloat(self.flagHeight))
+        return 52.0
     }
     
     override open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -316,7 +286,7 @@ extension ADCountryPicker {
         
         let cell: UITableViewCell! = tempCell
         
-        let country: ADCountry!
+        let country: CountryRisk!
         if !searchController.searchBar.text!.isEmpty {
             country = filteredList[(indexPath as NSIndexPath).row]
         } else {
@@ -326,22 +296,7 @@ extension ADCountryPicker {
         
         cell.textLabel?.font = self.font
         
-        if showCallingCodes {
-            cell.textLabel?.text = country.name + " (" + country.dialCode! + ")"
-        } else {
-            cell.textLabel?.text = country.name
-        }
-        
-        let bundle = "assets.bundle/"
-        
-        if self.showFlags == true {
-            let image = UIImage(named: bundle + country.code.uppercased() + ".png", in: Bundle(for: ADCountryPicker.self), compatibleWith: nil)
-            if image != nil {
-                cell.imageView?.image = image?.fitImage(size: CGSize(width: self.flagHeight, height: flagHeight))
-            } else {
-                cell.imageView?.image = UIImage(color: .lightGray, size: CGSize(width: CGFloat(flagHeight), height: CGFloat(flagHeight) / CGFloat(1.5)))?.fitImage(size: CGSize(width: CGFloat(self.flagHeight), height: CGFloat(flagHeight) / CGFloat(1.5)))
-            }
-        }
+        cell.textLabel?.text = (country.name() ?? "")
         
         return cell
     }
@@ -349,34 +304,23 @@ extension ADCountryPicker {
     override open func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if !sections[section].countries.isEmpty {
             if !searchController.searchBar.text!.isEmpty {
-                if let name = filteredList.first?.name {
-                    let index = name.index(name.startIndex, offsetBy: 0)
-                    return String(describing: name[index])
+                if let section = filteredList.first?.section() {
+                    return section
                 }
                 
                 return ""
             }
             
-            return self.collation.sectionTitles[section] as String
+            return sections[section].code
         }
         
         return ""
     }
     
     override open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 26
+        return 32
     }
     
-    override open func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        return collation.sectionIndexTitles
-    }
-    
-    override open func tableView(_ tableView: UITableView,
-                                 sectionForSectionIndexTitle title: String,
-                                 at index: Int)
-        -> Int {
-            return collation.section(forSectionIndexTitle: index + 1)
-    }
 }
 
 // MARK: - Table view delegate
@@ -384,16 +328,14 @@ extension ADCountryPicker {
     
     override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let country: ADCountry!
+        let country: CountryRisk!
         if !searchController.searchBar.text!.isEmpty {
             country = filteredList[(indexPath as NSIndexPath).row]
         } else {
             country = sections[(indexPath as NSIndexPath).section].countries[(indexPath as NSIndexPath).row]
         }
-        delegate?.countryPicker?(self, didSelectCountryWithName: country.name, code: country.code)
-        delegate?.countryPicker(self, didSelectCountryWithName: country.name, code: country.code, dialCode: country.dialCode)
-        didSelectCountryClosure?(country.name, country.code)
-        didSelectCountryWithCallingCodeClosure?(country.name, country.code, country.dialCode)
+        delegate?.countryPicker(self, didSelect: country)
+        didSelectCountryClosure?(country)
     }
 }
 
@@ -407,36 +349,5 @@ extension ADCountryPicker: UISearchResultsUpdating {
             searchController.searchBar.showsCancelButton = false
         }
         tableView.reloadData()
-    }
-}
-
-// MARK: - UIImage extensions
-extension UIImage {
-    func fitImage(size: CGSize) -> UIImage? {
-        let widthRatio = size.width / self.size.width
-        let heightRatio = size.height / self.size.height
-        let ratio = min(widthRatio, heightRatio)
-        
-        let imageWidth = self.size.width * ratio
-        let imageHeight = self.size.height * ratio
-        
-        UIGraphicsBeginImageContextWithOptions(CGSize(width: imageWidth, height: imageHeight), false, 0.0)
-        self.draw(in: CGRect(x: 0, y: 0, width: imageWidth, height: imageHeight))
-        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return resizedImage
-    }
-    
-    public convenience init?(color: UIColor, size: CGSize = CGSize(width: 1, height: 1)) {
-        let rect = CGRect(origin: .zero, size: size)
-        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
-        color.setFill()
-        UIRectFill(rect)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        guard let cgImage = image?.cgImage else { return nil }
-        self.init(cgImage: cgImage)
     }
 }

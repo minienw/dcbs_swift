@@ -26,9 +26,9 @@ class SelectedCountryView: TMCBaseView {
         
         destiantionLabel.font = Theme.fonts.caption1Montserrat
         destinationTitleLabel.font = Theme.fonts.caption1Montserrat
-        departureLabel.text = departure == "" ? "country_unselected".localized() : CountryColorCode(rawValue: departure)?.rawValue.localized() ?? "country_unselected".localized()
+        departureLabel.text = departure == "" ? "country_unselected".localized() : ADCountryPicker.countryForCode(code: departure)?.name() ?? "country_unselected".localized()
         destiantionLabel.text = destination == "" ? "country_unselected".localized() :
-            ADCountryPicker.countryForCode(code: destination).name
+            ADCountryPicker.countryForCode(code: destination)?.name() ?? ""
     }
     
     @IBAction func departureTapped(_ sender: Any) {

@@ -66,15 +66,17 @@ struct DCCQR: Codable {
         return true
     }
     
-    func processBusinessRules(from: CountryColorCode, to: String) -> [DCCFailableItem] {
+    func processBusinessRules(from: CountryRisk, to: CountryRisk) -> [DCCFailableItem] {
         var failingItems = [DCCFailableItem]()
+        if from.getPassType() == .inconclusive || to.getPassType() == .inconclusive {
+            return [.undecidableFrom]
+        }
         let generalItems = processGeneralRules()
         if !generalItems.isEmpty {
             failingItems.append(contentsOf: generalItems)
         }
-        let toCode = to.lowercased()
-        if toCode == "nl" {
-            let items = processNLBusinessRules(from: from, to: toCode)
+        if to.getPassType() == .nlRules {
+            let items = processNLBusinessRules(from: from, to: to)
             if !items.isEmpty {
                 failingItems.append(contentsOf: items)
             }
@@ -149,22 +151,23 @@ struct DCCQR: Codable {
         return failingItems
     }
     
-    private func processNLBusinessRules(from: CountryColorCode, to: String) -> [DCCFailableItem] {
+    private func processNLBusinessRules(from: CountryRisk, to: CountryRisk) -> [DCCFailableItem] {
         var failingItems = [DCCFailableItem]()
-        if from == .green || from == .yellow {
+        let fromColour = from.getColourCode()
+        if fromColour == .green || fromColour == .yellow {
             return []
         }
-        if from == .red {
+        if fromColour == .red {
             return [.redNotAllowed]
         }
-        if let yearsOld = getYearsOld(), yearsOld <= 11, from != .orangeHighShipsFlight {
+        if let yearsOld = getYearsOld(), yearsOld <= 11, fromColour != .orangeHighShipsFlight {
             return []
         }
         
         if dcc?.tests == nil || dcc?.tests?.isEmpty == true {
             failingItems.append(.missingRequiredTest)
         }
-        if from == .orange {
+        if fromColour == .orange {
             for vaccine in dcc?.vaccines ?? [] {
                 if vaccine.isFullyVaccinated() {
                     return []
@@ -188,7 +191,7 @@ struct DCCQR: Codable {
                 failingItems.append(item)
             }
         }
-        if from == .orangeHighShipsFlight {
+        if fromColour == .orangeHighShipsFlight {
             failingItems.append(.requireSecondTest(hours: 24, type: .rapidImmune))
         }
         return failingItems
@@ -368,7 +371,7 @@ struct DCCTest: Codable {
         return hours
     }
     
-    func getTestIssues(from: CountryColorCode, to: String) -> DCCFailableItem? {
+    func getTestIssues(from: CountryRisk, to: CountryRisk) -> DCCFailableItem? {
         if let type = getTestType, let hoursDifference = getTestAgeInHours(toDate: Date()) {
             if let maxHours = type.validFor(country: to) {
                 if hoursDifference > maxHours {

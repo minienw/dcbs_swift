@@ -16,6 +16,7 @@ class BusinessRuleFailureView: TMCBaseView {
     func setup(failure: DCCFailableItem) {
         label.text = failure.displayName()
         label.font = Theme.fonts.title3Medium
+        label.textColor = failure.errorTextColour()
     }
     
 }

@@ -74,14 +74,18 @@ class ResultView: TMCBaseView {
             failureView.setup(failure: item)
             businessRuleFailures.addArrangedSubview(failureView)
         }
+        let isUndecided = failingItems.contains(where: { it in
+            it.makesQRUndecided()
+        })
+        
         businessRuleFailures.addArrangedSubview(getSpacer(height: showAsFailed ? 24 : 36))
         
         let colour = isSpecimen ? Theme.colors.greenGrey : showAsFailed ? Theme.colors.denied : Theme.colors.access
         subviews.first?.backgroundColor = colour
         accessBackgroundView.backgroundColor = colour
         scrollView.addHeaderColor(colour)
-        accessLabel.text = (showAsFailed ? "travel_not_met" : "travel_met").localized()
-        accessImageView.image = UIImage(named: showAsFailed ? "denied_inverted" : "access_inverted")
+        accessLabel.text = (isUndecided ? "result_inconclusive_title" : showAsFailed ? "travel_not_met" : "travel_met").localized()
+        accessImageView.image = UIImage(named: "access_inverted_qr")
         
         dccNameLabel.font = Theme.fonts.title1
         dateOfBirthLabel.font = Theme.fonts.subheadBoldMontserrat

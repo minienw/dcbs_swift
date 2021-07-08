@@ -50,16 +50,6 @@ class NetworkManager: NetworkManaging, Logging {
 		sessionDelegate?.setSecurityStrategy(SecurityStrategy.config)
 		decodeSignedJSONData(request: urlRequest, completion: completion)
 	}
-    
-    func getFirebaseRiskAreas(completion: @escaping (Result<CountryRiskResponse, NetworkError>) -> Void) {
-        let urlRequest = constructRequest(
-            url: URL(string: "https://us-central1-dcc-scanner.cloudfunctions.net/getRiskAreas"),
-            method: .POST,
-            body: "{ \"data\": {} }"
-        )
-        sessionDelegate?.setSecurityStrategy(SecurityStrategy.none)
-        decodedJSONData(request: urlRequest, completion: completion)
-    }
 	
 	// MARK: - Construct Request
 	

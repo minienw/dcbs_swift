@@ -65,9 +65,6 @@ protocol NetworkManaging {
 	/// Get the remote configuration
 	/// - Parameter completion: completion handler
 	func getRemoteConfiguration(completion: @escaping (Result<(RemoteConfiguration, Data), NetworkError>) -> Void)
-    
-    /// Get updated risk areas from firebase
-    func getFirebaseRiskAreas(completion: @escaping (Result<CountryRiskResponse, NetworkError>) -> Void)
 }
 
 struct SignedResponse: Codable, Equatable {

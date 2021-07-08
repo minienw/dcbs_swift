@@ -10,11 +10,11 @@ import Foundation
 
 enum CountryColorCode: String {
     
-    case green = "code_green"
-    case yellow = "code_yellow"
-    case orange = "code_orange"
-    case orangeHighIncidence = "code_orange_high_incidence"
-    case orangeHighShipsFlight = "code_orange_ships_flight"
-    case red = "code_red"
+    case green = "green"
+    case yellow = "yellow"
+    case orange = "orange"
+    case orangeHighIncidence = "orange_high_incidence"
+    case orangeHighShipsFlight = "orange_very_high_risk"
+    case red = "red"
     
 }

@@ -7,6 +7,7 @@
 */
 
 import Foundation
+import UIKit
 
 enum DCCFailableItem {
     
@@ -35,6 +36,8 @@ enum DCCFailableItem {
     case invalidRecoveryToDate
     
     case vaccinationMustBe14DaysOld
+    
+    case undecidableFrom
     
     func displayName() -> String {
         switch self {
@@ -85,6 +88,26 @@ enum DCCFailableItem {
                 
             case .vaccinationMustBe14DaysOld:
                 return "rule_vaccination_14_days".localized()
+            case .undecidableFrom:
+                return "result_inconclusive_message".localized()
+        }
+    }
+    
+    func makesQRUndecided() -> Bool {
+        switch self {
+        case .undecidableFrom:
+            return true
+        default:
+            return false
+        }
+    }
+    
+    func errorTextColour() -> UIColor {
+        switch self {
+        case .undecidableFrom:
+            return Theme.colors.dark
+        default:
+            return Theme.colors.denied
         }
     }
     
