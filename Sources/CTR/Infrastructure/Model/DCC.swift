@@ -10,6 +10,7 @@ import Foundation
 
 struct DCCQR: Codable {
     
+    static let july10th = 1625868000.0
     static var dateFormat: ISO8601DateFormatter {
         return ISO8601DateFormatter()
     }
@@ -95,7 +96,7 @@ struct DCCQR: Codable {
             failingItems.append(.invalidDateOfBirth)
         }
         for vaccin in dcc?.vaccines ?? [] {
-            if (vaccin.getVaccinationAge()?.day ?? 0) < 14 && Date().timeIntervalSince1970 >= 1625868000 {
+            if (vaccin.getVaccinationAge()?.day ?? 0) < 15 && Date().timeIntervalSince1970 >= DCCQR.july10th && (vaccin.getDateOfVaccination()?.timeIntervalSince1970 ?? 0) >= DCCQR.july10th {
                 failingItems.append(.vaccinationMustBe14DaysOld)
             }
             if vaccin.getMarketingHolder == nil {
