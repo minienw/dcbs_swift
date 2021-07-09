@@ -69,7 +69,7 @@ struct DCCQR: Codable {
     
     func processBusinessRules(from: CountryRisk, to: CountryRisk) -> [DCCFailableItem] {
         var failingItems = [DCCFailableItem]()
-        if from.getPassType() == .inconclusive || to.getPassType() == .inconclusive {
+        if from.isIndecisive() || to.isIndecisive() {
             return [.undecidableFrom]
         }
         let generalItems = processGeneralRules()

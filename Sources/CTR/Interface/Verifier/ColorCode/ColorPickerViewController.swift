@@ -35,6 +35,10 @@ class ColorPickerViewController: BaseViewController {
             view.setup(color: item) { [weak self] in
                 self?.selectedCode(area: item)
             }
+            colourStack.addArrangedSubview(view)
+            view.snp.makeConstraints { it in
+                it.height.equalTo(52)
+            }
         }
     
     }

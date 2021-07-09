@@ -27,19 +27,32 @@ struct CountryRisk: Codable {
     let isColourCode: Bool?
    
     static var unselected: CountryRisk {
-        return CountryRisk(nameUs: "country_unselected".localized(), nameNl: "country_unselected".localized(), countryEn: "country_unselected".localized(), countryNl: "country_unselected".localized(), code: "unselected", color: CountryColorCode.green.rawValue, resultOnValidCode: CountryRiskPass.pass.rawValue, isColourCode: false)
+        return CountryRisk(nameUs: "country_unselected".localized(), nameNl: "country_unselected".localized(), countryEn: "country_unselected".localized(), countryNl: "country_unselected".localized(), code: "unselected", color: CountryColorCode.green.rawValue, resultOnValidCode: CountryRiskPass.inconclusive.rawValue, isColourCode: false)
     }
     
     static var other: CountryRisk {
         return CountryRisk(nameUs: "country_other".localized(), nameNl: "country_other".localized(), countryEn: "country_other".localized(), countryNl: "country_other".localized(), code: "other", color: CountryColorCode.green.rawValue, resultOnValidCode: CountryRiskPass.inconclusive.rawValue, isColourCode: false)
     }
     
-    func getColourCode() -> CountryColorCode {
-        return CountryColorCode(rawValue: color ?? "") ?? .green
+    func isIndecisive() -> Bool {
+        if getColourCode() == nil {
+            return true
+        }
+        if getPassType() == nil {
+            return true
+        }
+        if getPassType() == .inconclusive {
+            return true
+        }
+        return false
     }
     
-    func getPassType() -> CountryRiskPass {
-        return CountryRiskPass(rawValue: resultOnValidCode ?? "") ?? .pass
+    func getColourCode() -> CountryColorCode? {
+        return CountryColorCode(rawValue: color ?? "")
+    }
+    
+    func getPassType() -> CountryRiskPass? {
+        return CountryRiskPass(rawValue: resultOnValidCode ?? "")
     }
     
     func name() -> String? {
