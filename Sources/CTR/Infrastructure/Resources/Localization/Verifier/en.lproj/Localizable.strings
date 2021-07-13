@@ -200,10 +200,10 @@ issuer";
 "rule_invalid_test_type" = "The testing type is not recognized. Check the validity of the test, or request a different proof of testing.";
 "rule_invalid_target_disease" = "The QR code might not be a COVID related certificate. Check if the disease displayed is COVID or Corona related.";
 "rule_invalid_vaccine_holder" = "The manufacturer of the vaccine is not recognized. Check the manufacturer, or ask for a different certificate.";
-"rule_invalid_vaccine_type" = "The vaccine type is not recognized. Check the vaccin type, or ask for a different certificate.";
+"rule_invalid_vaccine_type" = "The vaccine type is not recognized. Check the vaccine type, or ask for a different certificate.";
 "rule_invalid_vaccine_product" = "The vaccine is not properly recognized. Check the vaccine, or ask for a different certificate.";
 "rule_date_of_birth_out_of_range" = "The date of birth appears to be incorrect. Check the date of birth with the ID of the traveller.";
-"rule_invalid_country_code" = "The country code is not recognized. Check the countrycode.";
+"rule_invalid_country_code" = "The country code is not recognized. Check the country code.";
 "rule_invalid_date_of_birth" = "The date of birth appears to be incorrect. Check the date of birth with the ID of the traveller.";
 "rule_invalid_vaccine_date" = "The vaccine date is not correct. Check if the vaccine is still valid.";
 "rule_invalid_test_date" = "The test date is incorect. Check if the test is still valid.";
@@ -244,7 +244,7 @@ chosen trip";
 "last_trustlist_update" = "Last succesfull update date and time";
 "updating_trustlist" = "Updating
 trust lists";
-"rule_vaccination_14_days" = "This  vaccination certificate is not yet valid. Vaccin certificates become valid 14 days after the last vaccination date.";
+"rule_vaccination_14_days" = "This  vaccination certificate is not yet valid. Vaccine certificates become valid 14 days after the last vaccination date.";
 
 "result_inconclusive_title" = "No travel rules
 applied";

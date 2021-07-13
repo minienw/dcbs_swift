@@ -170,7 +170,6 @@ struct DCCQR: Codable {
             failingItems.append(.missingRequiredTest)
         }
         
-        
         if fromColour == .orange {
             for vaccine in dcc?.vaccines ?? [] {
                 var items: [DCCFailableItem] = []
