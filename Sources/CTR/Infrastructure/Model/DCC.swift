@@ -112,6 +112,9 @@ struct DCCQR: Codable {
             if vaccin.getDateOfVaccination() == nil {
                 failingItems.append(.invalidVaccineDate)
             }
+            if vaccin.getTargetedDisease == nil {
+                failingItems.append(.invalidTargetDisease)
+            }
         }
         for test in dcc?.tests ?? [] {
             if test.getTestResult == nil {
