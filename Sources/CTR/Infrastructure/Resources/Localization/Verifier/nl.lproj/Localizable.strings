@@ -274,5 +274,8 @@ bijwerken";
 "country_other" = "Anders";
 "rule_vaccination_14_days" = "De vaccinatie in dit certificaat is nog niet geldig. De geldigheid gaat 14 dagen na laatste vaccinatie in.";
 
-"result_inconclusive_title" = "Geen uitkomst";
+"result_inconclusive_title" = "Geen inreisregels
+toegepast";
 "result_inconclusive_message" = "Controleer de regels op de basis van de onderstaande gegevens";
+"countries" = "Landen";
+"colour_codes" = "Kleur codes";

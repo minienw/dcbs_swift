@@ -65,7 +65,10 @@ class VerifierStartNavigationController: UINavigationController {
     }
     
     private func displayUpdatingTrustListBanner() {
-        guard updatingBanner == nil else { return }
+        if proofManager?.shouldShowOutdatedKeysBanner() == true {
+            return
+        }
+        guard updatingBanner == nil, banner == nil else { return }
         updatingBanner = UpdatingTrustListView()
         guard let banner = updatingBanner else { return }
         view.addSubview(banner)

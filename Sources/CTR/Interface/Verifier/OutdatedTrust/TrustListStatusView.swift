@@ -16,7 +16,7 @@ class TrustListStatusView: TMCBaseView {
     
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd MMMM yyyy HH:mm"
+        formatter.dateFormat = "dd MMM yyyy HH:mm"
         return formatter
     }
     

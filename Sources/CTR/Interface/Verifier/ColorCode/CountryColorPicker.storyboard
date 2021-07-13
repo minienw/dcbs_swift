@@ -35,6 +35,9 @@
                                         <state key="normal" title="Landen">
                                             <color key="titleColor" name="PrimaryColor"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="translationKey" value="countries"/>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="countriesButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Xcb-mZ-nO9"/>
                                         </connections>
@@ -45,6 +48,9 @@
                                         <state key="normal" title="Kleur codes">
                                             <color key="titleColor" name="PrimaryColor"/>
                                         </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="translationKey" value="colour_codes"/>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <action selector="coloursButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="8v4-ev-DII"/>
                                         </connections>

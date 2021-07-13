@@ -55,11 +55,11 @@ settings:
     Acceptance:
       LOG_LEVEL: debug
     AppStore:
-      LOG_LEVEL: error
+      LOG_LEVEL: none
     AppStore Acc:
       LOG_LEVEL: error
     Enterprise:
-      LOG_LEVEL: error
+      LOG_LEVEL: none
 
 # - Target Templates (i.e. shared default settings for targets):
 
