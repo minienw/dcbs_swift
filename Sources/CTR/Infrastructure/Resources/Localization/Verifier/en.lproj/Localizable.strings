@@ -241,7 +241,7 @@ chosen trip";
 "travel_met" = "Valid for
 chosen trip";
 
-"last_trustlist_update" = "Last succesfull update date and time";
+"last_trustlist_update" = "Last update success:";
 "updating_trustlist" = "Updating
 trust lists";
 "rule_vaccination_14_days" = "This  vaccination certificate is not yet valid. Vaccine certificates become valid 14 days after the last vaccination date.";

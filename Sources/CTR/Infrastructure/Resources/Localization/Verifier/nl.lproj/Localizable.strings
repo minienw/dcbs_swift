@@ -267,7 +267,7 @@ gekozen reis";
 "travel_met" = "Geldig voor
 gekozen reis";
 
-"last_trustlist_update" = "Laatste certificatenlijst update:";
+"last_trustlist_update" = "Laatste succesvolle updates:";
 "updating_trustlist" = "Certificatenlijst
 bijwerken";
 
