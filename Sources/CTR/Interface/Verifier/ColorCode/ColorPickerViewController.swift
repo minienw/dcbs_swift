@@ -27,9 +27,17 @@ class ColorPickerViewController: BaseViewController {
         viewColorCodesLabel.font = Theme.fonts.title3Montserrat
         viewColorCodesButton.titleLabel?.font = Theme.fonts.bodyMontserratSemiBold
         
+        update()
+    }
+    
+    func update() {
         let items = configManager.getConfiguration().countryColors?.filter({ it in
             it.isColourCode == true
         })
+        for view in colourStack.arrangedSubviews {
+            colourStack.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
         for item in items ?? [] {
             let view = ColorCodeView()
             view.setup(color: item) { [weak self] in
@@ -40,7 +48,6 @@ class ColorPickerViewController: BaseViewController {
                 it.height.equalTo(52)
             }
         }
-    
     }
     
     private func selectedCode(area: CountryRisk) {

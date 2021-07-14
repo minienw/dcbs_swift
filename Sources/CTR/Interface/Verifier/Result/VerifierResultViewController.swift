@@ -165,8 +165,6 @@ class VerifierResultViewController: BaseViewController, Logging {
         self.currentSelectingCountryMode = .destination
         let picker = ADCountryPicker()
         picker.selectingMode = .destination
-        picker.showFlags = false
-        picker.showCallingCodes = false
         picker.pickerTitle = "country_destination_title".localized()
         picker.delegate = self
         resetTranslucentNavigationBar()

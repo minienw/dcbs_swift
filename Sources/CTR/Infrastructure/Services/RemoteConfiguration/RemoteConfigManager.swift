@@ -24,6 +24,12 @@ protocol RemoteConfigManaging: AnyObject {
 	func getConfiguration() -> RemoteConfiguration
 
 	func reset()
+    
+    func setDelegate(delegate: RemoteConfigManagerDelegate?)
+}
+
+protocol RemoteConfigManagerDelegate: AnyObject {
+    func configWasUpdated()
 }
 
 /// The remote configuration manager
@@ -57,6 +63,8 @@ class RemoteConfigManager: RemoteConfigManaging, Logging {
 
 	@UserDefaults(key: "lastFetchedTimestamp", defaultValue: nil)
 	var lastFetchedTimestamp: Date? // swiftlint:disable:this let_var_whitespace
+    
+    weak var delegate: RemoteConfigManagerDelegate?
 
 	/// Initialize
 	required init() {
@@ -64,6 +72,10 @@ class RemoteConfigManager: RemoteConfigManaging, Logging {
 		// Required by protocol
 	}
 
+    func setDelegate(delegate: RemoteConfigManagerDelegate?) {
+        self.delegate = delegate
+    }
+    
 	/// Update the remote configuration
 	/// - Parameter completion: completion handler
 	func update(completion: @escaping (LaunchState) -> Void) {
@@ -71,6 +83,7 @@ class RemoteConfigManager: RemoteConfigManaging, Logging {
 		networkManager.getRemoteConfiguration { [weak self] resultwrapper in
 
 			self?.handleResultWrapper(resultwrapper, completion: completion)
+            self?.delegate?.configWasUpdated()
 		}
 	}
 

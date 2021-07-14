@@ -22,6 +22,7 @@ class CountryColorPickerViewController: BaseViewController {
     var colourPicker: ColorPickerViewController?
     var coordinator: OpenUrlProtocol?
     weak var delegate: CountryColorPickerDelegate?
+    let remoteConfigManager = Services.remoteConfigManager
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,6 +35,16 @@ class CountryColorPickerViewController: BaseViewController {
         view.layoutSubviews()
         addCountriesPicker()
         addColourPicker()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        remoteConfigManager.setDelegate(delegate: self)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        remoteConfigManager.setDelegate(delegate: nil)
     }
     
     @IBAction func countriesButtonTapped(_ sender: Any) {
@@ -69,8 +80,6 @@ class CountryColorPickerViewController: BaseViewController {
     private func addCountriesPicker() {
         let picker = ADCountryPicker()
         picker.selectingMode = .departure
-        picker.showFlags = false
-        picker.showCallingCodes = false
         picker.pickerTitle = ""
         picker.delegate = self
         addChild(picker)
@@ -104,6 +113,15 @@ extension CountryColorPickerViewController: ADCountryPickerDelegate {
             nav.popViewController(animated: true)
         } else {
             dismiss(animated: true, completion: nil)
+        }
+    }
+}
+
+extension CountryColorPickerViewController: RemoteConfigManagerDelegate {
+    func configWasUpdated() {
+        OperationQueue.main.addOperation {
+            self.countryPicker?.update()
+            self.colourPicker?.update()
         }
     }
 }

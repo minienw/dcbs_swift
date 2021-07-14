@@ -27,12 +27,86 @@ protocol ADCountryPickerDelegate: AnyObject {
     func countryPicker(_ picker: ADCountryPicker, didSelect: CountryRisk)
 }
 
-open class ADCountryPicker: UITableViewController {
+class ADCountryPicker: UITableViewController {
     
     let remoteConfigManager = Services.remoteConfigManager
     
-    fileprivate var searchController: UISearchController!
-    fileprivate var filteredList = [CountryRisk]()
+    var searchController: UISearchController!
+    var filteredList = [CountryRisk]()
+    
+    var sections = [Section]()
+    
+    weak var delegate: ADCountryPickerDelegate?
+    
+    /// Closure which returns country name and ISO code
+    var didSelectCountryClosure: ((CountryRisk) -> Void)?
+    
+    /// The nav bar title to show on picker view
+    open var pickerTitle = "Select a Country"
+    
+    /// The default current location, if region cannot be determined. Defaults to US
+    open var defaultCountryCode = "US"
+    
+    // The tint color of the close icon in presented pickers. Defaults to black
+    open var closeButtonTintColor = UIColor.black
+    
+    /// The font of the country name list
+    open var font = Theme.fonts.subhead
+    
+    /// Flag to indicate if the navigation bar should be hidden when search becomes active. Defaults to true
+    open var hidesNavigationBarWhenPresentingSearch = true
+    
+    /// The background color of the searchbar. Defaults to lightGray
+    open var searchBarBackgroundColor = UIColor.lightGray
+    
+    var selectingMode: SelectingCountryMode = .departure
+    
+    convenience init(completionHandler: @escaping ((CountryRisk) -> Void)) {
+        self.init()
+        self.didSelectCountryClosure = completionHandler
+    }
+    
+    override open func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationItem.title = pickerTitle
+        updateSections()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
+        createSearchBar()
+        tableView.reloadData()
+        
+        definesPresentationContext = true
+        
+        if self.presentingViewController != nil {
+            
+            let bundle = "assets.bundle/"
+            let closeButton = UIBarButtonItem(image: UIImage(named: bundle + "close_icon" + ".png",
+                                                             in: Bundle(for: ADCountryPicker.self),
+                                                             compatibleWith: nil),
+                                              style: .plain,
+                                              target: self,
+                                              action: #selector(self.dismissView))
+            closeButton.tintColor = closeButtonTintColor
+            self.navigationItem.leftBarButtonItem = nil
+            self.navigationItem.leftBarButtonItem = closeButton
+        }
+        view.backgroundColor = Theme.colors.viewControllerBackground
+        tableView.backgroundColor = Theme.colors.viewControllerBackground
+        tableView.separatorColor = Theme.colors.separatorGray.withAlphaComponent(0.3)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if selectingMode == .destination {
+            remoteConfigManager.setDelegate(delegate: self)
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if selectingMode == .destination {
+            remoteConfigManager.setDelegate(delegate: nil)
+        }
+    }
     
     static func countryForCode(code: String) -> CountryRisk? {
         var countries = Services.remoteConfigManager.getConfiguration().countryColors ?? []
@@ -43,13 +117,7 @@ open class ADCountryPicker: UITableViewController {
         })
     }
     
-    fileprivate var _sections: [Section]?
-    fileprivate var sections: [Section] {
-        
-        if _sections != nil {
-            return _sections!
-        }
-        
+    func updateSections() {
         // create empty sections
         var sections = [Section]()
 
@@ -89,92 +157,8 @@ open class ADCountryPicker: UITableViewController {
             })
         }
         
-        _sections = sections
-        
-        return _sections!
+        self.sections = sections
     }
-    
-    fileprivate let collation = UILocalizedIndexedCollation.current()
-        as UILocalizedIndexedCollation
-    
-    weak var delegate: ADCountryPickerDelegate?
-    
-    /// Closure which returns country name and ISO code
-    var didSelectCountryClosure: ((CountryRisk) -> Void)?
-    
-    /// Flag to indicate if calling codes should be shown next to the country name. Defaults to false.
-    open var showCallingCodes = false
-    
-    /// Flag to indicate whether country flags should be shown on the picker. Defaults to true
-    open var showFlags = true
-    
-    /// The nav bar title to show on picker view
-    open var pickerTitle = "Select a Country"
-    
-    /// The default current location, if region cannot be determined. Defaults to US
-    open var defaultCountryCode = "US"
-    
-    /// Flag to indicate whether the defaultCountryCode should be used even if region can be deteremined. Defaults to false
-    open var forceDefaultCountryCode = false
-    
-    // The text color of the alphabet scrollbar. Defaults to black
-    open var alphabetScrollBarTintColor = UIColor.black
-    
-    /// The background color of the alphabet scrollar. Default to clear color
-    open var alphabetScrollBarBackgroundColor = UIColor.clear
-    
-    // The tint color of the close icon in presented pickers. Defaults to black
-    open var closeButtonTintColor = UIColor.black
-    
-    /// The font of the country name list
-    open var font = Theme.fonts.subhead
-    
-    /// The height of the flags shown. Default to 40px
-    open var flagHeight = 40
-    
-    /// Flag to indicate if the navigation bar should be hidden when search becomes active. Defaults to true
-    open var hidesNavigationBarWhenPresentingSearch = true
-    
-    /// The background color of the searchbar. Defaults to lightGray
-    open var searchBarBackgroundColor = UIColor.lightGray
-    
-    var selectingMode: SelectingCountryMode = .departure
-    
-    convenience init(completionHandler: @escaping ((CountryRisk) -> Void)) {
-        self.init()
-        self.didSelectCountryClosure = completionHandler
-    }
-    
-    override open func viewDidLoad() {
-        super.viewDidLoad()
-        self.navigationItem.title = pickerTitle
-        
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
-        createSearchBar()
-        tableView.reloadData()
-        
-        definesPresentationContext = true
-        
-        if self.presentingViewController != nil {
-            
-            let bundle = "assets.bundle/"
-            let closeButton = UIBarButtonItem(image: UIImage(named: bundle + "close_icon" + ".png",
-                                                             in: Bundle(for: ADCountryPicker.self),
-                                                             compatibleWith: nil),
-                                              style: .plain,
-                                              target: self,
-                                              action: #selector(self.dismissView))
-            closeButton.tintColor = closeButtonTintColor
-            self.navigationItem.leftBarButtonItem = nil
-            self.navigationItem.leftBarButtonItem = closeButton
-        }
-        view.backgroundColor = Theme.colors.viewControllerBackground
-        tableView.backgroundColor = Theme.colors.viewControllerBackground
-        tableView.separatorColor = Theme.colors.separatorGray.withAlphaComponent(0.3)
-        
-    }
-    
-    // MARK: Methods
     
     @objc private func dismissView() {
         self.dismiss(animated: true, completion: nil)
@@ -229,22 +213,6 @@ open class ADCountryPicker: UITableViewController {
     }
     
     // MARK: - Public method
-    
-    /// Returns the country flag for the given country code
-    ///
-    /// - Parameter countryCode: ISO code of country to get flag for
-    /// - Returns: the UIImage for given country code if it exists
-    public func getFlag(countryCode: String) -> UIImage? {
-        return nil
-    }
-    
-    /// Returns the country dial code for the given country code
-    ///
-    /// - Parameter countryCode: ISO code of country to get dialing code for
-    /// - Returns: the dial code for given country code if it exists
-    public func getDialCode(countryCode: String) -> String? {
-        return nil
-    }
     
     /// Returns the country name for the given country code
     ///
@@ -321,6 +289,11 @@ extension ADCountryPicker {
         return 32
     }
     
+    func update() {
+        self.updateSections()
+        self.tableView.reloadData()
+    }
+    
 }
 
 // MARK: - Table view delegate
@@ -349,5 +322,13 @@ extension ADCountryPicker: UISearchResultsUpdating {
             searchController.searchBar.showsCancelButton = false
         }
         tableView.reloadData()
+    }
+}
+
+extension ADCountryPicker: RemoteConfigManagerDelegate {
+    func configWasUpdated() {
+        OperationQueue.main.addOperation {
+            self.update()
+        }
     }
 }

@@ -11,7 +11,6 @@ import Foundation
 struct DCCQR: Codable {
     
     static let july17th = 1626472800.0
-    static let july24th = 1627077600.0
     static var dateFormat: ISO8601DateFormatter {
         return ISO8601DateFormatter()
     }
@@ -173,7 +172,7 @@ struct DCCQR: Codable {
         if fromColour == .orange {
             for vaccine in dcc?.vaccines ?? [] {
                 var items: [DCCFailableItem] = []
-                if (vaccine.getVaccinationAge()?.day ?? 0) < 15 && Date().timeIntervalSince1970 >= DCCQR.july17th && (vaccine.getDateOfVaccination()?.timeIntervalSince1970 ?? 0) >= DCCQR.july17th {
+                if (vaccine.getVaccinationAge()?.day ?? 0) < 15 && Date().timeIntervalSince1970 >= DCCQR.july17th {
                     items.append(.vaccinationMustBe14DaysOld)
                 }
                 if vaccine.isFullyVaccinated() {
