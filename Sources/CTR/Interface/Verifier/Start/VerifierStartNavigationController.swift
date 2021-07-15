@@ -15,13 +15,15 @@ class VerifierStartNavigationController: UINavigationController {
     var timer: Timer?
     
     var proofManager: ProofManaging?
+    var remoteConfigManager: RemoteConfigManaging
     
     var banner: OutdatedTrustView?
     var updatingBanner: UpdatingTrustListView?
     
     var trustListShouldMoveDown: Bool = false
     
-    init(rootViewController: UIViewController, proofManaging: ProofManaging) {
+    init(rootViewController: UIViewController, proofManaging: ProofManaging, remoteConfigManager: RemoteConfigManaging) {
+        self.remoteConfigManager = remoteConfigManager
         self.proofManager = proofManaging
         super.init(rootViewController: rootViewController)
     }
@@ -118,6 +120,7 @@ class VerifierStartNavigationController: UINavigationController {
                         banner.setLoading(loading: false)
                     }
                 })
+                self?.remoteConfigManager.update { _ in }
             }
         }
     }

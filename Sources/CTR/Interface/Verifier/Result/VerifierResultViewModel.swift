@@ -35,6 +35,8 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 	private var autoCloseTimer: Timer?
     
     private var proofManager: ProofManaging?
+    
+    private var remoteConfigManager: RemoteConfigManaging
 
 	// MARK: - Bindable properties
 
@@ -73,11 +75,12 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 	///   - coordinator: the dismissable delegate
 	///   - scanResults: the decrypted attributes
 	///   - maxValidity: the maximum validity of a test in hours
-	init(coordinator: (VerifierCoordinatorDelegate & Dismissable & OpenUrlProtocol), proofManager: ProofManaging, cryptoResults: (DCCQR?, String?), maxValidity: Int) {
+    init(coordinator: (VerifierCoordinatorDelegate & Dismissable & OpenUrlProtocol), proofManager: ProofManaging, remoteConfigManager: RemoteConfigManaging, cryptoResults: (DCCQR?, String?), maxValidity: Int) {
 
 		self.coordinator = coordinator
 		self.cryptoResults = cryptoResults
         self.proofManager = proofManager
+        self.remoteConfigManager = remoteConfigManager
 
 		primaryButtonTitle = .verifierResultButtonTitle
 		super.init()
@@ -111,6 +114,7 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 			allowAccess = .denied
 			showAccessDeniedInvalidQR()
             proofManager?.fetchIssuerPublicKeys(onCompletion: nil, onError: nil)
+            remoteConfigManager.update { _ in }
 			return
 		}
 		

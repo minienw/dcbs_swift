@@ -23,6 +23,7 @@ class VerifierStartViewModel: Logging {
 	weak private var coordinator: VerifierCoordinatorDelegate?
 	weak private var cryptoManager: CryptoManaging?
 	weak private var proofManager: ProofManaging?
+    weak private var remoteConfigManager: RemoteConfigManaging?
 	private var userSettings: UserSettingsProtocol
 
 	// MARK: - Bindable properties
@@ -52,8 +53,10 @@ class VerifierStartViewModel: Logging {
 		coordinator: VerifierCoordinatorDelegate,
 		cryptoManager: CryptoManaging,
 		proofManager: ProofManaging,
+        remoteConfigManager: RemoteConfigManaging,
 		userSettings: UserSettingsProtocol = UserSettings()) {
 
+        self.remoteConfigManager = remoteConfigManager
 		self.coordinator = coordinator
 		self.cryptoManager = cryptoManager
 		self.proofManager = proofManager
@@ -92,5 +95,6 @@ class VerifierStartViewModel: Logging {
 
 		// Fetch the public keys from the issuer
 		proofManager?.fetchIssuerPublicKeys(onCompletion: nil, onError: nil)
+        remoteConfigManager?.update { _ in }
 	}
 }

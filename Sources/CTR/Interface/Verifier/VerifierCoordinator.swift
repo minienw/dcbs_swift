@@ -87,10 +87,11 @@ extension VerifierCoordinator: VerifierCoordinatorDelegate {
 			viewModel: VerifierStartViewModel(
 				coordinator: self,
 				cryptoManager: cryptoManager,
-				proofManager: proofManager
+                proofManager: proofManager,
+                remoteConfigManager: remoteConfigManager
 			)
 		)
-		dashboardNavigationController = VerifierStartNavigationController(rootViewController: dashboardViewController, proofManaging: proofManager)
+		dashboardNavigationController = VerifierStartNavigationController(rootViewController: dashboardViewController, proofManaging: proofManager, remoteConfigManager: remoteConfigManager)
 
 		window.rootViewController = dashboardNavigationController
 	}
@@ -122,6 +123,7 @@ extension VerifierCoordinator: VerifierCoordinatorDelegate {
 			viewModel: VerifierResultViewModel(
                 coordinator: self,
                 proofManager: proofManager,
+                remoteConfigManager: remoteConfigManager,
 				cryptoResults: cryptoResults,
 				maxValidity: maxValidity
 			)
