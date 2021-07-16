@@ -35,7 +35,7 @@ class ResultView: TMCBaseView {
     
     var dateFormat: DateFormatter {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd MMM YYYY"
+        formatter.dateFormat = "dd MMM yyyy"
         return formatter
     }
     
