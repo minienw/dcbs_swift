@@ -24,6 +24,12 @@ packages:
   SnapKit:
     github: SnapKit/SnapKit
     majorVersion: 5.0.1
+  SwiftyJSON:
+    github: SwiftyJSON/SwiftyJSON
+    majorVersion: 5.0.0
+  jsonlogic:
+    github: eu-digital-green-certificates/json-logic-swift
+    majorVersion: 1.1.5
 
 
 # - Configurations:
@@ -77,12 +83,14 @@ targetTemplates:
       - package: MBProgressHUD
       - package: Lottie
       - package: SnapKit
+      - package: jsonlogic
+      - package: SwiftyJSON
       - framework: clcore.framework
         embed: false
     settings:
       base:
-        MARKETING_VERSION: 1.0.0
-        CURRENT_PROJECT_VERSION: 20
+        MARKETING_VERSION: 1.0.2
+        CURRENT_PROJECT_VERSION: 36
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         SWIFT_OBJC_BRIDGING_HEADER: Sources/CTR/Infrastructure/Services/Crypto/Utility/CTR-Bridging-Header.h
         TARGETED_DEVICE_FAMILY: 1

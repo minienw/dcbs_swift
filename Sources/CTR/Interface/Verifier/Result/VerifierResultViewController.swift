@@ -97,7 +97,7 @@ class VerifierResultViewController: BaseViewController, Logging {
         let to = ADCountryPicker.countryForCode(code: userSettings.lastDestination) ?? .unselected
         if let dcc = viewModel.cryptoResults.attributes {
             if dcc.isVerified {
-                let failingItems = dcc.processBusinessRules(from: from, to: to)
+                let failingItems = dcc.processBusinessRules(from: from, to: to, businessRuleManager: Services.businessRulesManager)
                 self.sceneView.setupForVerified(dcc: dcc, isSpecimen: false, failingItems: failingItems)
             } else {
                 self.sceneView.setupForDenied()

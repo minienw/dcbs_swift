@@ -94,5 +94,7 @@ final class Services {
 	static private(set) var onboardingManager: OnboardingManaging = onboardingManagingType.init()
 
 	static private(set) var proofManager: ProofManaging = proofManagerType.init()
+    
+    static private(set) var businessRulesManager: BusinessRulesManager = BusinessRulesManager()
 
 }

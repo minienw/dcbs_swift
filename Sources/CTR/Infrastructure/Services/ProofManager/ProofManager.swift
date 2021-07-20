@@ -16,6 +16,7 @@ class ProofManager: ProofManaging, Logging {
 	var networkManager: NetworkManaging = Services.networkManager
 	var cryptoManager: CryptoManaging = Services.cryptoManager
 	var cryptoLibUtility: CryptoLibUtility = Services.cryptoLibUtility
+    var businessRulesManager: BusinessRulesManager = Services.businessRulesManager
     weak var delegate: ProofManagingDelegate?
     
 	/// Array of constants
@@ -90,6 +91,12 @@ class ProofManager: ProofManaging, Logging {
                     OperationQueue.main.addOperation { self?.delegate?.didEndKeyFetch() }
 			}
 		}
+        businessRulesManager.update {
+            
+        } onError: { error in
+            
+        }
+
 	}
 	
 	// MARK: - Helper methods

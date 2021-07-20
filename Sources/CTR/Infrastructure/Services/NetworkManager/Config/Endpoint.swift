@@ -28,4 +28,10 @@ struct Endpoint {
 	
 	/// Endpoint for the remote configuration
 	static let remoteConfiguration = Path(components: "dcbs", "config")
+    
+    /// Endpoint for the certlogic business rules
+    static let businessRules = Path(components: "dcbs", "business_rules")
+    
+    /// Endpoint for the certlogic business rule value sets
+    static let businessRuleValueSets = Path(components: "dcbs", "value_sets")
 }

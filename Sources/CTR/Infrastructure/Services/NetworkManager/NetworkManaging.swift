@@ -65,6 +65,10 @@ protocol NetworkManaging {
 	/// Get the remote configuration
 	/// - Parameter completion: completion handler
 	func getRemoteConfiguration(completion: @escaping (Result<(RemoteConfiguration, Data), NetworkError>) -> Void)
+    
+    func getBusinessRules(completion: @escaping (Result<([Rule], Data), NetworkError>) -> Void)
+    
+    func getValueSets(completion: @escaping (Result<([String: [String]]), NetworkError>) -> Void)
 }
 
 struct SignedResponse: Codable, Equatable {

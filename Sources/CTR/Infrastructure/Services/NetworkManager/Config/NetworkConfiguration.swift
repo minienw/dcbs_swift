@@ -95,6 +95,16 @@ struct NetworkConfiguration {
 
 		return self.combine(path: Endpoint.remoteConfiguration, fromCdn: false)
     }
+    
+    var businessRulesUrl: URL? {
+
+        return self.combine(path: Endpoint.businessRules, fromCdn: false)
+    }
+    
+    var businessRulesValueSetsUrl: URL? {
+
+        return self.combine(path: Endpoint.businessRuleValueSets, fromCdn: false)
+    }
 
 	/// Combine the endpoint info into an url
 	/// - Parameters:

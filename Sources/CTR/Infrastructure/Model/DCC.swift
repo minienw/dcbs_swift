@@ -67,8 +67,37 @@ struct DCCQR: Codable {
         return true
     }
     
-    func processBusinessRules(from: CountryRisk, to: CountryRisk) -> [DCCFailableItem] {
+    var certificateType: CertificateType {
+        guard let dcc = dcc else { return .general }
+        if dcc.tests?.isEmpty == false {
+            return .test
+        }
+        if dcc.recoveries?.isEmpty == false {
+            return .recovery
+        }
+        if dcc.vaccines?.isEmpty == false {
+            return .vaccination
+        }
+        return .general
+    }
+    
+    var asPayload: String? {
+        
+        guard let dcc = dcc, let jsonData = try? JSONEncoder().encode(dcc) else { return nil }
+        return String(data: jsonData, encoding: .utf8)
+    }
+    
+    func processBusinessRules(from: CountryRisk, to: CountryRisk, businessRuleManager: BusinessRulesManager) -> [DCCFailableItem] {
         var failingItems = [DCCFailableItem]()
+        
+        let certLogic = CertLogicEngine(schema: businessRuleManager.schema ?? "", rules: businessRuleManager.businessRules)
+        let filterParameter = FilterParameter(validationClock: Date(), countryCode: to.code ?? "", certificationType: certificateType)
+        let externalParameter = ExternalParameter(validationClock: Date(), valueSets: businessRuleManager.valueSets, exp: Date(), iat: Date(), issuerCountryCode: to.code ?? "")
+        let results = certLogic.validate(filter: filterParameter, external: externalParameter, payload: asPayload ?? "")
+        
+        results.filter { it in it.result == .fail }.forEach { it in
+            failingItems.append(.certLogicBusinessRule(description: it.rule?.getLocalizedErrorString(locale: Locale.current.languageCode ?? "en") ?? "item_unknown".localized()))
+        }
         if from.isIndecisive() || to.isIndecisive() {
             return [.undecidableFrom]
         }
@@ -86,6 +115,7 @@ struct DCCQR: Codable {
     }
     
     private func processGeneralRules() -> [DCCFailableItem] {
+        
         var failingItems = [DCCFailableItem]()
         if let yearOfBirth = getYearOfBirth() {
             if yearOfBirth < 1900 || yearOfBirth > 2099 {
@@ -96,57 +126,21 @@ struct DCCQR: Codable {
             failingItems.append(.invalidDateOfBirth)
         }
         for vaccin in dcc?.vaccines ?? [] {
-            if vaccin.getMarketingHolder == nil {
-                failingItems.append(.invalidVaccineHolder)
-            }
-            if vaccin.getVaccine == nil {
-                failingItems.append(.invalidVaccineType)
-            }
-            if vaccin.getVaccineProduct == nil {
-                failingItems.append(.invalidVaccineProduct)
-            }
             if !vaccin.isCountryValid() {
                 failingItems.append(.invalidCountryCode)
             }
             if vaccin.getDateOfVaccination() == nil {
                 failingItems.append(.invalidVaccineDate)
             }
-            if vaccin.getTargetedDisease == nil {
-                failingItems.append(.invalidTargetDisease)
-            }
         }
         for test in dcc?.tests ?? [] {
-            if test.getTestResult == nil {
-                failingItems.append(.invalidTestResult)
-            }
-            if test.getTestType == nil {
-                failingItems.append(.invalidTestType)
-            }
-            if test.getTargetedDisease == nil {
-                failingItems.append(.invalidTargetDisease)
-            }
             if !test.isCountryValid() {
                 failingItems.append(.invalidCountryCode)
             }
-            if test.getDateOfTest() == nil {
-                failingItems.append(.invalidTestDate)
-            }
         }
         for recovery in dcc?.recoveries ?? [] {
-            if recovery.getTargetedDisease == nil {
-                failingItems.append(.invalidTargetDisease)
-            }
             if !recovery.isCountryValid() {
                 failingItems.append(.invalidCountryCode)
-            }
-            if recovery.getDateValidTo() == nil {
-                failingItems.append(.invalidRecoveryToDate)
-            }
-            if recovery.getDateValidFrom() == nil {
-                failingItems.append(.invalidRecoveryFromDate)
-            }
-            if recovery.getDateOfFirstPositiveTest() == nil {
-                failingItems.append(.invalidRecoveryFirstTestDate)
             }
         }
         return failingItems

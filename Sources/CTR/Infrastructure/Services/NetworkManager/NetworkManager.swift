@@ -50,6 +50,45 @@ class NetworkManager: NetworkManaging, Logging {
 		sessionDelegate?.setSecurityStrategy(SecurityStrategy.config)
 		decodeSignedJSONData(request: urlRequest, completion: completion)
 	}
+    
+    func getBusinessRules(completion: @escaping (Result<([Rule], Data), NetworkError>) -> Void) {
+        let urlRequest = constructRequest(
+            url: networkConfiguration.businessRulesUrl,
+            method: .GET
+        )
+        sessionDelegate?.setSecurityStrategy(SecurityStrategy.config)
+        decodeSignedJSONData(request: urlRequest, completion: completion)
+    }
+    
+    func getValueSets(completion: @escaping (Result<([String: [String]]), NetworkError>) -> Void) {
+        let urlRequest = constructRequest(
+            url: networkConfiguration.businessRulesValueSetsUrl,
+            method: .GET
+        )
+        sessionDelegate?.setSecurityStrategy(SecurityStrategy.config)
+        decodedSignedData(request: urlRequest) { result in
+            switch result {
+            case .success(let data):
+                print(data)
+                if let dict = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                    print(dict.keys)
+                    var sets = [String: [String]]()
+                    for key in dict.keys {
+                        sets[key] = [String]()
+                        if let item = dict[key] as? [String: Any] {
+                            for subKey in item.keys {
+                                sets[key]?.append(subKey)
+                            }
+                        }
+                    }
+                    completion(.success(sets))
+                }
+            case .failure(let error):
+                print(error)
+                completion(.failure(error))
+            }
+        }
+    }
 	
 	// MARK: - Construct Request
 	

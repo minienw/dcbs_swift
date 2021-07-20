@@ -39,6 +39,8 @@ enum DCCFailableItem {
     
     case undecidableFrom
     
+    case certLogicBusinessRule(description: String)
+    
     func displayName() -> String {
         switch self {
         
@@ -90,6 +92,9 @@ enum DCCFailableItem {
                 return "rule_vaccination_14_days".localized()
             case .undecidableFrom:
                 return "result_inconclusive_message".localized()
+                
+            case .certLogicBusinessRule(let description):
+                return description
         }
     }
     
