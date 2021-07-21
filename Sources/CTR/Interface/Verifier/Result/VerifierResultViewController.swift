@@ -182,9 +182,9 @@ class VerifierResultViewController: BaseViewController, Logging {
     
     private func onPickedCountryColor(area: CountryRisk) {
         userSettings.lastDeparture = area.code ?? ""
-        sceneView.updateCountryPicker(settings: userSettings)
         configureTranslucentNavigationBar()
         setupResultView()
+        sceneView.updateCountryPicker(settings: userSettings)
     }
     
 }
@@ -192,10 +192,10 @@ class VerifierResultViewController: BaseViewController, Logging {
 extension VerifierResultViewController: ADCountryPickerDelegate {
     func countryPicker(_ picker: ADCountryPicker, didSelect: CountryRisk) {
         userSettings.lastDestination = didSelect.code ?? ""
-        sceneView.updateCountryPicker(settings: userSettings)
         configureTranslucentNavigationBar()
         picker.navigationController?.popViewController(animated: true)
         setupResultView()
+        sceneView.updateCountryPicker(settings: userSettings)
     }
 }
 

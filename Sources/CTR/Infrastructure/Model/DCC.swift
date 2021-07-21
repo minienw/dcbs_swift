@@ -20,6 +20,12 @@ struct DCCQR: Codable {
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }
+    
+    static var dateFormatBackup2: DateFormatter {
+        let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        return format
+    }
    
     let credentialVersion: Int? // Version of this QR
     private let issuer: String? // Country for example France
@@ -90,57 +96,23 @@ struct DCCQR: Codable {
     func processBusinessRules(from: CountryRisk, to: CountryRisk, businessRuleManager: BusinessRulesManager) -> [DCCFailableItem] {
         var failingItems = [DCCFailableItem]()
         
-        let certLogic = CertLogicEngine(schema: businessRuleManager.schema ?? "", rules: businessRuleManager.businessRules)
-        let filterParameter = FilterParameter(validationClock: Date(), countryCode: to.code ?? "", certificationType: certificateType)
-        let externalParameter = ExternalParameter(validationClock: Date(), valueSets: businessRuleManager.valueSets, exp: Date(), iat: Date(), issuerCountryCode: to.code ?? "")
-        let results = certLogic.validate(filter: filterParameter, external: externalParameter, payload: asPayload ?? "")
-        
-        results.filter { it in it.result == .fail }.forEach { it in
-            failingItems.append(.certLogicBusinessRule(description: it.rule?.getLocalizedErrorString(locale: Locale.current.languageCode ?? "en") ?? "item_unknown".localized()))
+        if to.ruleEngineEnabled != false {
+            let certLogic = CertLogicEngine(schema: businessRuleManager.schema ?? "", rules: businessRuleManager.businessRules)
+            let filterParameter = FilterParameter(validationClock: Date(), countryCode: to.code ?? "", certificationType: certificateType)
+            let externalParameter = ExternalParameter(validationClock: Date(), valueSets: businessRuleManager.valueSets, exp: Date(), iat: Date(), issuerCountryCode: to.code ?? "")
+            let results = certLogic.validate(filter: filterParameter, external: externalParameter, payload: asPayload ?? "")
+            
+            results.filter { it in it.result == .fail }.forEach { it in
+                failingItems.append(.certLogicBusinessRule(description: it.rule?.getLocalizedErrorString(locale: Locale.current.languageCode ?? "en") ?? "item_unknown".localized()))
+            }
         }
         if from.isIndecisive() || to.isIndecisive() {
             return [.undecidableFrom]
-        }
-        let generalItems = processGeneralRules()
-        if !generalItems.isEmpty {
-            failingItems.append(contentsOf: generalItems)
         }
         if to.getPassType() == .nlRules {
             let items = processNLBusinessRules(from: from, to: to)
             if !items.isEmpty {
                 failingItems.append(contentsOf: items)
-            }
-        }
-        return failingItems
-    }
-    
-    private func processGeneralRules() -> [DCCFailableItem] {
-        
-        var failingItems = [DCCFailableItem]()
-        if let yearOfBirth = getYearOfBirth() {
-            if yearOfBirth < 1900 || yearOfBirth > 2099 {
-                failingItems.append(.dateOfBirthOutOfRange)
-            }
-        }
-        if dcc?.getDateOfBirth() == nil {
-            failingItems.append(.invalidDateOfBirth)
-        }
-        for vaccin in dcc?.vaccines ?? [] {
-            if !vaccin.isCountryValid() {
-                failingItems.append(.invalidCountryCode)
-            }
-            if vaccin.getDateOfVaccination() == nil {
-                failingItems.append(.invalidVaccineDate)
-            }
-        }
-        for test in dcc?.tests ?? [] {
-            if !test.isCountryValid() {
-                failingItems.append(.invalidCountryCode)
-            }
-        }
-        for recovery in dcc?.recoveries ?? [] {
-            if !recovery.isCountryValid() {
-                failingItems.append(.invalidCountryCode)
             }
         }
         return failingItems
@@ -235,7 +207,8 @@ struct DCC: Codable {
     func getDateOfBirth() -> Date? {
         let firstPass = DCCQR.dateFormat.date(from: dateOfBirth)
         let secondPass = DCCQR.dateFormatBackup.date(from: dateOfBirth)
-        return firstPass ?? secondPass
+        let thirdPass = DCCQR.dateFormatBackup2.date(from: dateOfBirth)
+        return firstPass ?? secondPass ?? thirdPass
     }
 
 }
@@ -294,7 +267,7 @@ struct DCCVaccine: Codable {
     }
     
     func getDateOfVaccination() -> Date? {
-        return DCCQR.dateFormat.date(from: dateOfVaccination) ?? DCCQR.dateFormatBackup.date(from: dateOfVaccination)
+        return DCCQR.dateFormat.date(from: dateOfVaccination) ?? DCCQR.dateFormatBackup.date(from: dateOfVaccination) ?? DCCQR.dateFormatBackup2.date(from: dateOfVaccination)
     }
     
     func getVaccinationAge() -> DateComponents? {
@@ -355,7 +328,7 @@ struct DCCTest: Codable {
     }
     
     func getDateOfTest() -> Date? {
-        return DCCQR.dateFormat.date(from: dateOfSampleCollection) ?? DCCQR.dateFormatBackup.date(from: dateOfSampleCollection)
+        return DCCQR.dateFormat.date(from: dateOfSampleCollection) ?? DCCQR.dateFormatBackup.date(from: dateOfSampleCollection) ?? DCCQR.dateFormatBackup2.date(from: dateOfSampleCollection)
     }
     
     func isCountryValid() -> Bool {
@@ -423,15 +396,15 @@ struct DCCRecovery: Codable {
     }
     
     func getDateOfFirstPositiveTest() -> Date? {
-        return DCCQR.dateFormat.date(from: dateOfFirstPositiveTest) ?? DCCQR.dateFormatBackup.date(from: dateOfFirstPositiveTest)
+        return DCCQR.dateFormat.date(from: dateOfFirstPositiveTest) ?? DCCQR.dateFormatBackup.date(from: dateOfFirstPositiveTest) ?? DCCQR.dateFormatBackup2.date(from: dateOfFirstPositiveTest)
     }
     
     func getDateValidFrom() -> Date? {
-        return DCCQR.dateFormat.date(from: certificateValidFrom) ?? DCCQR.dateFormatBackup.date(from: certificateValidFrom)
+        return DCCQR.dateFormat.date(from: certificateValidFrom) ?? DCCQR.dateFormatBackup.date(from: certificateValidFrom) ?? DCCQR.dateFormatBackup2.date(from: certificateValidFrom)
     }
     
     func getDateValidTo() -> Date? {
-        return DCCQR.dateFormat.date(from: certificateValidTo) ?? DCCQR.dateFormatBackup.date(from: certificateValidTo)
+        return DCCQR.dateFormat.date(from: certificateValidTo) ?? DCCQR.dateFormatBackup.date(from: certificateValidTo) ?? DCCQR.dateFormatBackup2.date(from: certificateValidTo)
     }
     
     func getRecoveryAge() -> DateComponents? {

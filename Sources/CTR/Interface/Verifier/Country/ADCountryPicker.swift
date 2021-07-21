@@ -31,6 +31,8 @@ class ADCountryPicker: UITableViewController {
     
     let remoteConfigManager = Services.remoteConfigManager
     
+    let businessRulesManager = Services.businessRulesManager
+    
     var searchController: UISearchController!
     var filteredList = [CountryRisk]()
     
@@ -125,7 +127,13 @@ class ADCountryPicker: UITableViewController {
             if it.isColourCode == true {
                 return false
             }
-            if selectingMode == .destination && it.code != "NL" {
+            if selectingMode == .destination && !businessRulesManager.businessRules.contains(where: { rule in
+                if let code = it.code {
+                    return code.lowercased().starts(with: rule.countryCode.lowercased())
+                } else {
+                    return false
+                }
+            }) {
                 return false
             }
             return true

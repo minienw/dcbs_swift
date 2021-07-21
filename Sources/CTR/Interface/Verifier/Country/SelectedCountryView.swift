@@ -15,18 +15,27 @@ class SelectedCountryView: TMCBaseView {
     @IBOutlet var departureTitleLabel: UILabel!
     @IBOutlet var departureLabel: UILabel!
     @IBOutlet var destiantionLabel: UILabel!
+    @IBOutlet var riskLabel: UILabel!
     
     var onTappedDeparture: (() -> Void)?
     var onTappedDestination: (() -> Void)?
     
-    func setup(departure: String, destination: String) {
+    func setup(departure: String, destination: String, isOnLightBackground: Bool) {
         
         departureTitleLabel.font = Theme.fonts.caption1Montserrat
         departureLabel.font = Theme.fonts.caption1Montserrat
         
         destiantionLabel.font = Theme.fonts.caption1Montserrat
         destinationTitleLabel.font = Theme.fonts.caption1Montserrat
-        departureLabel.text = departure == "" ? "country_unselected".localized() : ADCountryPicker.countryForCode(code: departure)?.name() ?? "country_unselected".localized()
+        riskLabel.font = Theme.fonts.footnoteMontserratBold
+        riskLabel.textColor = isOnLightBackground ? Theme.colors.dark : Theme.colors.secondary
+        let departureCountry = ADCountryPicker.countryForCode(code: departure)
+        let colourCode = departureCountry?.getColourCode()?.rawValue
+        let colourName = Services.remoteConfigManager.getConfiguration().countryColors?.first(where: { it in
+            it.isColourCode == true && it.color == colourCode
+        })
+        riskLabel.text = departure == "" ? "" : colourName?.name() ?? ""
+        departureLabel.text = departure == "" ? "country_unselected".localized() : departureCountry?.name() ?? "country_unselected".localized()
         destiantionLabel.text = destination == "" ? "country_unselected".localized() :
             ADCountryPicker.countryForCode(code: destination)?.name() ?? ""
     }

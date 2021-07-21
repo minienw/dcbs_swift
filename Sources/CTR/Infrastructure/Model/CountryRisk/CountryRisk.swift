@@ -25,13 +25,14 @@ struct CountryRisk: Codable {
     let color: String?
     let resultOnValidCode: String?
     let isColourCode: Bool?
+    let ruleEngineEnabled: Bool?
    
     static var unselected: CountryRisk {
-        return CountryRisk(nameUs: "country_unselected".localized(), nameNl: "country_unselected".localized(), countryEn: "country_unselected".localized(), countryNl: "country_unselected".localized(), code: "unselected", color: CountryColorCode.green.rawValue, resultOnValidCode: CountryRiskPass.inconclusive.rawValue, isColourCode: false)
+        return CountryRisk(nameUs: "country_unselected".localized(), nameNl: "country_unselected".localized(), countryEn: "country_unselected".localized(), countryNl: "country_unselected".localized(), code: "unselected", color: "", resultOnValidCode: CountryRiskPass.inconclusive.rawValue, isColourCode: false, ruleEngineEnabled: false)
     }
     
     static var other: CountryRisk {
-        return CountryRisk(nameUs: "country_other".localized(), nameNl: "country_other".localized(), countryEn: "country_other".localized(), countryNl: "country_other".localized(), code: "other", color: CountryColorCode.green.rawValue, resultOnValidCode: CountryRiskPass.inconclusive.rawValue, isColourCode: false)
+        return CountryRisk(nameUs: "country_other".localized(), nameNl: "country_other".localized(), countryEn: "country_other".localized(), countryNl: "country_other".localized(), code: "other", color: "", resultOnValidCode: CountryRiskPass.inconclusive.rawValue, isColourCode: false, ruleEngineEnabled: false)
     }
     
     func isIndecisive() -> Bool {
@@ -79,5 +80,6 @@ struct CountryRisk: Codable {
         case countryEn = "country_EN"
         case countryNl = "country_NL"
         case isColourCode = "is_colour_code"
+        case ruleEngineEnabled = "rule_engine_enabled"
     }
 }

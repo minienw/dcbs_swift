@@ -119,6 +119,10 @@ class Fonts {
 	var footnoteMontserrat: UIFont {
 		font(textStyle: .footnote, customFont: "Montserrat-SemiBold") // Size 13 points
 	}
+    
+    var footnoteMontserratBold: UIFont {
+        font(textStyle: .footnote, customFont: "Montserrat-Bold") // Size 13 points
+    }
 
     var caption1: UIFont {
         font(textStyle: .caption1, isBold: true) // size 12 points

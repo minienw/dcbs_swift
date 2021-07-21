@@ -102,7 +102,7 @@ class ResultView: TMCBaseView {
 	}
     
     func updateCountryPicker(settings: UserSettings) {
-        getSelectedCountryView().setup(departure: settings.lastDeparture, destination: settings.lastDestination)
+        getSelectedCountryView().setup(departure: settings.lastDeparture, destination: settings.lastDestination, isOnLightBackground: accessBackgroundView.backgroundColor == Theme.colors.tertiary)
     }
     
     func setupRecoveries(dcc: DCCQR) {
