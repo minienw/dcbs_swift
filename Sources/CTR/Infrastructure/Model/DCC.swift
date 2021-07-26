@@ -110,6 +110,9 @@ struct DCCQR: Codable {
             return [.undecidableFrom]
         }
         if to.getPassType() == .nlRules {
+            if from.getColourCode() == .green || from.getColourCode() == .yellow {
+                return []
+            }
             let items = processNLBusinessRules(from: from, to: to)
             if !items.isEmpty {
                 failingItems.append(contentsOf: items)
@@ -121,9 +124,6 @@ struct DCCQR: Codable {
     private func processNLBusinessRules(from: CountryRisk, to: CountryRisk) -> [DCCFailableItem] {
         var failingItems = [DCCFailableItem]()
         let fromColour = from.getColourCode()
-        if fromColour == .green || fromColour == .yellow {
-            return []
-        }
         if fromColour == .red {
             return [.redNotAllowed]
         }
