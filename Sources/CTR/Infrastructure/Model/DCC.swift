@@ -137,31 +137,14 @@ struct DCCQR: Codable {
         
         if fromColour == .orange {
             for vaccine in dcc?.vaccines ?? [] {
-                var items: [DCCFailableItem] = []
-                if (vaccine.getVaccinationAge()?.day ?? 0) < 15 && Date().timeIntervalSince1970 >= DCCQR.july17th {
-                    items.append(.vaccinationMustBe14DaysOld)
-                }
                 if vaccine.isFullyVaccinated() {
-                    return items
-                } else {
-                    items.append(.needFullVaccination)
-                    return items
+                    return []
                 }
             }
             for recovery in dcc?.recoveries ?? [] {
                 if recovery.isValidRecovery(date: Date()) {
                     return []
-                } else {
-                    return [.recoveryNotValid]
                 }
-            }
-        }
-        for test in dcc?.tests ?? [] {
-            if test.getTestResult != .notDetected {
-                failingItems.append(.testMustBeNegative)
-            }
-            if let item = test.getTestIssues(from: from, to: to) {
-                failingItems.append(item)
             }
         }
         if fromColour == .orangeHighShipsFlight {
@@ -343,19 +326,6 @@ struct DCCTest: Codable {
             hours += 1
         }
         return hours
-    }
-    
-    func getTestIssues(from: CountryRisk, to: CountryRisk) -> DCCFailableItem? {
-        if let type = getTestType, let hoursDifference = getTestAgeInHours(toDate: Date()) {
-            if let maxHours = type.validFor(country: to) {
-                if hoursDifference > maxHours {
-                    return .testDateExpired(hours: hoursDifference)
-                }
-            }
-        } else {
-            return .invalidTestDate
-        }
-        return nil
     }
     
     func getAgeString() -> String {
