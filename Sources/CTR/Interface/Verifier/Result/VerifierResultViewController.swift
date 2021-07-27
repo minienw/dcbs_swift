@@ -98,7 +98,7 @@ class VerifierResultViewController: BaseViewController, Logging {
         if let dcc = viewModel.cryptoResults.attributes {
             if dcc.isVerified {
                 let failingItems = dcc.processBusinessRules(from: from, to: to, businessRuleManager: Services.businessRulesManager)
-                self.sceneView.setupForVerified(dcc: dcc, isSpecimen: false, failingItems: failingItems)
+                self.sceneView.setupForVerified(dcc: dcc, isSpecimen: false, failingItems: failingItems, shouldOverrideToGreen: dcc.shouldShowGreenOverride(from: from, to: to))
             } else {
                 self.sceneView.setupForDenied()
             }

@@ -63,11 +63,11 @@ class ResultView: TMCBaseView {
         }
     }
     
-    func setupForVerified(dcc: DCCQR, isSpecimen: Bool, failingItems: [DCCFailableItem]) {
+    func setupForVerified(dcc: DCCQR, isSpecimen: Bool, failingItems: [DCCFailableItem], shouldOverrideToGreen: Bool) {
         deniedView.isHidden = true
         accessView.isHidden = false
         
-        let showAsFailed = !failingItems.isEmpty
+        let showAsFailed = !failingItems.isEmpty && !shouldOverrideToGreen
         resetViews()
         for item in failingItems {
             let failureView = BusinessRuleFailureView()

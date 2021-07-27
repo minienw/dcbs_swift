@@ -16,6 +16,7 @@ class SelectedCountryView: TMCBaseView {
     @IBOutlet var departureLabel: UILabel!
     @IBOutlet var destiantionLabel: UILabel!
     @IBOutlet var riskLabel: UILabel!
+    @IBOutlet var euImage: UIImageView!
     
     var onTappedDeparture: (() -> Void)?
     var onTappedDestination: (() -> Void)?
@@ -38,6 +39,7 @@ class SelectedCountryView: TMCBaseView {
         departureLabel.text = departure == "" ? "country_unselected".localized() : departureCountry?.name() ?? "country_unselected".localized()
         destiantionLabel.text = destination == "" ? "country_unselected".localized() :
             ADCountryPicker.countryForCode(code: destination)?.name() ?? ""
+        euImage.image = UIImage(named: departureCountry?.isEU == true ? "ic_eu" : "ic_not_eu")
     }
     
     @IBAction func departureTapped(_ sender: Any) {

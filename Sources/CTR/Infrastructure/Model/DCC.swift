@@ -110,9 +110,6 @@ struct DCCQR: Codable {
             return [.undecidableFrom]
         }
         if to.getPassType() == .nlRules {
-            if from.getColourCode() == .green || from.getColourCode() == .yellow {
-                return []
-            }
             let items = processNLBusinessRules(from: from, to: to)
             if !items.isEmpty {
                 failingItems.append(contentsOf: items)
@@ -121,34 +118,19 @@ struct DCCQR: Codable {
         return failingItems
     }
     
+    func shouldShowGreenOverride(from: CountryRisk, to: CountryRisk) -> Bool {
+        return to.getPassType() == .nlRules && from.getColourCode() == .green && from.isEU == true
+    }
+    
     private func processNLBusinessRules(from: CountryRisk, to: CountryRisk) -> [DCCFailableItem] {
         var failingItems = [DCCFailableItem]()
         let fromColour = from.getColourCode()
-        if fromColour == .red {
-            return [.redNotAllowed]
-        }
-        if let yearsOld = getYearsOld(), yearsOld <= 11, fromColour != .orangeHighShipsFlight {
+        if let yearsOld = getYearsOld(), yearsOld <= 11 {
             return []
         }
-        
-        if dcc?.tests == nil || dcc?.tests?.isEmpty == true {
+        let requireTest = fromColour == .orange && from.isEU == true || fromColour == .orangeHighShipsFlight && from.isEU == false
+        if requireTest && (dcc?.tests == nil || dcc?.tests?.isEmpty == true) {
             failingItems.append(.missingRequiredTest)
-        }
-        
-        if fromColour == .orange {
-            for vaccine in dcc?.vaccines ?? [] {
-                if vaccine.isFullyVaccinated() {
-                    return []
-                }
-            }
-            for recovery in dcc?.recoveries ?? [] {
-                if recovery.isValidRecovery(date: Date()) {
-                    return []
-                }
-            }
-        }
-        if fromColour == .orangeHighShipsFlight {
-            failingItems.append(.requireSecondTest(hours: 24, type: .rapidImmune))
         }
         return failingItems
     }
