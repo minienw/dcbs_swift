@@ -13,10 +13,10 @@ class BusinessRuleFailureView: TMCBaseView {
     
     @IBOutlet var label: UILabel!
     
-    func setup(failure: DCCFailableItem) {
+    func setup(failure: DCCFailableItem, isGreenOverride: Bool) {
         label.text = failure.displayName()
         label.font = Theme.fonts.title3Medium
-        label.textColor = failure.errorTextColour()
+        label.textColor = isGreenOverride ? Theme.colors.dark : failure.errorTextColour()
     }
     
 }
