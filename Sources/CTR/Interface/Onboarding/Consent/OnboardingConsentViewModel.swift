@@ -52,7 +52,7 @@ final class OnboardingConsentViewModel {
 	/// The user tapped on the privacy link
 	func linkTapped() {
 
-		coordinator?.showPrivacyPage()
+        coordinator?.openTerms()
 	}
 
 	/// The user tapped on the primary button

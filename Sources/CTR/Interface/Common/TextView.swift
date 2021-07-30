@@ -42,7 +42,7 @@ class TextView: UITextView, UITextViewDelegate {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(frame: .zero, textContainer: nil)
     }
     
     private func setup() {
@@ -73,8 +73,8 @@ class TextView: UITextView, UITextViewDelegate {
     
     /// Sets the content to the supplied html string.
     @discardableResult
-	func html(_ htmlText: String?, font: UIFont = Theme.fonts.body, textColor: UIColor = Theme.colors.dark, boldTextColor: UIColor = Theme.colors.dark) -> Self {
-        attributedText = .makeFromHtml(text: htmlText, font: font, textColor: textColor, boldTextColor: boldTextColor)
+    func html(_ htmlText: String?, font: UIFont = Theme.fonts.body, textColor: UIColor = Theme.colors.dark, boldTextColor: UIColor = Theme.colors.dark, textAlignment: NSTextAlignment = .left) -> Self {
+        attributedText = .makeFromHtml(text: htmlText, font: font, textColor: textColor, boldTextColor: boldTextColor, textAlignment: textAlignment)
         return self
     }
     

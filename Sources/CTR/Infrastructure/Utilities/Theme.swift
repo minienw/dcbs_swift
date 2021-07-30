@@ -55,6 +55,10 @@ class Fonts {
 	var bodyMontserrat: UIFont {
 		font(textStyle: .body, customFont: "Montserrat-Bold") // Size 17 points
 	}
+    
+    var bodyMontserratSemiBold: UIFont {
+        font(textStyle: .body, customFont: "Montserrat-SemiBold") // Size 17 points
+    }
 
 	var bodyMontserratFixed: UIFont {
 
@@ -99,6 +103,10 @@ class Fonts {
     var subheadBold: UIFont {
         font(textStyle: .subheadline, isBold: true) // Size 15 points
     }
+    
+    var subheadBoldMontserrat: UIFont {
+        font(textStyle: .subheadline, customFont: "Montserrat-Bold") // Size 15 points
+    }
 
 	var subheadMedium: UIFont {
 		font(textStyle: .subheadline, isMedium: true) // Size 15 points
@@ -111,9 +119,17 @@ class Fonts {
 	var footnoteMontserrat: UIFont {
 		font(textStyle: .footnote, customFont: "Montserrat-SemiBold") // Size 13 points
 	}
+    
+    var footnoteMontserratBold: UIFont {
+        font(textStyle: .footnote, customFont: "Montserrat-Bold") // Size 13 points
+    }
 
     var caption1: UIFont {
         font(textStyle: .caption1, isBold: true) // size 12 points
+    }
+    
+    var caption1Montserrat: UIFont {
+        font(textStyle: .caption1, customFont: "Montserrat-Bold") // size 12 points
     }
 
 	var caption1SemiBold: UIFont {
@@ -173,6 +189,10 @@ final class Colors {
     var tertiary: UIColor { return color(for: "TertiaryColor") }
 
 	var gray: UIColor { return color(for: "DotGray") }
+    
+    var separatorGray: UIColor { return color(for: "SeparatorGrey") }
+    
+    var iconBackground: UIColor { return color(for: "IconBackground") }
 
 	var disabledIcon: UIColor { return color(for: "DisabledIcon") }
 

@@ -12,24 +12,6 @@ class ProofManagingSpy: ProofManaging {
 
 	required init() {}
 
-	var invokedFetchCoronaTestProviders = false
-	var invokedFetchCoronaTestProvidersCount = 0
-	var shouldInvokeFetchCoronaTestProvidersOnCompletion = false
-	var stubbedFetchCoronaTestProvidersOnErrorResult: (Error, Void)?
-
-	func fetchCoronaTestProviders(
-		onCompletion: (() -> Void)?,
-		onError: ((Error) -> Void)?) {
-		invokedFetchCoronaTestProviders = true
-		invokedFetchCoronaTestProvidersCount += 1
-		if shouldInvokeFetchCoronaTestProvidersOnCompletion {
-			onCompletion?()
-		}
-		if let result = stubbedFetchCoronaTestProvidersOnErrorResult {
-			onError?(result.0)
-		}
-	}
-
 	var invokedFetchIssuerPublicKeys = false
 	var invokedFetchIssuerPublicKeysCount = 0
 	var shouldInvokeFetchIssuerPublicKeysOnCompletion = false
@@ -46,75 +28,5 @@ class ProofManagingSpy: ProofManaging {
 		if let result = stubbedFetchIssuerPublicKeysOnErrorResult {
 			onError?(result.0)
 		}
-	}
-
-	var invokedFetchTestResult = false
-	var invokedFetchTestResultCount = 0
-	var invokedFetchTestResultParameters: (token: RequestToken, code: String?, provider: TestProvider)?
-	var invokedFetchTestResultParametersList = [(token: RequestToken, code: String?, provider: TestProvider)]()
-	var stubbedFetchTestResultOnCompletionResult: (Result<RemoteEvent, Error>, Void)?
-
-	func fetchTestResult(
-		_ token: RequestToken,
-		code: String?,
-		provider: TestProvider,
-		onCompletion: @escaping (Result<RemoteEvent, Error>) -> Void) {
-		invokedFetchTestResult = true
-		invokedFetchTestResultCount += 1
-		invokedFetchTestResultParameters = (token, code, provider)
-		invokedFetchTestResultParametersList.append((token, code, provider))
-		if let result = stubbedFetchTestResultOnCompletionResult {
-			onCompletion(result.0)
-		}
-	}
-
-	var invokedGetTestProvider = false
-	var invokedGetTestProviderCount = 0
-	var invokedGetTestProviderParameters: (token: RequestToken, Void)?
-	var invokedGetTestProviderParametersList = [(token: RequestToken, Void)]()
-	var stubbedGetTestProviderResult: TestProvider!
-
-	func getTestProvider(_ token: RequestToken) -> TestProvider? {
-		invokedGetTestProvider = true
-		invokedGetTestProviderCount += 1
-		invokedGetTestProviderParameters = (token, ())
-		invokedGetTestProviderParametersList.append((token, ()))
-		return stubbedGetTestProviderResult
-	}
-
-	var invokedGetTestWrapper = false
-	var invokedGetTestWrapperCount = 0
-	var stubbedGetTestWrapperResult: TestResultWrapper!
-
-	func getTestWrapper() -> TestResultWrapper? {
-		invokedGetTestWrapper = true
-		invokedGetTestWrapperCount += 1
-		return stubbedGetTestWrapperResult
-	}
-
-	var invokedGetSignedWrapper = false
-	var invokedGetSignedWrapperCount = 0
-	var stubbedGetSignedWrapperResult: SignedResponse!
-
-	func getSignedWrapper() -> SignedResponse? {
-		invokedGetSignedWrapper = true
-		invokedGetSignedWrapperCount += 1
-		return stubbedGetSignedWrapperResult
-	}
-
-	var invokedRemoveTestWrapper = false
-	var invokedRemoveTestWrapperCount = 0
-
-	func removeTestWrapper() {
-		invokedRemoveTestWrapper = true
-		invokedRemoveTestWrapperCount += 1
-	}
-
-	var invokedMigrateExistingProof = false
-	var invokedMigrateExistingProofCount = 0
-
-	func migrateExistingProof() {
-		invokedMigrateExistingProof = true
-		invokedMigrateExistingProofCount += 1
 	}
 }

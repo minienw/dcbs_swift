@@ -46,21 +46,6 @@ class ConsentViewControllerTests: XCTestCase {
 
 	// MARK: Test
 
-	/// Test all the content without consent
-	func testContent() {
-
-		// Given
-
-		// When
-		loadView()
-
-		// Then
-		XCTAssertEqual(sut.sceneView.title, .holderConsentTitle, "Title should match")
-		XCTAssertEqual(sut.sceneView.message, .holderConsentMessage, "Message should match")
-		XCTAssertEqual(sut.sceneView.consent, .holderConsentButtonTitle, "Consent should match")
-		XCTAssertEqual(sut.sceneView.itemStackView.arrangedSubviews.count, 2, "There should be 2 items")
-	}
-
 	/// Test the user tapped on the link
 	func testLink() {
 

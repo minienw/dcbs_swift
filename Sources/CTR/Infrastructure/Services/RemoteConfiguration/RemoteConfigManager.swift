@@ -24,6 +24,12 @@ protocol RemoteConfigManaging: AnyObject {
 	func getConfiguration() -> RemoteConfiguration
 
 	func reset()
+    
+    func setDelegate(delegate: RemoteConfigManagerDelegate?)
+}
+
+protocol RemoteConfigManagerDelegate: AnyObject {
+    func configWasUpdated()
 }
 
 /// The remote configuration manager
@@ -57,6 +63,8 @@ class RemoteConfigManager: RemoteConfigManaging, Logging {
 
 	@UserDefaults(key: "lastFetchedTimestamp", defaultValue: nil)
 	var lastFetchedTimestamp: Date? // swiftlint:disable:this let_var_whitespace
+    
+    weak var delegate: RemoteConfigManagerDelegate?
 
 	/// Initialize
 	required init() {
@@ -64,6 +72,10 @@ class RemoteConfigManager: RemoteConfigManaging, Logging {
 		// Required by protocol
 	}
 
+    func setDelegate(delegate: RemoteConfigManagerDelegate?) {
+        self.delegate = delegate
+    }
+    
 	/// Update the remote configuration
 	/// - Parameter completion: completion handler
 	func update(completion: @escaping (LaunchState) -> Void) {
@@ -71,6 +83,7 @@ class RemoteConfigManager: RemoteConfigManaging, Logging {
 		networkManager.getRemoteConfiguration { [weak self] resultwrapper in
 
 			self?.handleResultWrapper(resultwrapper, completion: completion)
+            self?.delegate?.configWasUpdated()
 		}
 	}
 
@@ -106,13 +119,7 @@ class RemoteConfigManager: RemoteConfigManaging, Logging {
 					compare(storedConfiguration, completion: completion)
 				} else {
 					compare(storedConfiguration) { state in
-						switch state {
-							case .actionRequired:
-								// Deactiviated or update trumps no internet
-								completion(state)
-							default:
-								completion(.internetRequired)
-						}
+                        completion(.noActionNeeded)
 					}
 				}
 		}
@@ -125,20 +132,8 @@ class RemoteConfigManager: RemoteConfigManaging, Logging {
 	private func compare(
 		_ remoteConfiguration: RemoteInformation,
 		completion: @escaping (LaunchState) -> Void) {
-
-		let requiredVersion = fullVersionString(remoteConfiguration.minimumVersion)
-		let currentVersion = fullVersionString(self.appVersion)
-
-		if requiredVersion.compare(currentVersion, options: .numeric) == .orderedDescending {
-			// Update the app
-			completion(.actionRequired(remoteConfiguration))
-		} else if remoteConfiguration.isDeactivated {
-			// Kill the app
-			completion(.actionRequired(remoteConfiguration))
-		} else {
-			// Nothing to do
-			completion(.noActionNeeded)
-		}
+        // Nothing to do
+        completion(.noActionNeeded)
 	}
 
 	/// Get a three digit string of the version

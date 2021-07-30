@@ -1,0 +1,9 @@
+prefix=/Users/guus.mulder/nl-covid19-coronacheck-app-ios-private/Vendor/OpenSSL-for-iPhone/bin/iPhoneSimulator14.5-x86_64.sdk
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: OpenSSL
+Description: Secure Sockets Layer and cryptography libraries and tools
+Version: 1.1.1k
+Requires: libssl libcrypto

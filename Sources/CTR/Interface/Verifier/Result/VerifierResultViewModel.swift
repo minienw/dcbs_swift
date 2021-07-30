@@ -17,20 +17,26 @@ enum AccessAction {
 
 class VerifierResultViewModel: PreventableScreenCapture, Logging {
 
+    static var timeUntilAutoClose = 60
+    
 	/// The logging category
 	var loggingCategory: String = "VerifierResultViewModel"
 
 	/// Coordination Delegate
-	weak private var coordinator: (VerifierCoordinatorDelegate & Dismissable)?
+	weak var coordinator: (VerifierCoordinatorDelegate & Dismissable & OpenUrlProtocol)?
 
 	/// The configuration
 	private var configuration: ConfigurationGeneralProtocol = Configuration()
 
 	/// The scanned attributes
-	internal var cryptoResults: (attributes: CryptoAttributes?, errorMessage: String?)
+	internal var cryptoResults: (attributes: DCCQR?, errorMessage: String?)
 
 	/// A timer auto close the scene
 	private var autoCloseTimer: Timer?
+    
+    private var proofManager: ProofManaging?
+    
+    private var remoteConfigManager: RemoteConfigManaging
 
 	// MARK: - Bindable properties
 
@@ -60,19 +66,21 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 
 	/// Allow Access?
 	@Bindable var allowAccess: AccessAction = .denied
+    
+    /// Current auto close timer ticks
+    @Bindable var autoCloseTicks = 0
 
 	/// Initialzier
 	/// - Parameters:
 	///   - coordinator: the dismissable delegate
 	///   - scanResults: the decrypted attributes
 	///   - maxValidity: the maximum validity of a test in hours
-	init(
-		coordinator: (VerifierCoordinatorDelegate & Dismissable),
-		cryptoResults: (CryptoAttributes?, String?),
-		maxValidity: Int) {
+    init(coordinator: (VerifierCoordinatorDelegate & Dismissable & OpenUrlProtocol), proofManager: ProofManaging, remoteConfigManager: RemoteConfigManaging, cryptoResults: (DCCQR?, String?), maxValidity: Int) {
 
 		self.coordinator = coordinator
 		self.cryptoResults = cryptoResults
+        self.proofManager = proofManager
+        self.remoteConfigManager = remoteConfigManager
 
 		primaryButtonTitle = .verifierResultButtonTitle
 		super.init()
@@ -88,7 +96,7 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 
 		NotificationCenter.default.addObserver(
 			self,
-			selector: #selector(autoCloseScene),
+			selector: #selector(closeScene),
 			name: UIApplication.didEnterBackgroundNotification,
 			object: nil
 		)
@@ -105,6 +113,8 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 		guard let attributes = cryptoResults.attributes else {
 			allowAccess = .denied
 			showAccessDeniedInvalidQR()
+            proofManager?.fetchIssuerPublicKeys(onCompletion: nil, onError: nil)
+            remoteConfigManager.update { _ in }
 			return
 		}
 		
@@ -114,21 +124,11 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 			showAccessDeniedDomesticDcc()
 		} else if attributes.isSpecimen {
 			allowAccess = .demo
-			setHolderIdentity(attributes)
 			showAccessDemo()
 		} else {
 			allowAccess = .verified
-			setHolderIdentity(attributes)
 			showAccessAllowed()
 		}
-	}
-
-	func setHolderIdentity(_ attributes: CryptoAttributes) {
-
-		firstName = determineAttributeValue(attributes.firstNameInitial)
-		lastName = determineAttributeValue(attributes.lastNameInitial)
-		dayOfBirth = determineAttributeValue(attributes.birthDay)
-		monthOfBirth = determineMonthOfBirth(attributes.birthMonth)
 	}
 
 	/// Determine the value for display
@@ -140,34 +140,6 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 			return value
 		}
 		return "-"
-	}
-
-	/// Set the monthOfBirth as MMM (mm)
-	/// - Parameter value: the possible month value
-	private func determineMonthOfBirth(_ value: String?) -> String {
-
-		if let birthMonthAsString = value, !birthMonthAsString.isEmpty {
-			if let birthMonthAsInt = Int(birthMonthAsString),
-			   let month = mapMonth(month: birthMonthAsInt, months: String.shortMonths) {
-
-				let formatter = NumberFormatter()
-				formatter.minimumIntegerDigits = 2
-				if let monthWithLeadingZero = formatter.string(from: NSNumber(value: birthMonthAsInt)) {
-					return month + " (\(monthWithLeadingZero))"
-				}
-			} else {
-				return birthMonthAsString
-			}
-		}
-		return "-"
-	}
-
-	private func mapMonth(month: Int, months: [String]) -> String? {
-
-		if month <= months.count, month > 0 {
-			return months[month - 1]
-		}
-		return nil
 	}
 
 	/// Formatter to print
@@ -215,82 +187,51 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 		stopAutoCloseTimer()
         coordinator?.navigateToScan()
     }
-
-	func linkTapped() {
-
-		switch allowAccess {
-			case .verified, .demo:
-				showVerifiedInfo()
-			case .denied:
-				showDeniedInfo()
-		}
-	}
-
-	private func showVerifiedInfo() {
-
-		let label = Label(body: nil).multiline()
-		label.attributedText = .makeFromHtml(
-			text: .verifierResultCheckText,
-			font: Theme.fonts.body,
-			textColor: Theme.colors.dark
-		)
-
-		coordinator?.displayContent(
-			title: .verifierResultCheckTitle,
-			content: [(label, 16)]
-		)
-	}
-
-	private func showDeniedInfo() {
-
-		let label = Label(body: nil).multiline()
-		label.attributedText = .makeFromHtml(
-			text: .verifierDeniedMessageOne,
-			font: Theme.fonts.body,
-			textColor: Theme.colors.dark
-		)
-
-		let label2 = Label(body: nil).multiline()
-		label2.attributedText = .makeFromHtml(
-			text: .verifierDeniedMessageTwo,
-			font: Theme.fonts.body,
-			textColor: Theme.colors.dark
-		)
-
-		coordinator?.displayContent(
-			title: .verifierDeniedTitle,
-			content: [(label, 16), (label2, 0)]
-		)
-	}
+    
+    func navigateToDeniedHelp() {
+        coordinator?.didFinish(.userTappedProceedToScanInstructionsFromInvalidQR)
+    }
 
 	// MARK: - AutoCloseTimer
 
 	/// Start the auto close timer, close after configuration.getAutoCloseTime() seconds
-	private func startAutoCloseTimer() {
+	func startAutoCloseTimer() {
 
 		guard autoCloseTimer == nil else {
 			return
 		}
 
 		autoCloseTimer = Timer.scheduledTimer(
-			timeInterval: TimeInterval(configuration.getAutoCloseTime()),
+			timeInterval: 1,
 			target: self,
-			selector: (#selector(autoCloseScene)),
+			selector: (#selector(autoCloseTick)),
 			userInfo: nil,
 			repeats: true
 		)
 	}
 
-	private func stopAutoCloseTimer() {
+	func stopAutoCloseTimer() {
 
 		autoCloseTimer?.invalidate()
 		autoCloseTimer = nil
 	}
+    
+    func isAutoCloseTimerActive() -> Bool {
+        return autoCloseTimer != nil
+    }
 
-	@objc private func autoCloseScene() {
+	@objc private func autoCloseTick() {
 
-		logInfo("Auto closing the result view")
-		stopAutoCloseTimer()
-		dismiss()
+        if autoCloseTicks >= VerifierResultViewModel.timeUntilAutoClose {
+            closeScene()
+        } else {
+            autoCloseTicks += 1
+        }
 	}
+    
+    @objc func closeScene() {
+        logInfo("Auto closing the result view")
+        stopAutoCloseTimer()
+        dismiss()
+    }
 }

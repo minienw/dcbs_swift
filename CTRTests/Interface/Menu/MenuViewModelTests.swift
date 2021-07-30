@@ -54,14 +54,14 @@ class MenuViewModelTests: XCTestCase {
 	func testOpenMenuItem() {
 
 		// Given
-		let identifier = MenuIdentifier.about
+		let identifier = MenuIdentifier.scan
 
 		// When
 		sut?.menuItemTapped(identifier)
 
 		// Then
 		XCTAssertTrue(menuDelegateSpy.openMenuItemCalled, "Open Menu Item delegate method should be called")
-		XCTAssertEqual(menuDelegateSpy.openMenuItemIdentifier, .about, "Menu Item Identifier should match")
+		XCTAssertEqual(menuDelegateSpy.openMenuItemIdentifier, .scan, "Menu Item Identifier should match")
 	}
 }
 

@@ -35,7 +35,7 @@ class OnboardingPageView: ScrolledStackView {
 		let view = UIStackView()
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.axis = .vertical
-		view.alignment = .leading
+        view.alignment = .center
 		view.distribution = .fill
 		view.spacing = ViewTraits.spacing
 		return view
@@ -44,13 +44,16 @@ class OnboardingPageView: ScrolledStackView {
 	/// The title label
 	private let titleLabel: Label = {
 		
-        return Label(title1: nil, montserrat: true).multiline().header()
+        let label = Label(title1: nil, montserrat: true).multiline().header()
+        label.textAlignment = .center
+        return label
 	}()
 	
 	/// The message label
 	let messageLabel: Label = {
-		
-		return Label(body: nil).multiline()
+		let label = Label(body: nil).multiline()
+        label.textAlignment = .center
+        return label
 	}()
 	
 	/// setup the views
@@ -102,7 +105,8 @@ class OnboardingPageView: ScrolledStackView {
 			messageLabel.attributedText = .makeFromHtml(
 				text: message,
 				font: Theme.fonts.body,
-				textColor: Theme.colors.dark
+				textColor: Theme.colors.dark,
+                textAlignment: .center
 			)
 		}
 	}

@@ -12,6 +12,8 @@ enum VerifierStartResult {
 	case userTappedProceedToScan
 
 	case userTappedProceedToScanInstructions
+    
+    case userTappedProceedToScanInstructionsFromInvalidQR
 }
 
 class VerifierStartViewModel: Logging {
@@ -21,6 +23,7 @@ class VerifierStartViewModel: Logging {
 	weak private var coordinator: VerifierCoordinatorDelegate?
 	weak private var cryptoManager: CryptoManaging?
 	weak private var proofManager: ProofManaging?
+    weak private var remoteConfigManager: RemoteConfigManaging?
 	private var userSettings: UserSettingsProtocol
 
 	// MARK: - Bindable properties
@@ -50,8 +53,10 @@ class VerifierStartViewModel: Logging {
 		coordinator: VerifierCoordinatorDelegate,
 		cryptoManager: CryptoManaging,
 		proofManager: ProofManaging,
+        remoteConfigManager: RemoteConfigManaging,
 		userSettings: UserSettingsProtocol = UserSettings()) {
 
+        self.remoteConfigManager = remoteConfigManager
 		self.coordinator = coordinator
 		self.cryptoManager = cryptoManager
 		self.proofManager = proofManager
@@ -67,18 +72,18 @@ class VerifierStartViewModel: Logging {
 
 		if userSettings.scanInstructionShown {
 
-			if let crypto = cryptoManager, crypto.hasPublicKeys() {
-				coordinator?.didFinish(.userTappedProceedToScan)
-			} else {
-				updatePublicKeys()
-				showError = true
-			}
+            updatePublicKeys()
+            coordinator?.didFinish(.userTappedProceedToScan)
 		} else {
 			// Show the scan instructions the first time no matter what link was tapped
 			userSettings.scanInstructionShown = true
 			coordinator?.didFinish(.userTappedProceedToScanInstructions)
 		}
 	}
+    
+    func aboutTappd() {
+        coordinator?.navigateToAbout()
+    }
 
 	func linkTapped() {
 
@@ -90,5 +95,6 @@ class VerifierStartViewModel: Logging {
 
 		// Fetch the public keys from the issuer
 		proofManager?.fetchIssuerPublicKeys(onCompletion: nil, onError: nil)
+        remoteConfigManager?.update { _ in }
 	}
 }

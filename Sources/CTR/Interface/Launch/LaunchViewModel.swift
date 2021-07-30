@@ -13,9 +13,7 @@ class LaunchViewModel {
 
 	private var versionSupplier: AppVersionSupplierProtocol
 	private var remoteConfigManager: RemoteConfigManaging
-	private var walletManager: WalletManaging
 	private var proofManager: ProofManaging
-	private var jailBreakDetector: JailBreakProtocol
 	private var userSettings: UserSettingsProtocol
 	private let cryptoLibUtility: CryptoLibUtilityProtocol
 
@@ -48,26 +46,22 @@ class LaunchViewModel {
 		flavor: AppFlavor,
 		remoteConfigManager: RemoteConfigManaging,
 		proofManager: ProofManaging,
-		jailBreakDetector: JailBreakProtocol = JailBreakDetector(),
 		userSettings: UserSettingsProtocol = UserSettings(),
-		cryptoLibUtility: CryptoLibUtilityProtocol = Services.cryptoLibUtility,
-		walletManager: WalletManaging = Services.walletManager) {
+		cryptoLibUtility: CryptoLibUtilityProtocol = Services.cryptoLibUtility) {
 
 		self.coordinator = coordinator
 		self.versionSupplier = versionSupplier
 		self.remoteConfigManager = remoteConfigManager
 		self.proofManager = proofManager
 		self.flavor = flavor
-		self.jailBreakDetector = jailBreakDetector
 		self.userSettings = userSettings
 		self.cryptoLibUtility = cryptoLibUtility
-		self.walletManager = walletManager
 
-		title = flavor == .holder ? .holderLaunchTitle : .verifierLaunchTitle
-		message = flavor == .holder  ? .holderLaunchText : .verifierLaunchText
-		appIcon = flavor == .holder ? .holderAppIcon : .verifierAppIcon
+		title = .verifierLaunchTitle
+		message = .verifierLaunchText
+		appIcon = .verifierAppIcon
 
-		let versionString: String = flavor == .holder ? .holderLaunchVersion : .verifierLaunchVersion
+		let versionString: String = .verifierLaunchVersion
 		version = String(
 			format: versionString,
 			versionSupplier.getCurrentVersion(),
@@ -82,27 +76,25 @@ class LaunchViewModel {
 			interruptForJailBreakDialog = false
 			updateDependencies()
 		}
-
-		if flavor == .holder {
-			proofManager.migrateExistingProof()
-		}
 	}
 
 	/// Update the dependencies
 	private func updateDependencies() {
 
-		updateConfiguration()
-		updateKeys()
+        let group = DispatchGroup()
+        group.enter()
+        group.enter()
+        updateConfiguration(group: group)
+        updateKeys(group: group)
+        
+        group.notify(queue: .main) {
+            self.handleState()
+        }
 	}
 
 	private func shouldShowJailBreakAlert() -> Bool {
 
-		guard flavor == .holder else {
-			// Only enable for the holder
-			return false
-		}
-
-		return !userSettings.jailbreakWarningShown && jailBreakDetector.isJailBroken()
+		return false
 	}
 
 	func userDismissedJailBreakWarning() {
@@ -114,41 +106,31 @@ class LaunchViewModel {
 		// Continu with flow
 		updateDependencies()
 	}
-
+    
 	/// Update the configuration
-	private func updateConfiguration() {
+    private func updateConfiguration(group: DispatchGroup) {
 
 		// Execute once.
 		guard !isUpdatingConfiguration else {
+            group.leave()
 			return
 		}
 
 		isUpdatingConfiguration = true
 
 		remoteConfigManager.update { [weak self] updateState in
-
 			self?.configStatus = updateState
-			self?.checkWallet()
 			self?.isUpdatingConfiguration = false
-			self?.handleState()
+            group.leave()
 		}
 	}
 
-	private func checkWallet() {
-
-		let configuration = remoteConfigManager.getConfiguration()
-		walletManager.expireEventGroups(
-			vaccinationValidity: configuration.vaccinationEventValidity,
-			recoveryValidity: configuration.recoveryEventValidity,
-			testValidity: configuration.testEventValidity
-		)
-	}
-
 	/// Update the Issuer Public keys
-	private func updateKeys() {
+	private func updateKeys(group: DispatchGroup) {
 
 		// Execute once.
 		guard !isUpdatingIssuerPublicKeys else {
+            group.leave()
 			return
 		}
 
@@ -159,31 +141,21 @@ class LaunchViewModel {
 
 			self?.isUpdatingIssuerPublicKeys = false
 			self?.issuerPublicKeysStatus = .noActionNeeded
-			self?.handleState()
+            group.leave()
 
 		} onError: { [weak self] error in
 
 			self?.isUpdatingIssuerPublicKeys = false
-			self?.issuerPublicKeysStatus = .internetRequired
-			self?.handleState()
+            /// In DCC scanner app, we don't block the user when no internet is available
+			self?.issuerPublicKeysStatus = .noActionNeeded
+            group.leave()
 		}
 	}
 
 	/// Handle the state of the updates
 	private func handleState() {
-
-		guard let configStatus = configStatus,
-			  let issuerPublicKeysStatus = issuerPublicKeysStatus else {
-			return
-		}
 		
-		if case .actionRequired = configStatus {
-			// show action
-			coordinator?.handleLaunchState(configStatus)
-		} else if configStatus == .internetRequired || issuerPublicKeysStatus == .internetRequired {
-			// Show no internet
-			coordinator?.handleLaunchState(.internetRequired)
-		} else if !cryptoLibUtility.isInitialized {
+		if !cryptoLibUtility.isInitialized {
 			// Show crypto lib not initialized error
 			coordinator?.handleLaunchState(.cryptoLibNotInitialized)
 		} else {

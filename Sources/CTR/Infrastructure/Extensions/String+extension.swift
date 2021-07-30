@@ -9,6 +9,15 @@ import UIKit
 
 extension String {
 
+    func localized() -> String {
+        return NSLocalizedString(self, comment: "")
+    }
+
+    func localized(params: CVarArg...) -> String {
+        let unformatted = localized()
+        return String(format: unformatted, arguments: params)
+    }
+    
 	/// Underline a part of the text
 	/// - Parameter underlined: the part to underline
 	/// - Returns: attributed string

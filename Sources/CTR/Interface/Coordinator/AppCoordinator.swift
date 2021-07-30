@@ -28,10 +28,10 @@ class AppCoordinator: Coordinator, Logging {
 	var navigationController: UINavigationController
 
 	private var remoteConfigManager: RemoteConfigManaging = Services.remoteConfigManager
-
-	private var proofManager: ProofManaging = Services.proofManager
 	
 	private var privacySnapshotWindow: UIWindow?
+
+	private var shouldUsePrivacySnapShot = true
 
 	/// For use with iOS 13 and higher
 	@available(iOS 13.0, *)
@@ -74,7 +74,7 @@ class AppCoordinator: Coordinator, Logging {
                 versionSupplier: AppVersionSupplier(),
                 flavor: AppFlavor.flavor,
                 remoteConfigManager: remoteConfigManager,
-                proofManager: proofManager
+                proofManager: Services.proofManager
             )
         )
         // Set the root
@@ -88,21 +88,8 @@ class AppCoordinator: Coordinator, Logging {
     private func startApplication() {
 
         switch AppFlavor.flavor {
-            case .holder:
-                startAsHolder()
             default:
                 startAsVerifier()
-        }
-    }
-
-    /// Start the app as a holder
-    private func startAsHolder() {
-
-        let coordinator = HolderCoordinator(navigationController: navigationController, window: window)
-        startChildCoordinator(coordinator)
-
-        if let universalLink = self.unhandledUniversalLink {
-           coordinator.receive(universalLink: universalLink)
         }
     }
 
@@ -112,23 +99,6 @@ class AppCoordinator: Coordinator, Logging {
         let coordinator = VerifierCoordinator(navigationController: navigationController, window: window)
         startChildCoordinator(coordinator)
     }
-
-	/// Show the Action Required View
-	/// - Parameter versionInformation: the version information
-	private func showActionRequired(with versionInformation: RemoteInformation) {
-		var viewModel = AppUpdateViewModel(coordinator: self, versionInformation: versionInformation)
-		if versionInformation.isDeactivated {
-			viewModel = EndOfLifeViewModel(coordinator: self, versionInformation: versionInformation)
-		}
-		navigateToAppUpdate(with: viewModel)
-	}
-	
-	/// Show the Internet Required View
-	private func showInternetRequired() {
-
-		let viewModel = InternetRequiredViewModel(coordinator: self)
-		navigateToAppUpdate(with: viewModel)
-	}
 	
 	/// Show the error alert when crypto library is not initialized
 	private func showCryptoLibNotInitializedError() {
@@ -152,40 +122,6 @@ class AppCoordinator: Coordinator, Logging {
 		window.rootViewController?.present(alertController, animated: true)
 	}
 
-	/// Show the Action Required View
-	/// - Parameter versionInformation: the version information
-	private func navigateToAppUpdate(with viewModel: AppUpdateViewModel) {
-
-		guard var topController = window.rootViewController else { return }
-
-		while let newTopController = topController.presentedViewController {
-			topController = newTopController
-		}
-		guard !(topController is AppUpdateViewController) else { return }
-		let updateController = AppUpdateViewController(viewModel: viewModel)
-
-		if topController is UINavigationController {
-			(topController as? UINavigationController)?.viewControllers.last?.present(updateController, animated: true)
-		} else {
-			topController.present(updateController, animated: true)
-		}
-	}
-
-    // MARK: - Universal Link handling
-
-    /// If set, this should be handled at the first opportunity:
-    private var unhandledUniversalLink: UniversalLink?
-
-    func consume(universalLink: UniversalLink) -> Bool {
-
-        switch universalLink {
-            case .redeemHolderToken:
-                /// If we reach here it means that there was no holderCoordinator initialized at the time
-                /// the universal link was received. So hold onto it here, for when it is ready.
-                unhandledUniversalLink = universalLink
-                return true
-        }
-    }
 }
 
 // MARK: - AppCoordinatorDelegate
@@ -204,12 +140,6 @@ extension AppCoordinator: AppCoordinatorDelegate {
         switch state {
             case .noActionNeeded:
                 startApplication()
-
-            case .internetRequired:
-                showInternetRequired()
-
-            case let .actionRequired(versionInformation):
-                showActionRequired(with: versionInformation)
 				
             case .cryptoLibNotInitialized:
 				showCryptoLibNotInitializedError()
@@ -231,6 +161,12 @@ extension AppCoordinator: AppCoordinatorDelegate {
 
 // MARK: - Notification observations
 
+public extension Notification.Name {
+
+	static let disablePrivacySnapShot = Notification.Name("nl.rijksoverheid.ctr.disablePrivacySnapShot")
+	static let enablePrivacySnapShot = Notification.Name("nl.rijksoverheid.ctr.enablePrivacySnapShot")
+}
+
 extension AppCoordinator {
 	
 	private enum Constants {
@@ -239,6 +175,10 @@ extension AppCoordinator {
 
     /// Handle the event the application will resign active
 	@objc func onWillResignActiveNotification() {
+
+		guard shouldUsePrivacySnapShot else {
+			return
+		}
 		
 		/// Show the snapshot (logo) view to hide sensitive data
 		if #available(iOS 13.0, *) {
@@ -250,7 +190,7 @@ extension AppCoordinator {
 			// Fallback on earlier versions
 			privacySnapshotWindow = UIWindow(frame: UIScreen.main.bounds)
 		}
-		
+
 		let shapshotViewController = SnapshotViewController(
 			viewModel: SnapshotViewModel(
 				versionSupplier: AppVersionSupplier(),
@@ -279,6 +219,14 @@ extension AppCoordinator {
 		}
 	}
 
+	@objc private func enablePrivacySnapShot() {
+		shouldUsePrivacySnapShot = true
+	}
+
+	@objc private func disablePrivacySnapShot() {
+		shouldUsePrivacySnapShot = false
+	}
+
     private func addObservers() {
 
         NotificationCenter.default.addObserver(
@@ -291,6 +239,18 @@ extension AppCoordinator {
 			self,
 			selector: #selector(onDidBecomeActiveNotification),
 			name: UIApplication.didBecomeActiveNotification,
+			object: nil
+		)
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(disablePrivacySnapShot),
+			name: Notification.Name.disablePrivacySnapShot,
+			object: nil
+		)
+		NotificationCenter.default.addObserver(
+			self,
+			selector: #selector(enablePrivacySnapShot),
+			name: Notification.Name.enablePrivacySnapShot,
 			object: nil
 		)
     }

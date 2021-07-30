@@ -140,6 +140,8 @@ struct RemoteConfiguration: RemoteInformation, Codable {
 	var euTestManufacturers: [Mapping]? = []
 
 	var providerIdentifiers: [Mapping]? = []
+    
+    var countryColors: [CountryRisk]? = []
 	
 	/// Restricts access to GGD test provider login
 	var isGGDEnabled: Bool?
@@ -173,6 +175,7 @@ struct RemoteConfiguration: RemoteInformation, Codable {
 		case euTestManufacturers = "euTestManufacturers"
 		case providerIdentifiers = "providerIdentifiers"
 		case isGGDEnabled = "ggdEnabled"
+        case countryColors = "countryColors"
 	}
 
 	init(

@@ -57,16 +57,6 @@ protocol NetworkManaging {
 	///   - configuration: the network configuration
 	///   - validator: the signature validator
 	init(configuration: NetworkConfiguration, validator: CryptoUtilityProtocol)
-
-	/// Get the access tokens
-	/// - Parameters:
-	///   - tvsToken: the tvs token
-	///   - completion: completion handler
-	func fetchEventAccessTokens(tvsToken: String, completion: @escaping (Result<[EventFlow.AccessToken], NetworkError>) -> Void)
-
-	/// Get the nonce
-	/// - Parameter completion: completion handler
-	func prepareIssue(completion: @escaping (Result<PrepareIssueEnvelope, NetworkError>) -> Void)
 	
 	/// Get the public keys
 	/// - Parameter completion: completion handler
@@ -75,50 +65,10 @@ protocol NetworkManaging {
 	/// Get the remote configuration
 	/// - Parameter completion: completion handler
 	func getRemoteConfiguration(completion: @escaping (Result<(RemoteConfiguration, Data), NetworkError>) -> Void)
-	
-	/// Get the test providers
-	/// - Parameter completion: completion handler
-	func fetchTestProviders(completion: @escaping (Result<[TestProvider], NetworkError>) -> Void)
-
-	/// Get the event providers
-	/// - Parameter completion: completion handler
-	func fetchEventProviders(completion: @escaping (Result<[EventFlow.EventProvider], NetworkError>) -> Void)
-
-	func fetchGreencards(
-		dictionary: [String: AnyObject],
-		completion: @escaping (Result<RemoteGreenCards.Response, NetworkError>) -> Void)
-
-	/// Get a test result
-	/// - Parameters:
-	///   - provider: the test provider
-	///   - token: the token to fetch
-	///   - code: the code for verification
-	///   - completion: the completion handler
-	func fetchTestResult(
-		provider: TestProvider,
-		token: RequestToken,
-		code: String?,
-		completion: @escaping (Result<(EventFlow.EventResultWrapper, SignedResponse), NetworkError>) -> Void)
-
-	/// Get a unomi result (check if a event provider knows me)
-	/// - Parameters:
-	///   - provider: the event provider
-	///   - filter: filter on test or vaccination
-	///   - completion: the completion handler
-	func fetchEventInformation(
-		provider: EventFlow.EventProvider,
-		filter: String?,
-		completion: @escaping (Result<(EventFlow.EventInformationAvailable, SignedResponse), NetworkError>) -> Void)
-
-	/// Get  events from an event provider
-	/// - Parameters:
-	///   - provider: the event provider
-	///   - filter: filter on test or vaccination
-	///   - completion: the completion handler
-	func fetchEvents(
-		provider: EventFlow.EventProvider,
-		filter: String?,
-		completion: @escaping (Result<(EventFlow.EventResultWrapper, SignedResponse), NetworkError>) -> Void)
+    
+    func getBusinessRules(completion: @escaping (Result<([Rule], Data), NetworkError>) -> Void)
+    
+    func getValueSets(completion: @escaping (Result<([String: [String]]), NetworkError>) -> Void)
 }
 
 struct SignedResponse: Codable, Equatable {

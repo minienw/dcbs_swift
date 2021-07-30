@@ -47,7 +47,7 @@ class MenuViewControllerTests: XCTestCase {
 	func testTopMenu() {
 
 		// Given
-		let items = [MenuItem(identifier: .about, title: "about"), MenuItem(identifier: .faq, title: "faq")]
+		let items = [MenuItem(identifier: .overview, title: "overview"), MenuItem(identifier: .scan, title: "scan")]
 		loadView()
 
 		// When
@@ -58,10 +58,10 @@ class MenuViewControllerTests: XCTestCase {
 		XCTAssertEqual(sut?.sceneView.bottomStackView.arrangedSubviews.count, 0, "There should be no bottom menu items")
 	}
 
-	func testBotomMenu() {
+	func testBottomMenu() {
 
 		// Given
-		let items = [MenuItem(identifier: .about, title: "about"), MenuItem(identifier: .faq, title: "faq")]
+		let items = [MenuItem(identifier: .overview, title: "overview"), MenuItem(identifier: .scan, title: "scan")]
 		loadView()
 
 		// When
@@ -87,7 +87,7 @@ class MenuViewControllerTests: XCTestCase {
 	func testTopMenuItemClicked() {
 
 		// Given
-		let items = [MenuItem(identifier: .faq, title: "faq"), MenuItem(identifier: .about, title: "about")]
+		let items = [MenuItem(identifier: .overview, title: "overview"), MenuItem(identifier: .scan, title: "scan")]
 		loadView()
 		viewModel?.topMenu = items
 
@@ -96,13 +96,13 @@ class MenuViewControllerTests: XCTestCase {
 
 		// Then
 		XCTAssertTrue(menuDelegateSpy.openMenuItemCalled, "Open Menu Item delegate method should be called")
-		XCTAssertEqual(menuDelegateSpy.openMenuItemIdentifier, .faq, "Menu Item Identifier should match")
+		XCTAssertEqual(menuDelegateSpy.openMenuItemIdentifier, .overview, "Menu Item Identifier should match")
 	}
 
 	func testBotomMenuItemClicked() {
 
 		// Given
-		let items = [MenuItem(identifier: .about, title: "about"), MenuItem(identifier: .faq, title: "faq")]
+		let items = [MenuItem(identifier: .overview, title: "overview"), MenuItem(identifier: .scan, title: "scan")]
 		loadView()
 		viewModel?.bottomMenu = items
 
@@ -111,6 +111,6 @@ class MenuViewControllerTests: XCTestCase {
 
 		// Then
 		XCTAssertTrue(menuDelegateSpy.openMenuItemCalled, "Open Menu Item delegate method should be called")
-		XCTAssertEqual(menuDelegateSpy.openMenuItemIdentifier, .about, "Menu Item Identifier should match")
+		XCTAssertEqual(menuDelegateSpy.openMenuItemIdentifier, .overview, "Menu Item Identifier should match")
 	}
 }

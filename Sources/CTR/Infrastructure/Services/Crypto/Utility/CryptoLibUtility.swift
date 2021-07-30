@@ -58,21 +58,14 @@ final class CryptoLibUtility: CryptoLibUtilityProtocol, Logging {
 	}
 	
 	private let fileStorage: FileStorage
-	private let flavor: AppFlavor
 	
-	init(fileStorage: FileStorage = FileStorage(), flavor: AppFlavor = AppFlavor.flavor) {
+	init(fileStorage: FileStorage = FileStorage()) {
 		self.fileStorage = fileStorage
-		self.flavor = flavor
 		self.shouldInitialize = .empty
 	}
 	
 	/// Initialize core library
 	func initialize() {
-		
-		guard flavor == .verifier else {
-			isInitialized = true
-			return
-		}
 		
 		// Initialize verifier and have path to stored files as parameter
 		let path = fileStorage.documentsURL?.path
@@ -92,11 +85,6 @@ final class CryptoLibUtility: CryptoLibUtilityProtocol, Logging {
 	///   - data: Data that needs to be saved
 	///   - file: File type
 	func store(_ data: Data, for file: File) {
-		
-		guard flavor == .verifier else {
-			return
-		}
-		
 		do {
 			try fileStorage.store(data, as: file.name)
 		} catch {

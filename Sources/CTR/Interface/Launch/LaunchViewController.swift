@@ -44,11 +44,6 @@ class LaunchViewController: BaseViewController {
 		configureTranslucentNavigationBar()
 
 		// Bindings
-		viewModel.$title.binding = { [weak self] in self?.sceneView.title = $0 }
-		viewModel.$message.binding = { [weak self] in
-            self?.sceneView.message = $0
-            UIAccessibility.post(notification: .announcement, argument: $0)
-        }
 		viewModel.$version.binding = { [weak self] in self?.sceneView.version = $0 }
 		viewModel.$appIcon.binding = { [weak self] in self?.sceneView.appIcon = $0 }
 	}
@@ -63,37 +58,9 @@ class LaunchViewController: BaseViewController {
 	override func viewDidAppear(_ animated: Bool) {
 
 		super.viewDidAppear(animated)
-
-		// We can't start this on viewDidLoad.
-		// It could present the jail break dialog while the view is not yet on screen, resulting in an error
-		viewModel.$interruptForJailBreakDialog.binding = { [weak self] in
-			if $0 {
-				self?.showJailBreakDialog()
-			}
-		}
 	}
-
-	private func showJailBreakDialog() {
-
-		let alertController = UIAlertController(
-			title: .jailbrokenTitle,
-			message: .jailbrokenMessage,
-			preferredStyle: .alert
-		)
-		alertController.addAction(
-			UIAlertAction(
-				title: .ok,
-				style: .default,
-				handler: { [weak self] _ in
-					self?.viewModel.userDismissedJailBreakWarning()
-				}
-			)
-		)
-		present(alertController, animated: true, completion: nil)
-	}
-
+    
 	// Rotation
-
 	override func willTransition(
 		to newCollection: UITraitCollection,
 		with coordinator: UIViewControllerTransitionCoordinator) {

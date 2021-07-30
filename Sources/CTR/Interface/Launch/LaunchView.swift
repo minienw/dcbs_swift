@@ -15,7 +15,7 @@ class LaunchView: BaseView {
 		// Dimensions
 		static let ribbonHeight: CGFloat = 101
 		static let ribbonWidth: CGFloat = 153
-		static let iconSize: CGFloat = 64
+		static let iconSize: CGFloat = 202
 
 		// Margins
 		static let titleMargin: CGFloat = 32
@@ -41,18 +41,6 @@ class LaunchView: BaseView {
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.contentMode = .scaleAspectFit
 		return view
-	}()
-
-	/// The title label
-	let titleLabel: Label = {
-
-        return Label(title1: nil, montserrat: true).multiline().header()
-	}()
-
-	/// The message label
-	let messageLabel: Label = {
-
-		return Label(body: nil).multiline()
 	}()
 
 	/// The spinner
@@ -92,8 +80,6 @@ class LaunchView: BaseView {
 	override func setupViews() {
 
 		super.setupViews()
-		titleLabel.textAlignment = .center
-		messageLabel.textColor = Theme.colors.grey1
 		versionLabel.textColor = Theme.colors.grey1
 		backgroundColor = Theme.colors.viewControllerBackground
 		versionLabel.textAlignment = .center
@@ -106,10 +92,8 @@ class LaunchView: BaseView {
 
 		addSubview(ribbonVWSView)
 		addSubview(appIconView)
-		addSubview(titleLabel)
 
 		messageContainer.addSubview(spinner)
-		messageContainer.addSubview(messageLabel)
 		stackView.addArrangedSubview(messageContainer)
 
 		addSubview(stackView)
@@ -137,33 +121,20 @@ class LaunchView: BaseView {
 			appIconView.widthAnchor.constraint(equalToConstant: ViewTraits.iconSize),
 			appIconView.heightAnchor.constraint(equalToConstant: ViewTraits.iconSize),
 			appIconView.centerXAnchor.constraint(equalTo: centerXAnchor),
-			appIconView.bottomAnchor.constraint(
-				equalTo: titleLabel.topAnchor,
-				constant: -ViewTraits.titleMargin
-			),
-
-			// Title
-			titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-			titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-			titleLabel.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor),
+            appIconView.centerYAnchor.constraint(equalTo: centerYAnchor),
 
 			// stackView
 			stackView.centerXAnchor.constraint(equalTo: centerXAnchor),
-			stackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+			stackView.topAnchor.constraint(equalTo: appIconView.bottomAnchor),
 			stackView.bottomAnchor.constraint(equalTo: versionLabel.topAnchor),
 
 			// Spinner
 			spinner.leadingAnchor.constraint(equalTo: messageContainer.leadingAnchor),
 			spinner.trailingAnchor.constraint(
-				equalTo: messageLabel.leadingAnchor,
+				equalTo: appIconView.leadingAnchor,
 				constant: -ViewTraits.spinnerMargin
 			),
 			spinner.centerYAnchor.constraint(equalTo: messageContainer.centerYAnchor),
-
-			// Message
-			messageLabel.centerYAnchor.constraint(equalTo: messageContainer.centerYAnchor),
-			messageLabel.trailingAnchor.constraint(equalTo: messageContainer.trailingAnchor),
-			messageLabel.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor),
 
 			// Version
 			versionLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
@@ -177,20 +148,6 @@ class LaunchView: BaseView {
 	}
 
 	// MARK: Public Access
-
-	/// The title
-	var title: String? {
-		didSet {
-			titleLabel.text = title
-		}
-	}
-
-	/// The message
-	var message: String? {
-		didSet {
-			messageLabel.text = message
-		}
-	}
 
 	/// The version
 	var version: String? {

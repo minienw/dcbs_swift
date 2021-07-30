@@ -35,6 +35,7 @@ class VerifierStartViewController: BaseViewController {
 
         super.viewDidLoad()
 
+        TrustListUpdateScheduler.instance.start()
 		viewModel.$title.binding = { [weak self] in self?.title = $0 }
 		viewModel.$header.binding = { [weak self] in self?.sceneView.title = $0 }
 		viewModel.$message.binding = { [weak self] in self?.sceneView.message = $0 }
@@ -45,15 +46,11 @@ class VerifierStartViewController: BaseViewController {
 			self?.viewModel.primaryButtonTapped()
 		}
 
-		viewModel.$showError.binding = { [weak self] in
-			if $0 {
-				self?.showError(.errorTitle, message: .verifierStartInternet)
-			}
-		}
+        view.backgroundColor = Theme.colors.viewControllerBackground
+        navigationItem.setRightBarButton(UIBarButtonItem(image: .about, style: .plain, target: self, action: #selector(aboutTapped)), animated: false)
 
 		sceneView.contentTextView.linkTouched { [weak self] _ in
-
-			self?.viewModel.linkTapped()
+            self?.viewModel.linkTapped()
 		}
 
 		sceneView.headerImage = .scanStart
@@ -90,4 +87,8 @@ class VerifierStartViewController: BaseViewController {
 			sceneView.showImage()
 		}
 	}
+    
+    @objc private func aboutTapped() {
+        viewModel.aboutTappd()
+    }
 }

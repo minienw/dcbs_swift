@@ -15,6 +15,8 @@ enum AboutMenuIdentifier: String {
 	case privacyStatement
 
 	case terms
+    
+    case contact
 }
 
 ///// Struct for information to display the different test providers
@@ -40,6 +42,7 @@ class AboutViewModel: Logging {
 	@Bindable private(set) var message: String
 	@Bindable private(set) var version: String
 	@Bindable private(set) var listHeader: String
+    @Bindable private(set) var trustListUpdateTime: Date?
 	@Bindable private(set) var menu: [AboutMenuOption] = []
 
 	// MARK: - Initializer
@@ -49,58 +52,48 @@ class AboutViewModel: Logging {
 	///   - coordinator: the coordinator delegate
 	///   - versionSupplier: the version supplier
 	///   - flavor: the app flavor
-	init(
-		coordinator: OpenUrlProtocol,
-		versionSupplier: AppVersionSupplierProtocol,
-		flavor: AppFlavor) {
+	init(coordinator: OpenUrlProtocol, versionSupplier: AppVersionSupplierProtocol, proofManager: ProofManaging, flavor: AppFlavor) {
 
 		self.coordinator = coordinator
 		self.flavor = flavor
 
-		self.title = flavor == .holder ? .holderAboutTitle : .verifierAboutTitle
-		self.message = flavor == .holder ? .holderAboutText : .verifierAboutText
-		self.listHeader = flavor == .holder ? .holderAboutReadMore : .verifierAboutReadMore
+		self.title = .verifierAboutTitle
+		self.message = .verifierAboutText
+		self.listHeader = .verifierAboutReadMore
 
-		let versionString: String = flavor == .holder ? .holderLaunchVersion : .verifierLaunchVersion
+		let versionString: String = .verifierLaunchVersion
 		version = String(
 			format: versionString,
 			versionSupplier.getCurrentVersion(),
 			versionSupplier.getCurrentBuild()
 		)
+        trustListUpdateTime = proofManager.lastUpdateTime()
 
-		flavor == .holder ? setupMenuHolder() : setupMenuVerifier()
-	}
-
-	private func setupMenuHolder() {
-
-		menu = [
-			AboutMenuOption(identifier: .privacyStatement, name: .holderMenuPrivacy) ,
-			AboutMenuOption(identifier: .accessibility, name: .holderMenuAccessibility)
-		]
+		setupMenuVerifier()
 	}
 
 	private func setupMenuVerifier() {
 
 		menu = [
-			AboutMenuOption(identifier: .terms, name: .verifierMenuPrivacy) ,
-			AboutMenuOption(identifier: .accessibility, name: .verifierMenuAccessibility)
+            AboutMenuOption(identifier: .terms, name: .verifierMenuPrivacy),
+            AboutMenuOption(identifier: .accessibility, name: .verifierMenuAccessibility),
+            AboutMenuOption(identifier: .privacyStatement, name: "privacy_policy".localized()),
+            AboutMenuOption(identifier: .contact, name: .verifierMenuSupport)
 		]
 	}
 
 	func menuOptionSelected(_ identifier: AboutMenuIdentifier) {
 
 		switch identifier {
-			case .privacyStatement:
-				openUrlString(.holderUrlPrivacy)
-			case .terms:
-				openUrlString(.verifierUrlPrivacy)
-			case .accessibility:
-				if flavor == .holder {
-					openUrlString(.holderUrlAccessibility)
-				} else {
-					openUrlString(.verifierUrlAccessibility)
-				}
-		}
+        case .privacyStatement:
+            openUrlString("url.privacy".localized())
+        case .terms:
+            openUrlString("url.terms_of_use".localized())
+        case .accessibility:
+            openUrlString("url.accessibility".localized())
+        case .contact:
+            openUrlString("url.support".localized())
+        }
 	}
 
 	private func openUrlString(_ urlString: String) {

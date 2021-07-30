@@ -27,8 +27,9 @@ class AboutView: ScrolledStackView {
 	}()
 
 	private let listHeaderLabel: Label = {
-
-        return Label(caption1SemiBold: nil).multiline().header()
+        let label = Label(caption1SemiBold: nil).multiline().header()
+        label.isHidden = true
+        return label
 	}()
 
 	/// The stack view for the menu items
@@ -42,9 +43,13 @@ class AboutView: ScrolledStackView {
 		view.spacing = 0
 		return view
 	}()
+    
+    let trustListStatusView: TrustListStatusView = {
+        let view = TrustListStatusView()
+        return view
+    }()
 
 	private let versionLabel: Label = {
-
 		return Label(subhead: nil).multiline()
 	}()
 
@@ -64,7 +69,9 @@ class AboutView: ScrolledStackView {
 
 		stackView.addArrangedSubview(messageLabel)
 		stackView.addArrangedSubview(listHeaderLabel)
-		stackView.setCustomSpacing(0, after: listHeaderLabel)
+		stackView.setCustomSpacing(15, after: listHeaderLabel)
+        stackView.addArrangedSubview(trustListStatusView)
+        stackView.setCustomSpacing(15, after: trustListStatusView)
 		stackView.addArrangedSubview(itemStackView)
 		stackView.setCustomSpacing(24, after: itemStackView)
 		stackView.addArrangedSubview(versionLabel)
@@ -89,6 +96,12 @@ class AboutView: ScrolledStackView {
 			)
 		}
 	}
+    
+    var trustListUpdateTime: Date? {
+        didSet {
+            trustListStatusView.setup(time: trustListUpdateTime)
+        }
+    }
 
 	/// The list header
 	var listHeader: String? {

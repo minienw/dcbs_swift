@@ -9,13 +9,13 @@ import UIKit
 
 /// The steps of the onboarding
 enum OnboardingStep: Int {
-
+    
+    case who
+    case access
 	case safelyOnTheRoad
 	case yourQR
 	case validity
-	case access
 	case privacy
-	case who
 }
 
 struct OnboardingPage {
@@ -56,89 +56,6 @@ protocol OnboardingFactoryProtocol {
 	func getConsentItems() -> [String]
 }
 
-struct HolderOnboardingFactory: OnboardingFactoryProtocol {
-
-	/// Generate an array of onboarding steps
-	/// - Parameter maxValidity: the maximum validity of a test in hours
-	/// - Returns: an array of onboarding steps
-	func create(maxValidity: Int) -> [OnboardingPage] {
-
-		let pages = [
-			OnboardingPage(
-				title: .holderOnboardingTitleSafely,
-				message: .holderOnboardingMessageSafely,
-				image: .onboardingSafely,
-				step: .safelyOnTheRoad
-			),
-			OnboardingPage(
-				title: .holderOnboardingTitleYourQR,
-				message: .holderOnboardingMessageYourQR,
-				image: .onboardingYourQR,
-				step: .yourQR
-			),
-			OnboardingPage(
-				title: .holderOnboardingTitleValidity,
-				message: String(format: .holderOnboardingMessageValidity, "\(maxValidity)"),
-				image: .onboardingValidity,
-				step: .validity
-			),
-			{
-				let shortDateFormatter: DateFormatter = {
-					let formatter = DateFormatter()
-					formatter.dateFormat = "d MMMM"
-					return formatter
-				}()
-
-				let euLaunchDateString = Services.remoteConfigManager.getConfiguration().euLaunchDate
-					.flatMap(Formatter.getDateFrom)
-					.flatMap { shortDateFormatter.string(from: $0) }
-				?? "-"
-
-				return OnboardingPage(
-					title: .holderOnboardingTitlePrivacy,
-					message: .holderOnboardingMessagePrivacy(localizedEULaunchDate: euLaunchDateString),
-					image: .onboardingInternational,
-					step: .who
-				)
-			}()
-		]
-
-		return pages.sorted { $0.step.rawValue < $1.step.rawValue }
-	}
-
-	/// Get the Consent Title
-	func getConsentTitle() -> String {
-
-		return .holderConsentTitle
-	}
-
-	/// Get the Consent message
-	func getConsentMessage() -> String {
-
-		return .holderConsentMessage
-	}
-	/// Get the Consent underlined message
-	func getConsentLink() -> String {
-
-		return .holderConsentMessageUnderlined
-	}
-
-	/// Get the Consent Button Title
-	func getConsentButtonTitle() -> String {
-
-		return .holderConsentButtonTitle
-	}
-
-	/// Get the consent Items
-	func getConsentItems() -> [String] {
-
-		return [
-			.holderConsentItemOne,
-			.holderConsentItemTwo
-		]
-	}
-}
-
 struct VerifierOnboardingFactory: OnboardingFactoryProtocol {
 
 	/// Generate an array of onboarding steps
@@ -148,28 +65,22 @@ struct VerifierOnboardingFactory: OnboardingFactoryProtocol {
 
 		let pages = [
 			OnboardingPage(
-				title: .verifierOnboardingTitleSafely,
-				message: .verifierOnboardingMessageSafely,
+                title: .onboardingPage1Title,
+                message: .onboardingPage1Desc,
 				image: .onboardingSafely,
 				step: .safelyOnTheRoad
 			),
 			OnboardingPage(
-				title: .verifierOnboardingTitleScanQR,
-				message: String(format: .verifierOnboardingMessageScanQR, "\(maxValidity)"),
+                title: .onboardingPage2Title,
+                message: .onboardingPage2Desc,
 				image: .onboardingScan,
 				step: .yourQR
 			),
 			OnboardingPage(
-				title: .verifierOnboardingTitleAccess,
-				message: .verifierOnboardingMessageAccess,
+                title: .onboardingPage3Title,
+                message: .onboardingPage3Desc,
 				image: .onboardingIdentity,
 				step: .access
-			),
-			OnboardingPage(
-				title: .verifierOnboardingTitleWho,
-				message: .verifierOnboardingMessageWho,
-				image: .onboardingWho,
-				step: .privacy
 			)
 		]
 
@@ -204,8 +115,7 @@ struct VerifierOnboardingFactory: OnboardingFactoryProtocol {
 
 		return [
 			.verifierConsentItemOne,
-			.verifierConsentItemTwo,
-			.verifierConsentItemThree
+			.verifierConsentItemTwo
 		]
 	}
 }

@@ -17,7 +17,6 @@ class VerifierStartViewModelTests: XCTestCase {
 	var cryptoManagerSpy: CryptoManagerSpy!
 	var proofManagerSpy: ProofManagingSpy!
 	var verifyCoordinatorDelegateSpy: VerifierCoordinatorDelegateSpy!
-	var userSettingsSpy: UserSettingsSpy!
 
 	override func setUp() {
 
@@ -25,13 +24,11 @@ class VerifierStartViewModelTests: XCTestCase {
 		verifyCoordinatorDelegateSpy = VerifierCoordinatorDelegateSpy()
 		cryptoManagerSpy = CryptoManagerSpy()
 		proofManagerSpy = ProofManagingSpy()
-		userSettingsSpy = UserSettingsSpy()
 
 		sut = VerifierStartViewModel(
 			coordinator: verifyCoordinatorDelegateSpy,
 			cryptoManager: cryptoManagerSpy,
-			proofManager: proofManagerSpy,
-			userSettings: userSettingsSpy
+			proofManager: proofManagerSpy
 		)
 	}
 
@@ -52,62 +49,5 @@ class VerifierStartViewModelTests: XCTestCase {
 			.to(equal(.verifierStartHeader), description: "Header should match")
 		expect(self.sut.message)
 			.to(equal(.verifierStartMessage), description: "Message should match")
-	}
-
-	func test_linkTapped() {
-
-		// Given
-
-		// When
-		sut.linkTapped()
-
-		// Then
-		expect(self.verifyCoordinatorDelegateSpy.invokedDidFinishVerifierStartResult) == true
-		expect(self.verifyCoordinatorDelegateSpy.invokedDidFinishVerifierStartResultParameters?.result)
-			.to(equal(.userTappedProceedToScanInstructions), description: "Result should match")
-	}
-
-	func test_primaryButtonTapped_noScanInstructionsShown() {
-
-		// Given
-		userSettingsSpy.stubbedScanInstructionShown = false
-
-		// When
-		sut.primaryButtonTapped()
-
-		// Then
-		expect(self.verifyCoordinatorDelegateSpy.invokedDidFinishVerifierStartResult) == true
-		expect(self.verifyCoordinatorDelegateSpy.invokedDidFinishVerifierStartResultParameters?.result)
-			.to(equal(.userTappedProceedToScanInstructions), description: "Result should match")
-		expect(self.userSettingsSpy.invokedScanInstructionShownGetter) == true
-	}
-
-	func test_primaryButtonTapped_scanInstructionsShown_havePublicKeys() {
-
-		// Given
-		userSettingsSpy.stubbedScanInstructionShown = true
-		cryptoManagerSpy.stubbedHasPublicKeysResult = true
-
-		// When
-		sut.primaryButtonTapped()
-
-		// Then
-		expect(self.verifyCoordinatorDelegateSpy.invokedDidFinishVerifierStartResult) == true
-		expect(self.verifyCoordinatorDelegateSpy.invokedDidFinishVerifierStartResultParameters?.result)
-			.to(equal(.userTappedProceedToScan), description: "Result should match")
-	}
-
-	func test_primaryButtonTapped_scanInstructionsShown_noPublicKeys() {
-
-		// Given
-		userSettingsSpy.stubbedScanInstructionShown = true
-		cryptoManagerSpy.stubbedHasPublicKeysResult = false
-
-		// When
-		sut.primaryButtonTapped()
-
-		// Then
-		expect(self.proofManagerSpy.invokedFetchIssuerPublicKeys) == true
-		expect(self.sut.showError) == true
 	}
 }

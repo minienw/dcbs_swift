@@ -23,6 +23,8 @@ protocol OnboardingCoordinatorDelegate: AnyObject {
 
 	/// Consent was given
 	func consentGiven()
+    
+    func openTerms()
 }
 
 protocol OnboardingDelegate: AnyObject {
@@ -83,12 +85,6 @@ class OnboardingCoordinator: Coordinator, Logging {
 		navigationController.pushViewController(viewController, animated: true)
 	}
 
-    // MARK: - Universal Link handling
-
-    /// Override point for coordinators which wish to deal with universal links.
-    func consume(universalLink: UniversalLink) -> Bool {
-        return false
-    }
 }
 
 // MARK: - OpenUrlProtocol
@@ -113,13 +109,7 @@ extension OnboardingCoordinator: OnboardingCoordinatorDelegate {
 	
 	func showPrivacyPage() {
 
-		let urlString: String
-
-		if AppFlavor.flavor == .holder {
-			urlString = .holderUrlPrivacy
-		} else {
-			urlString = .verifierUrlPrivacy
-		}
+        let urlString: String = "url.privacy".localized()
 
 		guard let privacyUrl = URL(string: urlString) else {
 			logError("No privacy url for \(urlString)")
@@ -127,6 +117,17 @@ extension OnboardingCoordinator: OnboardingCoordinatorDelegate {
 		}
 		openUrl(privacyUrl, inApp: true)
 	}
+    
+    func openTerms() {
+
+        let urlString: String = "url.terms_of_use".localized()
+
+        guard let termsURL = URL(string: urlString) else {
+            logError("No terms url for \(urlString)")
+            return
+        }
+        openUrl(termsURL, inApp: true)
+    }
 
 	/// Dismiss the presented viewController
 	func dismiss() {

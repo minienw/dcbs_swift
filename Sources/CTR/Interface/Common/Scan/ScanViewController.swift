@@ -89,9 +89,6 @@ class ScanViewController: BaseViewController, AVCaptureMetadataOutputObjectsDele
 		]
 		navigationController?.navigationBar.titleTextAttributes = textAttributes
 		navigationController?.navigationBar.tintColor = .white
-
-		previousOrientation = OrientationUtility.currentOrientation()
-		OrientationUtility.lockOrientation(.portrait, andRotateTo: .portrait)
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -118,8 +115,6 @@ class ScanViewController: BaseViewController, AVCaptureMetadataOutputObjectsDele
 		]
 		navigationController?.navigationBar.titleTextAttributes = textAttributes
 		navigationController?.navigationBar.tintColor = Theme.colors.dark
-
-		OrientationUtility.lockOrientation(.all, andRotateTo: previousOrientation ?? .portrait)
 	}
 
 	func failed() {
@@ -149,8 +144,6 @@ class ScanViewController: BaseViewController, AVCaptureMetadataOutputObjectsDele
 	}
 
 	func found(code: String) {
-
-		print("CTR: Found code: \(code)")
 	}
 
 	override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

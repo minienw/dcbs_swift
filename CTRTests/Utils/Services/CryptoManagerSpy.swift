@@ -46,30 +46,6 @@ class CryptoManagerSpy: CryptoManaging {
 		return stubbedGetStokenResult
 	}
 
-	var invokedGenerateCommitmentMessage = false
-	var invokedGenerateCommitmentMessageCount = 0
-	var stubbedGenerateCommitmentMessageResult: String!
-
-	func generateCommitmentMessage() -> String? {
-		invokedGenerateCommitmentMessage = true
-		invokedGenerateCommitmentMessageCount += 1
-		return stubbedGenerateCommitmentMessageResult
-	}
-
-	var invokedSetIssuerDomesticPublicKeys = false
-	var invokedSetIssuerDomesticPublicKeysCount = 0
-	var invokedSetIssuerDomesticPublicKeysParameters: (keys: IssuerPublicKeys, Void)?
-	var invokedSetIssuerDomesticPublicKeysParametersList = [(keys: IssuerPublicKeys, Void)]()
-	var stubbedSetIssuerDomesticPublicKeysResult: Bool! = false
-
-	func setIssuerDomesticPublicKeys(_ keys: IssuerPublicKeys) -> Bool {
-		invokedSetIssuerDomesticPublicKeys = true
-		invokedSetIssuerDomesticPublicKeysCount += 1
-		invokedSetIssuerDomesticPublicKeysParameters = (keys, ())
-		invokedSetIssuerDomesticPublicKeysParametersList.append((keys, ()))
-		return stubbedSetIssuerDomesticPublicKeysResult
-	}
-
 	var invokedHasPublicKeys = false
 	var invokedHasPublicKeysCount = 0
 	var stubbedHasPublicKeysResult: Bool! = false
@@ -78,64 +54,6 @@ class CryptoManagerSpy: CryptoManaging {
 		invokedHasPublicKeys = true
 		invokedHasPublicKeysCount += 1
 		return stubbedHasPublicKeysResult
-	}
-
-	var invokedCreateCredential = false
-	var invokedCreateCredentialCount = 0
-	var invokedCreateCredentialParameters: (ism: Data, Void)?
-	var invokedCreateCredentialParametersList = [(ism: Data, Void)]()
-	var stubbedCreateCredentialResult: Result<Data, CryptoError>!
-
-	func createCredential(_ ism: Data) -> Result<Data, CryptoError> {
-		invokedCreateCredential = true
-		invokedCreateCredentialCount += 1
-		invokedCreateCredentialParameters = (ism, ())
-		invokedCreateCredentialParametersList.append((ism, ()))
-		return stubbedCreateCredentialResult
-	}
-
-	var invokedReadCredential = false
-	var invokedReadCredentialCount = 0
-	var stubbedReadCredentialResult: CryptoAttributes!
-
-	func readCredential() -> CryptoAttributes? {
-		invokedReadCredential = true
-		invokedReadCredentialCount += 1
-		return stubbedReadCredentialResult
-	}
-
-	var invokedStoreCredential = false
-	var invokedStoreCredentialCount = 0
-	var invokedStoreCredentialParameters: (credential: Data, Void)?
-	var invokedStoreCredentialParametersList = [(credential: Data, Void)]()
-
-	func storeCredential(_ credential: Data) {
-		invokedStoreCredential = true
-		invokedStoreCredentialCount += 1
-		invokedStoreCredentialParameters = (credential, ())
-		invokedStoreCredentialParametersList.append((credential, ()))
-	}
-
-	var invokedRemoveCredential = false
-	var invokedRemoveCredentialCount = 0
-
-	func removeCredential() {
-		invokedRemoveCredential = true
-		invokedRemoveCredentialCount += 1
-	}
-
-	var invokedGenerateQRmessage = false
-	var invokedGenerateQRmessageCount = 0
-	var invokedGenerateQRmessageParameters: (credential: Data, Void)?
-	var invokedGenerateQRmessageParametersList = [(credential: Data, Void)]()
-	var stubbedGenerateQRmessageResult: Data!
-
-	func generateQRmessage(_ credential: Data) -> Data? {
-		invokedGenerateQRmessage = true
-		invokedGenerateQRmessageCount += 1
-		invokedGenerateQRmessageParameters = (credential, ())
-		invokedGenerateQRmessageParametersList.append((credential, ()))
-		return stubbedGenerateQRmessageResult
 	}
 
 	var invokedVerifyQRMessage = false
@@ -150,45 +68,5 @@ class CryptoManagerSpy: CryptoManaging {
 		invokedVerifyQRMessageParameters = (message, ())
 		invokedVerifyQRMessageParametersList.append((message, ()))
 		return stubbedVerifyQRMessageResult
-	}
-
-	var invokedMigrateExistingCredential = false
-	var invokedMigrateExistingCredentialCount = 0
-	var invokedMigrateExistingCredentialParameters: (walletManager: WalletManaging, Void)?
-	var invokedMigrateExistingCredentialParametersList = [(walletManager: WalletManaging, Void)]()
-
-	func migrateExistingCredential(_ walletManager: WalletManaging) {
-		invokedMigrateExistingCredential = true
-		invokedMigrateExistingCredentialCount += 1
-		invokedMigrateExistingCredentialParameters = (walletManager, ())
-		invokedMigrateExistingCredentialParametersList.append((walletManager, ()))
-	}
-
-	var invokedReadDomesticCredentials = false
-	var invokedReadDomesticCredentialsCount = 0
-	var invokedReadDomesticCredentialsParameters: (data: Data, Void)?
-	var invokedReadDomesticCredentialsParametersList = [(data: Data, Void)]()
-	var stubbedReadDomesticCredentialsResult: DomesticCredentialAttributes!
-
-	func readDomesticCredentials(_ data: Data) -> DomesticCredentialAttributes? {
-		invokedReadDomesticCredentials = true
-		invokedReadDomesticCredentialsCount += 1
-		invokedReadDomesticCredentialsParameters = (data, ())
-		invokedReadDomesticCredentialsParametersList.append((data, ()))
-		return stubbedReadDomesticCredentialsResult
-	}
-
-	var invokedReadEuCredentials = false
-	var invokedReadEuCredentialsCount = 0
-	var invokedReadEuCredentialsParameters: (data: Data, Void)?
-	var invokedReadEuCredentialsParametersList = [(data: Data, Void)]()
-	var stubbedReadEuCredentialsResult: EuCredentialAttributes!
-
-	func readEuCredentials(_ data: Data) -> EuCredentialAttributes? {
-		invokedReadEuCredentials = true
-		invokedReadEuCredentialsCount += 1
-		invokedReadEuCredentialsParameters = (data, ())
-		invokedReadEuCredentialsParametersList.append((data, ()))
-		return stubbedReadEuCredentialsResult
 	}
 }

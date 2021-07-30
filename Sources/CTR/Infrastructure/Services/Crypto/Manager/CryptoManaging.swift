@@ -9,147 +9,88 @@ import Foundation
 
 typealias CryptoResult = (attributes: CryptoAttributes?, errorMessage: String?)
 
-struct NonceEnvelope: Codable {
-	
-	let nonce: String
-	let stoken: String
-}
-
 struct PrepareIssueEnvelope: Codable {
 
-	let prepareIssueMessage: String
-	let stoken: String
+    let prepareIssueMessage: String
+    let stoken: String
 }
 
 struct CryptoAttributes: Codable {
-	
-	let birthDay: String?
-	let birthMonth: String?
-	let credentialVersion: String?
-	let domesticDcc: String?
-	let firstNameInitial: String?
-	let lastNameInitial: String?
-	let specimen: String?
-	
-	enum CodingKeys: String, CodingKey {
-		
-		case birthDay
-		case birthMonth
-		case credentialVersion
-		case domesticDcc = "isNLDCC"
-		case firstNameInitial
-		case lastNameInitial
-		case specimen = "isSpecimen"
-	}
-	
-	var isDomesticDcc: Bool {
-		
-		return domesticDcc == "1"
-	}
-	
-	var isSpecimen: Bool {
-		
-		return specimen == "1"
-	}
+    
+    let birthDay: String?
+    let birthMonth: String?
+    let credentialVersion: String?
+    let domesticDcc: String?
+    let firstNameInitial: String?
+    let lastNameInitial: String?
+    let specimen: String?
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case birthDay
+        case birthMonth
+        case credentialVersion
+        case domesticDcc = "isNLDCC"
+        case firstNameInitial
+        case lastNameInitial
+        case specimen = "isSpecimen"
+    }
+    
+    var isDomesticDcc: Bool {
+        
+        return domesticDcc == "1"
+    }
+    
+    var isSpecimen: Bool {
+        
+        return specimen == "1"
+    }
 }
 
 struct IssuerDomesticPublicKey: Codable {
-	
-	let identifier: String
-	let publicKey: String
-	
-	enum CodingKeys: String, CodingKey {
-		
-		case identifier = "id"
-		case publicKey = "public_key"
-	}
+    
+    let identifier: String
+    let publicKey: String
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case identifier = "id"
+        case publicKey = "public_key"
+    }
 }
 
 struct IssuerPublicKeys: Codable {
-	
-	let clKeys: [IssuerDomesticPublicKey]
-	
-	enum CodingKeys: String, CodingKey {
-		
-		case clKeys = "cl_keys"
-	}
+    
+    let clKeys: [IssuerDomesticPublicKey]
+    
+    enum CodingKeys: String, CodingKey {
+        
+        case clKeys = "cl_keys"
+    }
 }
 
 protocol CryptoManaging: AnyObject {
-	
-	init()
-	
-	// MARK: Encryption
-	
-	/// Set the nonce
-	/// - Parameter nonce: the nonce
-	func setNonce(_ nonce: String)
-	
-	/// set the stoken
-	/// - Parameter stoken: the stoken
-	func setStoken(_ stoken: String)
-	
-	/// Get the stoken
-	/// - Returns: the stoken
-	func getStoken() -> String?
-	
-	/// Generate the commitment message
-	/// - Returns: commitment message
-	func generateCommitmentMessage() -> String?
-	
-	// MARK: Public Keys
-	
-	/// Set the issuer domestic public keys
-	/// - Parameter keys: the keys
-	func setIssuerDomesticPublicKeys(_ keys: IssuerPublicKeys) -> Bool
-	
-	/// Do we have public keys
-	/// - Returns: True if we do
-	func hasPublicKeys() -> Bool
-	
-	// MARK: Credential
-
-	/// Create the credential from the issuer commit message
-	/// - Parameter ism: the issuer commit message (signed testproof)
-	/// - Returns: Credential data if success, error if not
-	func createCredential(_ ism: Data) -> Result<Data, CryptoError>
-	
-	/// Read the crypto credential
-	/// - Returns: the  the crypto attributes
-	func readCredential() -> CryptoAttributes?
-
-	/// Store the credential in the vault
-	/// - Parameter credential: the credential
-	func storeCredential(_ credential: Data)
-
-	/// Remove the credential
-	func removeCredential()
-	
-	// MARK: QR
-
-	/// Generate the QR message
-	/// - Parameter credential: the (domestic) credential to generate the QR from
-	/// - Returns: the QR message
-	func generateQRmessage(_ credential: Data) -> Data?
-	
-	/// Verify the QR message
-	/// - Parameter message: the scanned QR code
-	/// - Returns: Attributes if the QR is valid or error string if not
-	func verifyQRMessage(_ message: String) -> CryptoResult
-
-	// MARK: Migration
-
-	func migrateExistingCredential(_ walletManager: WalletManaging)
-
-	func readDomesticCredentials(_ data: Data) -> DomesticCredentialAttributes?
-
-	func readEuCredentials(_ data: Data) -> EuCredentialAttributes?
+    
+    init()
+    
+    // MARK: Public Keys
+    
+    /// Do we have public keys
+    /// - Returns: True if we do
+    func hasPublicKeys() -> Bool
+    
+    // MARK: QR
+    
+    /// Verify the QR message
+    /// - Parameter message: the scanned QR code
+    /// - Returns: Attributes if the QR is valid or error string if not
+    func verifyQRMessage(_ message: String) -> (DCCQR?, String?)
 }
 
 /// The errors returned by the crypto library
 enum CryptoError: Error {
 
-	case keyMissing
-	case credentialCreateFail(reason: String)
-	case unknown
+    case keyMissing
+    case credentialCreateFail(reason: String)
+    case unknown
 }

@@ -7,26 +7,6 @@
 
 import Foundation
 
-// MARK: Holder
-
-extension String {
-
-	static var holderLaunchTitle: String {
-
-		return Localization.string(for: "holder.launch.title")
-	}
-
-	static var holderLaunchText: String {
-
-		return Localization.string(for: "holder.launch.text")
-	}
-
-	static var holderLaunchVersion: String {
-
-		return Localization.string(for: "holder.launch.version")
-	}
-}
-
 // MARK: Verifier
 
 extension String {
