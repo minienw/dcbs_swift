@@ -35,11 +35,14 @@ class SelectedCountryView: TMCBaseView {
         let colourName = Services.remoteConfigManager.getConfiguration().countryColors?.first(where: { it in
             it.isColourCode == true && it.color == colourCode
         })
-        riskLabel.text = departure == "" ? "" : colourName?.name() ?? ""
+        var riskLabelText = departure == "" ? "" : "\(colourName?.name() ?? "")"
+        if !riskLabelText.isEmpty, let eu = departureCountry?.isEU {
+            riskLabelText += " | \((eu ? "item_eu" : "item_not_eu").localized())"
+        }
+        riskLabel.text = riskLabelText
         departureLabel.text = departure == "" ? "country_unselected".localized() : departureCountry?.name() ?? "country_unselected".localized()
         destiantionLabel.text = destination == "" ? "country_unselected".localized() :
             ADCountryPicker.countryForCode(code: destination)?.name() ?? ""
-        euImage.image = UIImage(named: departureCountry?.isEU == true ? "ic_eu" : "ic_not_eu")
     }
     
     @IBAction func departureTapped(_ sender: Any) {

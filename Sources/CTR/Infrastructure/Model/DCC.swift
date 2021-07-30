@@ -128,7 +128,8 @@ struct DCCQR: Codable {
         if let yearsOld = getYearsOld(), yearsOld <= 11 {
             return []
         }
-        let requireTest = fromColour == .orange && from.isEU == true || fromColour == .orangeHighShipsFlight && from.isEU == false
+        let requireTest = (fromColour == .orangeHighShipsFlight || fromColour == .orangeHighIncidence) && from.isEU == true
+            || fromColour == .orangeHighShipsFlight && from.isEU == false
         if requireTest && (dcc?.tests == nil || dcc?.tests?.isEmpty == true) {
             failingItems.append(.missingRequiredTest)
         }

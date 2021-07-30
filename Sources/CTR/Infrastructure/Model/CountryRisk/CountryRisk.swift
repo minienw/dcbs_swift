@@ -82,6 +82,6 @@ struct CountryRisk: Codable {
         case countryNl = "country_NL"
         case isColourCode = "is_colour_code"
         case ruleEngineEnabled = "rule_engine_enabled"
-        case isEU = "is_eu"
+        case isEU = "is_EU"
     }
 }

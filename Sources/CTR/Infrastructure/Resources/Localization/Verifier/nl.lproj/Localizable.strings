@@ -279,3 +279,6 @@ toegepast";
 "result_inconclusive_message" = "Controleer de regels op de basis van de onderstaande gegevens";
 "countries" = "Landen";
 "colour_codes" = "Kleur codes";
+
+"item_eu" = "EU";
+"item_not_eu" = "Buiten EU";
