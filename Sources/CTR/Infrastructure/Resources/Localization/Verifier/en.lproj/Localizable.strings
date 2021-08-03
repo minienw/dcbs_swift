@@ -254,3 +254,10 @@ applied";
 
 "item_eu" = "EU";
 "item_not_eu" = "Outside EU";
+
+"voc_require_second_antigen" = "A second antigen test of no more than %i hours old is required in orange VOC";
+"voc_require_second_pcr" = "A second PCR/NAAT test of no more than %i hours old is required in orange VOC";
+"voc_require_pcr_or_antigen" = "In orange voc, one of the following is required
+- A PCR/NAAT test of no more than %i hours old
+of
+- A PCR/NAAT test of no more than %i hours old AND an antigen test of no more than %i hours old";

@@ -17,9 +17,9 @@ enum DCCTestType: String {
         switch self {
         
             case .nucleidAcid:
-                return "Nucleic acid amplification with probe detection"
+                return "Nucleic acid amplification with probe detection (NAAT / PCR)"
             case .rapidImmune:
-                return "Rapid immunoassay"
+                return "Rapid immunoassay (Antigen)"
         }
     }
     
