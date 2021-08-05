@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat-Bold.ttf">
+            <string>Montserrat-Bold</string>
+        </array>
+        <array key="Montserrat-SemiBold.ttf">
+            <string>Montserrat-SemiBold</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OutdatedTrustView" customModule="CTR" customModuleProvider="target">
+            <connections>
+                <outlet property="spinner" destination="Ire-vY-e3R" id="L9q-0e-y9A"/>
+                <outlet property="updateButton" destination="rTq-M9-GwB" id="aHo-gd-Nyj"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="416" height="132"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kr5-6K-scw" customClass="CustomShadowView" customModule="CTR">
+                    <rect key="frame" x="20" y="15" width="376" height="102"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9M7-0l-oVL">
+                            <rect key="frame" x="16" y="12" width="232" height="39.5"/>
+                            <string key="text">De certificatenlijst is
+niet bijgewerkt!</string>
+                            <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="16"/>
+                            <color key="textColor" name="SecondaryColor"/>
+                            <nil key="highlightedColor"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="translationKey" value="certificates_outdated_title"/>
+                            </userDefinedRuntimeAttributes>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="U kunt de app blijven gebruiken, maar maak verbinding met internet en probeer het nog eens via de knop “Bijwerken”." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gms-oS-wI8">
+                            <rect key="frame" x="16" y="60.5" width="347" height="27.5"/>
+                            <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="11"/>
+                            <color key="textColor" name="SecondaryColor"/>
+                            <nil key="highlightedColor"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="string" keyPath="translationKey" value="certificates_outdated_desc"/>
+                            </userDefinedRuntimeAttributes>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rTq-M9-GwB" customClass="CustomButton" customModule="CTR">
+                            <rect key="frame" x="260" y="20" width="104" height="34"/>
+                            <color key="backgroundColor" name="PrimaryColor"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="34" id="mfW-2W-D4I"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="15"/>
+                            <inset key="contentEdgeInsets" minX="6" minY="0.0" maxX="6" maxY="0.0"/>
+                            <state key="normal" title="Update lists">
+                                <color key="titleColor" name="SecondaryColor"/>
+                            </state>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="4"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="string" keyPath="translationKey" value="certificates_outdated_button"/>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="updateButtonTapped:" destination="-1" eventType="touchUpInside" id="4Rs-Oa-xZB"/>
+                            </connections>
+                        </button>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="Ire-vY-e3R">
+                            <rect key="frame" x="302" y="27" width="20" height="20"/>
+                            <color key="color" name="SecondaryColor"/>
+                        </activityIndicatorView>
+                    </subviews>
+                    <color key="backgroundColor" name="DeniedColor"/>
+                    <constraints>
+                        <constraint firstItem="Ire-vY-e3R" firstAttribute="centerX" secondItem="rTq-M9-GwB" secondAttribute="centerX" id="1xK-Cp-bMa"/>
+                        <constraint firstItem="9M7-0l-oVL" firstAttribute="leading" secondItem="kr5-6K-scw" secondAttribute="leading" constant="16" id="4JC-Mb-VmB"/>
+                        <constraint firstAttribute="trailing" secondItem="gms-oS-wI8" secondAttribute="trailing" constant="13" id="4h8-td-esd"/>
+                        <constraint firstAttribute="trailing" secondItem="rTq-M9-GwB" secondAttribute="trailing" constant="12" id="7Gg-jB-M0U"/>
+                        <constraint firstItem="gms-oS-wI8" firstAttribute="leading" secondItem="9M7-0l-oVL" secondAttribute="leading" id="80y-Mm-gZH"/>
+                        <constraint firstItem="gms-oS-wI8" firstAttribute="top" secondItem="9M7-0l-oVL" secondAttribute="bottom" constant="9" id="ASG-FI-HfC"/>
+                        <constraint firstItem="Ire-vY-e3R" firstAttribute="centerY" secondItem="rTq-M9-GwB" secondAttribute="centerY" id="Gch-wf-C6q"/>
+                        <constraint firstAttribute="bottom" secondItem="gms-oS-wI8" secondAttribute="bottom" constant="14" id="KV2-eo-80h"/>
+                        <constraint firstItem="rTq-M9-GwB" firstAttribute="leading" secondItem="9M7-0l-oVL" secondAttribute="trailing" constant="12" id="h9a-Bv-QpN"/>
+                        <constraint firstItem="9M7-0l-oVL" firstAttribute="top" secondItem="kr5-6K-scw" secondAttribute="top" constant="12" id="oMs-8I-P8X"/>
+                        <constraint firstItem="rTq-M9-GwB" firstAttribute="top" secondItem="kr5-6K-scw" secondAttribute="top" constant="20" id="tiP-4y-mmd"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="10"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetX">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOffsetY">
+                            <real key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="shadowColor">
+                            <color key="value" name="ShadowColor"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="shadowOpacity">
+                            <real key="value" value="0.20000000000000001"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="kr5-6K-scw" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="1FD-Lq-PVp"/>
+                <constraint firstAttribute="bottom" secondItem="kr5-6K-scw" secondAttribute="bottom" constant="15" id="NNR-nX-eEs"/>
+                <constraint firstAttribute="trailing" secondItem="kr5-6K-scw" secondAttribute="trailing" constant="20" id="muV-O4-FLE"/>
+                <constraint firstItem="kr5-6K-scw" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="wqf-iA-wDS"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="21.739130434782609" y="-157.36607142857142"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="DeniedColor">
+            <color red="1" green="0.45490196078431372" blue="0.37254901960784315" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="PrimaryColor">
+            <color red="0.082352941176470587" green="0.25882352941176473" blue="0.45098039215686275" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="SecondaryColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="ShadowColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

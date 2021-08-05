@@ -1,0 +1,292 @@
+"general.error.cryptolib.title" = "Sorry, er gaat iets mis";
+"general.error.cryptolib.message" = "Neem contact op met de helpdesk van DCC Scanner en geef de foutcode (%@) door.";
+"general.error.cryptolib.retry" = "Probeer opnieuw";
+
+"verifier.scan.torch.enable" = "Zet de zaklamp aan.";
+"verifier.scan.torch.disable" = "Zet de zaklamp uit.";
+"verifier.result.denied.region.title" = "Dit is een internationale QR-code";
+"verifier.result.denied.region.message" = "Dit is geen geldig bewijs in Nederland. Vraag de bezoeker een Nederlandse QR-code te laten zien.";
+"verifier.result.identity.label" = "Kenmerk %@ is %@";
+"verifier.instructions.access.image" = "Persoon houdt een telefoon vast met een groen scherm en een zwart vinkje.";
+"verifier.instructions.denied.image" = "Persoon houdt een telefoon vast met een rood scherm en een zwart kruis.";
+"general.government.logo" = "Logo Rijksoverheid";
+
+/* Koptekst in de over de app pagina */
+"verifier.about.readmore" = "Lees meer";
+
+/* Menu item voor Toegankelijkheid */
+"verifier.menu.accessibility" = "Toegankelijkheid";
+
+"verifier.result.identity.title" = "Controleer nu de gegevens";
+"verifier.result.identity.lastname" = "Achternaam";
+"verifier.result.identity.firstname" = "Voornaam";
+"verifier.result.identity.dayofbirth" = "Geboortedag";
+"verifier.result.identity.monthofbirth" = "Geboortemaand";
+
+"verifier.result.check.text" = "<p>Controleer of de QR-code ook echt bij de bezoeker hoort. Kijk daarvoor of de gegevens op jouw scherm hetzelfde zijn als de gegevens op het identiteitsbewijs.</p><p><b>Let op: er kunnen gegevens wegvallen</b><br/>Om de privacy van de bezoeker te beschermen zie je soms niet alle gegevens op jouw scherm. Dan staat er een streepje (-) in het vak. Controle van de gegevens die je wel ziet is dan voldoende.</p><p><b>Kloppen de gegevens niet?</b><br/>Dan kun je de bezoeker geen toegang geven.</p>";
+
+
+/* Voice over voor begin van een lijst */
+"general.list.accessibility.start" = "Begin van lijst.";
+
+/* Voice over voor einde van een lijst */
+"general.list.accessibility.end" = "Eind van lijst.";
+/* MARK: - General */
+"general.cancel" = "Annuleer";
+/* MARK: - General */
+"general.close" = "Sluiten";
+"general.previous" = "Vorige";
+"general.back" = "Terug";
+"general.next" = "Volgende";
+"general.done" = "Klaar";
+"general.ok" = "Ok";
+"general.error.title" = "Sorry, er ging iets mis";
+"general.error.technical.text" = "Dat komt door een technische fout.";
+"general.error.technical.custom" = "Dat komt door een technische fout (%@)";
+"general.error.nointernet.title" = "Geen internetverbinding";
+"general.error.nointernet.text" = "Je bent nu niet verbonden met het internet.";
+"general.menu.version" = "App versie %@ (%@)";
+"general.government" = "Rijksoverheid";
+"general.loading" = "Bezig met laden";
+"general.notification" = "Let op!";
+"general.menu.open" = "Open zijmenu";
+"general.menu.close" = "Sluit zijmenu";
+"general.list.accessibility" = "%@ van %@.";
+
+/* MARK: - Update App */
+"updateApp.error.message" = "De App Store kan niet geopend worden.";
+"updateApp.title" = "Tijd voor een update";
+"updateApp.content" = "Je hebt de laatste versie van de app nodig om verder te gaan.";
+"updateApp.button" = "Installeer update";
+
+/* MARK: - EndOfLife */
+"endOfLife.error.message" = "De website kan niet geopend worden.";
+"endOfLife.title" = "App buiten werking";
+"endOfLife.description" = "De app is niet meer in gebruik. Ga voor meer informatie naar Coronacheck.nl";
+"endOfLife.button" = "Ga naar CoronaCheck.nl";
+
+/* MARK: - Internet Requird */
+"internet.required.button" = "Probeer opnieuw";
+"internet.required.text" = "Om de app op te starten heb je internet nodig.";
+"internet.required.title" = "Je hebt geen internetverbinding";
+
+/* MARK: - New Terms */
+"new.terms.title" = "Onze voorwaarden zijn vernieuwd";
+"new.terms.highlights" = "<b>Dit is veranderd</b><br\><ul><li>Beschrijving van gebruiksregels</li><li>Uitleg over gebruik van de app</li><li>Toestemming voor gebruik camera</li></ul>";
+"new.terms.description" = "Lees <a href=\"https://dcccrossborderscanner.nl/dist/termsofuse/gebruiksvoorwaarden.html\">hier</a> de volledige gebruikersvoorwaarden.";
+"new.terms.error.title" = "Je kan niet verder als je niet akkoord gaat";
+"new.terms.error.message" = "Je hebt geen toegang de CoronaCheck Scanner-app zonder akkoord te gaan met de bijgewerkte voorwaarden.";
+"new.terms.agree" = "Akkoord";
+"new.terms.disagree" = "Niet akkoord";
+
+/* MARK: - Verifier Launch */
+"verifier.launch.title" = "DCC Scanner";
+"verifier.launch.text" = "We starten de app voor je op...";
+"verifier.launch.version" = "App versie %@ (build %@)";
+
+/* MARK: - Verifier Menu */
+"verifier.menu.dashboard" = "Scan QR-code";
+"verifier.menu.support" = "Contact";
+"verifier.menu.about" = "Over deze app";
+"verifier.menu.feedback" = "Geef ons feedback";
+"verifier.menu.privacy" = "Gebruiksvoorwaarden";
+
+/* MARK: - Verifier Consent */
+"verifier.consent.title" = "Voorwaarden voor gebruik";
+"verifier.consent.message" = "In de gebruiksvoorwaarden staat hoe de app werkt en wat de rechten zijn.";
+"verifier.consent.message.underlined" = "gebruiksvoorwaarden";
+"verifier.consent.item.1" = "U mag de in de app getoonde gegevens van de reiziger alleen gebruiken voor <b>het uitvoeren van de verplichte gezondheidscontroles voor de betreffende reis.</b>";
+"verifier.consent.item.2" = "Gegevens van u of van de reiziger worden <b>niet centraal, noch in de app opgeslagen.</b> ";
+"verifier.consent.button" = "Ik heb de gebruiksvoorwaarden gelezen en ga ermee akkoord.";
+
+/* MARK: - Verifier Start */
+"verifier.start.title" = "Scan QR-code";
+"verifier.start.header" = "Begin met scannen";
+"verifier.start.message" = "<a href=\"https://coronacheck.nl/nl/scanner\">Zo werkt scannen.</a>";
+"verifier.start.button.title" = "Start scannen";
+
+/* MARK: - Verifier Scan Instructions */
+"verifier.instructions.title" = "Zo werkt scannen";
+"verifier.instructions.distance.title" = "1. Houd afstand";
+"verifier.instructions.distance.text" = "Laat de reiziger een Digital COVID Certificate QR code tonen op een mobiel apparaat of op papier. Houd voldoende afstand bij het richten van de camera en wacht tot de app de QR code heeft herkend. De app gaat automatisch door met controleren.";
+"verifier.instructions.scan.title" = "2. Groen scherm";
+"verifier.instructions.scan.text" = "Een groen scherm betekent dat de getoonde QR code geldig is. Controleer of de ID gegevens overeenkomen met het getoonde ID bewijs van de reiziger.";
+"verifier.instructions.access.title" = "3. Controleer de gegevens";
+"verifier.instructions.access.text" = "Indien nodig controleert u of volgens de test- vaccinatie- of herstelgegevens die de app weergeeft reizen naar het land van bestemming door de reiziger is toegestaan. Zo ja, dan kunt u de reiziger toegang geven.";
+"verifier.instructions.denied.title" = "4. Rood scherm";
+"verifier.instructions.denied.text" = "Bij een rood scherm is de QR code mogelijk <b>ongeldig</b>. Dit betekent <b>niet</b> dat de reiziger corona heeft of besmettelijk is!
+Eerste actie is om het nog eens te proberen omdat de app automatisch een aantal zaken controleert. Een tweede keer scannen kan dus toch een groen resultaat geven.
+Als het een rood scherm blijft na de tweede poging, worden er geen gegevens uit het DCC getoond. U vraagt de reiziger om een alternatief bewijs (negatief testresultaat, alternatief bewijs van vaccinatie of herstel), om de controle uit te kunnen voeren.";
+
+"verifier.instructions.denied.2.title" = "5. Rood scherm: verklaringen en opties";
+"verifier.instructions.denied.2.text" = "Een rood scherm kan meerdere oorzaken hebben:<ul><li>Het certificaat is niet voorzien van een geldige handtekening door een van de daartoe aangewezen instanties.</li><li>De lijst referentie certificaten van handtekeningen is verouderd, en kan momenteel niet worden bijgewerkt. U kunt de status van het bijwerken controleren in het Over de App scherm.</li><li>Er is iets mis met de scanner app. Sluit de app helemaal af en start opnieuw om het nog eens te proberen.</li><li>De app van de reiziger werkt niet goed. Laat de reiziger de app opnieuw starten en scan opnieuw.</li></ul>";
+
+"verifier.instructions.trustlists.title" = "6. Melding: De certificatenlijst is niet bijgewerkt";
+"verifier.instructions.trustlists.text" = "De app laat in bepaalde gevallen de volgende waarschuwing zien in een rode balk: “De certificatenlijst is niet bijgewerkt!” Deze melding betekent dat bij het ophalen van een controlelijst voor de elektronische handtekeningen iets mis is gegaan, bijvoorbeeld door een ontbrekende verbinding. Het gevolg is dat sommige geldige QR codes als ongeldig worden weergegeven in de app. Met de knop Bijwerken in de meldingen balk kunt u het ophalen handmatig forceren. Maak daarvoor eerst verbinding met het internet.";
+
+/* MARK: - Verifier QR Scan */
+"verifier.scan.title" = "Scan QR code";
+"verifier.scan.message" = "Richt je telefoon op de getoonde QR code en wacht tot de app de code herkent.";
+"verifier.scan.permission.title" = "Geen toegang tot camera";
+"verifier.scan.permission.message" = "De app wil toegang tot de camera om de QR-code te scannen.";
+"verifier.scan.permission.settings" = "Naar instellingen";
+
+/* MARK: - Verifier Result */
+"verifier.result.access.title" = "Geldige QR code";
+"verifier.result.demo.title" = "Demo QR-code gescand";
+"verifier.result.denied.title" = "Geen geldige
+DCC QR code";
+"verifier.result.denied.message" = "Lees hier wat u kunt doen.";
+"verifier.result.denied.message.underline" = "Lees hier wat u kunt doen.";
+"verifier.result.denied.link" = "";
+"verifier.result.next" = "Scan volgende";
+
+
+/* MARK: - Verifier Check Result */
+"verifier.result.check.title" = "Over de controle";
+/* MARK: - Verifier Denied Instructions */
+"verifier.denied.title" = "Ongeldige QR-code";
+"verifier.denied.message.one" = "<p>Dit betekent <b>niet</b> dat deze bezoeker corona heeft.</p><p><b>Mogelijke oorzaken</b><ul><li>De QR-code van de internationale bezoeker voldoet niet aan Nederlandse toegangseisen</li><li>De QR-code is doorgestuurd</li><li>De QR-code is vervalst</li><li>De tijdinstellingen op de telefoon van de bezoeker wijken af</li></ul></p>";
+"verifier.denied.message.two" = "<p><b>Wat nu?</b><br>Vraag de bezoeker eerst een test te doen of zich te laten vaccineren. Daarna kan de bezoeker er in de CoronaCheck-app een QR-code van maken.</p>";
+
+/* MARK: - Verifier About */
+"verifier.about.title" = "Over deze app";
+"verifier.about.text" = "De “DCC cross border Scanner NL” app is ontwikkeld door het ministerie van Infrastructuur en Waterstaat om het reizen binnen de EU te vergemakkelijken. De gezondheidsinformatie van reizigers kan op deze manier internationaal snel worden gecontroleerd. Reizigers kunnen daardoor  veilig, verantwoord en makkelijk door de EU reizen.";
+
+
+/* MARK: - DCC SCANNER */
+"onboarding.page_1_title" = "Scan de getoonde QR code";
+"onboarding.page_1_desc" = "De reiziger toont de code op een mobiel apparaat of papier. Richt uw camera op de code om deze te scannen.";
+"onboarding.page_2_title" = "Check het resultaat";
+"onboarding.page_2_desc" = "De app geeft nu aan of de code geldig is (groen scherm) of niet (rood scherm). Bij een foute code moet de reiziger een ander coronatest- vaccinatie- of herstelbewijs tonen.";
+"onboarding.page_3_title" = "Voor wie is de scanner?";
+"onboarding.page_3_desc" = "Deze app is bedoeld voor vervoersbedrijven die internationale reizen verzorgen. Met deze app kan worden gecontroleerd of de reiziger volgens de coronaregels mag reizen. De app maakt hiervoor gebruik van het Digital COVID Certificate (DCC).";
+
+"certificates_outdated_button" = "Bijwerken";
+"certificates_outdated_desc" = "U kunt de app blijven gebruiken, maar maak verbinding met internet en probeer het nog eens via de knop “Bijwerken”.";
+"certificates_outdated_title" = "De certificatenlijst is niet bijgewerkt!";
+
+"item_dose_x" = "Vaccin dosis %i";
+"item_dose_x_x" = "Vaccin dosis %i / %i";
+"item_disease" = "Ziekte / Vaccin";
+"item_country" = "Lidstaat";
+"item_identifier" = "Certificaat nummer";
+"item_date_of_birth_x" = "Geboortedatum %@";
+
+"item_test_header" = "%@ test";
+"item_test_target" = "Ziekte";
+"item_test_type" = "Test type";
+"item_test_name" = "Test naam";
+"item_test_manufacturer" = "Fabrikant";
+"item_test_location" = "Test locatie";
+"item_test_country" = "Test land";
+
+"item_recovery_header" = "Herstel";
+"item_recovery_type" = "Ziekte";
+"item_recovery_first_date" = "1e positieve test";
+"item_recovery_from" = "Geldig van";
+"item_recovery_to" = "Geldig tot";
+"item_recovery_country" = "Test land";
+"item_certificate_issuer" = "Certificaat
+uitgever";
+"item_unknown" = "Onbekend";
+
+"resume" = "Verder";
+"pause" = "Pauze";
+"destination_x" = "Bestemmingsland: %@";
+
+"country_destination" = "Bestemming:";
+"country_departure" = "Vertrek uit:";
+"country_destination_title" = "Bestemming";
+"country_departure_title" = "Vertrek uit";
+"country_unselected" = "Land kiezen";
+"privacy_policy" = "Privacy verklaring";
+"next_scan" = "Scan volgende";
+
+"code_green" = "Groen";
+"code_yellow" = "Geel";
+"code_orange" = "Oranje";
+"code_orange_high_incidence" = "Oranje hoge incidentie";
+"code_orange_ships_flight" = "Oranje erg hoog risco";
+"code_red" = "Rood";
+"select_country_color_title" = "Selecteer de kleurcode van het land";
+"view_color_codes_title" = "Welke landen hebben welke kleurcode?";
+"view_color_codes_button" = "Bekijk";
+"url.view_color_codes" = "https://www.nederlandwereldwijd.nl/documenten/vragen-en-antwoorden/welke-landen-hebben-welke-kleurcode";
+
+"rule_test_required" = "DCC is correct, maar voor reizen naar Nederland vanuit een land met code oranje is altijd een geldig negatief test resultaat nodig. Vraag om een DCC met een test resultaat.";
+"rule_test_must_be_negative" = "DCC is correct, maar voor reizen naar Nederland vanuit een land met code oranje is altijd een geldig negatief test resultaat nodig. Vraag om een DCC met een test resultaat.";
+"rule_test_outdated" = "DCC bevat een testresultaat van %i uur geleden: dat is langer dan de geldigheidsduur van de test. Controleer dat en vraag indien nodig om een bewijs van een test die minder oud is.";
+"rule_red_not_allowed" = "Reizen uit rode gebieden zijn verboden.";
+"rule_full_vaccination_required" = "Een volledige vaccinatie is nodig bij vertrek uit oranje landen";
+"rule_recovery_not_valid" = "Een valide herstel is nodig bij vertrek uit oranje landen";
+"rule_require_second_test" = "DCC is correct, maar voor lucht- en scheepvaart zijn twee negatieve testresultaten nodig. Vraag om een tweede resultaat van maximaal %i uur oud. Bij aankomst geldt een quarantaine verplichting.";
+
+"rule_invalid_test_result" = "Het testresultaat is niet herkend. Vraag om een ander testbewijs.";
+"rule_invalid_test_type" = "Het type test wordt niet herkend. Controleer of het testresultaat geldig is of vraag om een ander testbewijs.";
+"rule_invalid_target_disease" = "De QR code geeft mogelijk geen informatie over COVID. Controleer of de weergegeven aandoening Corona of COVID-19 betreft.";
+"rule_invalid_vaccine_holder" = "De vaccin fabrikant wordt niet herkend. Controleer of de fabrikant, of vraag om een ander certificaat.";
+"rule_invalid_vaccine_type" = "Het type vaccin wordt niet herkend. Controleer het type vaccin, of vraag om een ander certificaat.";
+"rule_invalid_vaccine_product" = "Het vaccin wordt niet goed herkend. Controleer de vaccingegevens, of vraag om een ander certificaat.";
+"rule_date_of_birth_out_of_range" = "De geboortedatum lijkt niet in orde. Controleer de geboortedatum met de identificatie van de reiziger.";
+"rule_invalid_country_code" = "De landcode wordt niet herkend. Controleer de landcode.";
+"rule_invalid_date_of_birth" = "De geboortedatum lijkt niet in orde. Controleer de geboortedatum met de identificatie van de reiziger.";
+"rule_invalid_vaccine_date" = "De vaccinatiedatum is niet in orde. Controleer of de vaccinatie geldig is.";
+"rule_invalid_test_date" = "De testdatum is niet in orde. Controleer of de test nog geldig is.";
+"rule_invalid_recovery_first_test_date" = "De testdatum van dit herstelcertificaat is niet in orde. Controleer of de testdatum tussen 11 en 180 dagen oud is.";
+"rule_invalid_recovery_from_date" = "De datum vanaf wanneer de herstelmelding geldig is is niet in orde. Controleer de ingangsdatum van het herstel.";
+"rule_invalid_recovery_to_date" = "De datum tot wanneer dit herstelcertificaat geldig is is niet in orde. Controleer de uiterste geldigheid van dit herstelbewijs.";
+
+"test_ago_x" = "%i uur, %i min oud";
+
+
+"test_result_negative" = "Negatief";
+"test_result_positive" = "Positief";
+"test_result_negative_adjective" = "Negatieve";
+"test_result_positive_adjective" = "Positieve";
+
+"url.privacy" = "https://www.rijksoverheid.nl/ministeries/ministerie-van-infrastructuur-en-waterstaat/privacy";
+"url.terms_of_use" = "https://dcccrossborderscanner.nl/dist/termsofuse/gebruiksvoorwaarden.html";
+"url.accessibility" = "https://dcccrossborderscanner.nl/dist/accessibility/toegankelijkheid.html";
+"url.support" = "https://www.rijksoverheid.nl/ministeries/ministerie-van-infrastructuur-en-waterstaat/contact";
+
+
+"x_days" = "%i dagen";
+"x_day" = "%i dag";
+"x_hour" = "%i uur";
+"x_hours" = "%i uur";
+"old" = "oud";
+"cant_calculate_days_old" = "Kan dagen oud niet berekenen";
+
+"vaccin_header" = "Vaccin: %@, Dosis %i / %i";
+"vaccin_complete" = "COMPLEET";
+"vaccin_incomplete" = "INCOMPLEET";
+
+"travel_not_met" = "Niet geldig voor
+gekozen reis";
+"travel_met" = "Geldig voor
+gekozen reis";
+
+"last_trustlist_update" = "Laatste succesvolle updates:";
+"updating_trustlist" = "Certificatenlijst
+bijwerken";
+
+"country_other" = "Anders";
+"rule_vaccination_14_days" = "De vaccinatie in dit certificaat is nog niet geldig. De geldigheid gaat 14 dagen na laatste vaccinatie in.";
+
+"result_inconclusive_title" = "Geen inreisregels
+toegepast";
+"result_inconclusive_message" = "Controleer de regels op de basis van de onderstaande gegevens";
+"countries" = "Landen";
+"colour_codes" = "Kleur codes";
+
+"item_eu" = "EU";
+"item_not_eu" = "Buiten EU";
+
+
+"voc_require_second_antigen" = "Een tweede antigeen test van maximaal %i uur oud is nodig bij oranje VOC";
+"voc_require_second_pcr" = "Een tweede PCR/NAAT test van maximaal %i uur oud is nodig bij oranje VOC";
+"voc_require_pcr_or_antigen" = "Bij oranje VOC is
+- Een PCR/NAAT test van maximaal %i uur oud
+of
+- Een PCR/NAAT test van maximaal %i uur oud & een Antigeen test van maximaal %i uur oud";

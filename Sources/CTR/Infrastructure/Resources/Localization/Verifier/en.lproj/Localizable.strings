@@ -1,0 +1,263 @@
+"general.error.cryptolib.title" = "Sorry, something went wrong";
+"general.error.cryptolib.message" = "Please contact the helpdesk with the error code %@";
+"general.error.cryptolib.retry" = "Try again";
+
+"verifier.scan.torch.enable" = "Turn on flashlight.";
+"verifier.scan.torch.disable" = "Turn off flashlight.";
+"verifier.result.denied.region.title" = "This is an international QR-code";
+"verifier.result.denied.region.message" = "Dit is geen geldig bewijs in Nederland. Vraag de bezoeker een Nederlandse QR-code te laten zien.";
+"verifier.result.identity.label" = "Sample %@ is %@";
+"verifier.instructions.access.image" = "Person holds phone with green screen and black check.";
+"verifier.instructions.denied.image" = "Person holds phone with red screen and black check.";
+"general.government.logo" = "Logo Government";
+
+/* Koptekst in de over de app pagina */
+"verifier.about.readmore" = "Read more";
+
+/* Menu item voor Toegankelijkheid */
+"verifier.menu.accessibility" = "Accessibility";
+
+"verifier.result.identity.title" = "Check the data";
+"verifier.result.identity.lastname" = "Last name";
+"verifier.result.identity.firstname" = "First name";
+"verifier.result.identity.dayofbirth" = "Day of birth";
+"verifier.result.identity.monthofbirth" = "Month of birth";
+
+
+/* Voice over voor begin van een lijst */
+"general.list.accessibility.start" = "Start of list.";
+
+/* Voice over voor einde van een lijst */
+"general.list.accessibility.end" = "End of list.";
+/* MARK: - General */
+"general.cancel" = "Cancel";
+/* MARK: - General */
+"general.close" = "Close";
+"general.previous" = "Previous";
+"general.back" = "Back";
+"general.next" = "Next";
+"general.done" = "Done";
+"general.ok" = "Ok";
+"general.error.title" = "Sorry, something went wrong";
+"general.error.technical.text" = "Caused by a technical error.";
+"general.error.technical.custom" = "Caused by a technical error (%@)";
+"general.error.nointernet.title" = "No internet connection";
+"general.error.nointernet.text" = "You aren't connected to the internet.";
+"general.menu.version" = "App version %@ (%@)";
+"general.government" = "Government";
+"general.loading" = "Loading";
+"general.notification" = "Watch out!";
+"general.menu.open" = "Open side menu";
+"general.menu.close" = "Close side menu";
+"general.list.accessibility" = "%@ of %@.";
+
+
+/* MARK: - Internet Requird */
+"internet.required.button" = "Try again";
+"internet.required.text" = "To start the app, you need an internet connection";
+"internet.required.title" = "You are not connected to the internet";
+
+/* MARK: - Verifier Launch */
+"verifier.launch.title" = "DCC Scanner";
+"verifier.launch.text" = "";
+"verifier.launch.version" = "App version %@ (build %@)";
+
+/* MARK: - Verifier Menu */
+"verifier.menu.dashboard" = "Scan QR-code";
+"verifier.menu.support" = "Contact";
+"verifier.menu.about" = "About the app";
+"verifier.menu.feedback" = "Feedback";
+"verifier.menu.privacy" = "Terms of use";
+
+/* MARK: - Verifier Consent */
+"verifier.consent.title" = "Terms of use";
+"verifier.consent.message" = "The Terms of use provide information about how the app works, as well as your rights.";
+"verifier.consent.message.underlined" = "Terms of use";
+"verifier.consent.item.1" = "Use of the information shown in the app can only be used <b>to perform the mandatory health checks for the journey it concerns.</b>";
+"verifier.consent.item.2" = "<b>No personal data is stored</b> either centrally or in the app.";
+"verifier.consent.button" = "By checking the box I confirm that I have read the Terms of use and agree with the contents.";
+
+/* MARK: - Verifier Start */
+"verifier.start.title" = "Scan QR-code";
+"verifier.start.header" = "Start scanning";
+"verifier.start.message" = "<a href=\"https://coronacheck.nl/nl/scanner\">How to scan.</a>";
+"verifier.start.button.title" = "Start scanning";
+
+/* MARK: - Verifier Scan Instructions */
+"verifier.instructions.title" = "How to scan";
+"verifier.instructions.distance.title" = "1. Keep your distance";
+"verifier.instructions.distance.text" = "Ask the traveller to present a Digital COVID Certificate QR code on a mobile device or on paper. Keep your distance while pointing your camera in the app at the QR code and wait for the app to process the QR code. The app will proceed with checking the code automatically.";
+"verifier.instructions.scan.title" = "2. Green screen";
+"verifier.instructions.scan.text" = "A green screen indicates that the QR code is valid. Check if the personal information presented in your screen is similar to the information on the ID presented by the traveller.";
+"verifier.instructions.access.title" = "3. Check Corona status";
+"verifier.instructions.access.text" = "If necessary check if the data in the test, vaccination or recovery information that is shown by your app indicates that traveling to the destination country by this traveler is allowed. If so access can be granted to the traveller.";
+"verifier.instructions.denied.title" = "4. Red screen";
+"verifier.instructions.denied.text" = "A red screen indicates that the QR code appears to be <b>invalid</b>. This does <b>not</b> mean that the traveller is infected with COVID!
+Always try a second scan. Since the app does some auto-repair actions in the background this second scan might very well lead to a valid result.
+If the red screen persists, data in the QR code will not be shown by the app. The traveller needs to present other proof of negative testing, vaccination or recovery in order to be able to perform the mandatory control.";
+
+"verifier.instructions.denied.2.title" = "5. Red screen: causes and options to fix";
+"verifier.instructions.denied.2.text" = "A red screen can have multiple causes:<ul><li>The certificate does not have a valid signature by a designated organization.</li><li>The trustlist of reference certificates for the signatures is expired, and cannot be updated at the moment. You can check the update status of trustlist in through the About the App screen.</li><li>Something is wrong with the scanner app. Close it entirely and restart to try scanning the QR code again.</li><li>Something is wrong with the app of the traveler. Ask the traveler to restart the app and try again.</li></ul>";
+
+"verifier.instructions.trustlists.title" = "6. Message: Trust list was not updated";
+"verifier.instructions.trustlists.text" = "Certain conditions result in a message in a red bar on top of your screen: “Trust list was not updated”. This message indicates that something went wrong while fetching the list of trusted issuers of the electronic signatures, possibly due to connection issues. This leads to certain valid QR codes will show as invalid in the app. Using the “Update lists” button you can manually retry the fetching operation. First make sure you are connected to the Internet.";
+
+/* MARK: - Verifier QR Scan */
+"verifier.scan.title" = "Scan QR code";
+"verifier.scan.message" = "Point the camera of your device at the QR code that is presented and wait for the app to process the code.";
+"verifier.scan.permission.title" = "No access to the camera";
+"verifier.scan.permission.message" = "The app needa camera permission to scan the QR-Code";
+"verifier.scan.permission.settings" = "Go to settings";
+
+/* MARK: - Verifier Result */
+"verifier.result.access.title" = "Valid QR code";
+"verifier.result.demo.title" = "Demo QR-code scanned";
+"verifier.result.denied.title" = "Invalid
+DCC QR code";
+"verifier.result.denied.message" = "Read here what you can do.";
+"verifier.result.denied.message.underline" = "Read here what you can do.";
+"verifier.result.denied.link" = "";
+"verifier.result.next" = "Scan next";
+
+
+/* MARK: - Verifier Check Result */
+"verifier.result.check.title" = "About the check";
+
+/* MARK: - Verifier About */
+"verifier.about.title" = "About the app";
+"verifier.about.text" = "The “DCC cross border Scanner NL” app is developed by the Ministry of Infrastructure and Water Management in The Netherlands to simplify travelling through EU countries. Health information of travellers can be checked against travelling policies by international carriers quickly and efficiently. Safe travelling will be quicker and easier that way.";
+
+
+/* MARK: - DCC SCANNER */
+"onboarding.page_1_title" = "Scan QR Code";
+"onboarding.page_1_desc" = "Travellers show their QR code on their mobile phones or on paper. Point your camera at the code in order to scan the DCC.";
+"onboarding.page_2_title" = "Check result";
+"onboarding.page_2_desc" = "The app shows either a valid sign (green screen) or invalid sign (red screen). In case of a red screen the traveller needs an alternative proof of a negative COVID test, vaccination or recovery.";
+"onboarding.page_3_title" = "Who should use this app?";
+"onboarding.page_3_desc" = "This app can be used by international carriers. The app helps to check if a traveller is allowed to travel to the destination country according to the local COVID restrictions. The app uses the Digital COVID Certificate for this purpose";
+
+"certificates_outdated_button" = "Update lists";
+"certificates_outdated_desc" = "You can continue to use the app. However, some valid QR codes will be displayed as invalid. Make sure you have a working internet connection and try again using the “Update lists” button.";
+"certificates_outdated_title" = "Trust list was not updated";
+
+"item_dose_x" = "Vaccine dose %i";
+"item_dose_x_x" = "Vaccine dose %i / %i";
+"item_disease" = "Disease / Vaccine";
+"item_country" = "Country";
+"item_identifier" = "Certificate number";
+"item_date_of_birth_x" = "Date of birth %@";
+
+"item_test_header" = "%@ test";
+"item_test_target" = "Disease";
+"item_test_type" = "Test type";
+"item_test_name" = "Test name";
+"item_test_manufacturer" = "Manufacturer";
+"item_test_location" = "Test location";
+"item_test_country" = "Test country";
+
+"item_recovery_header" = "Recovery";
+"item_recovery_type" = "Disease";
+"item_recovery_first_date" = "1st positive test";
+"item_recovery_from" = "Valid from";
+"item_recovery_to" = "Valid to";
+"item_recovery_country" = "Test country";
+"item_certificate_issuer" = "Certificate
+issuer";
+"item_unknown" = "Unknown";
+
+"resume" = "Continue";
+"pause" = "Pause";
+"destination_x" = "Destination country: %@";
+
+"country_destination" = "Destination:";
+"country_departure" = "Leave from:";
+"country_destination_title" = "Destination";
+"country_departure_title" = "Leave from";
+"country_unselected" = "Choose country";
+"privacy_policy" = "Privacy statement";
+"next_scan" = "Scan next";
+
+"code_green" = "Green";
+"code_yellow" = "Yellow";
+"code_orange" = "Orange";
+"code_orange_high_incidence" = "Orange high incidence";
+"code_orange_ships_flight" = "Orange very high risk";
+"code_red" = "Red";
+"select_country_color_title" = "Select the colour code of the country";
+"view_color_codes_title" = "Which countries have which colour code?";
+"view_color_codes_button" = "View";
+"url.view_color_codes" = "https://www.nederlandwereldwijd.nl/documenten/vragen-en-antwoorden/welke-landen-hebben-welke-kleurcode";
+
+"rule_test_required" = "DCC is valid however travelling to The Netherlands from a country with orange colorcode requires a valid negative test result. Ask for a DCC that contains a valid test result.";
+"rule_test_must_be_negative" = "DCC is valid however travelling to The Netherlands from a country with orange colorcode requires a valid negative test result. Ask for a DCC that contains a valid test result.";
+"rule_test_outdated" = "DCC contains a testresult of a test that was taken %i hours ago, which is beyond the valid time frame. Check and ask for a more recent test result if necessary.";
+"rule_red_not_allowed" = "Travelling from red areas is forbidden.";
+"rule_full_vaccination_required" = "A complete vaccination is required when travelling from orange countries";
+"rule_recovery_not_valid" = "A valid recovery is required when travelling from orange countries";
+"rule_require_second_test" = "DCC is valid, but for travelling by aircraft or boat two negative test results are required. Ask for the second test result. This test must be less than %i hours old. At arrival a quarantine period is mandatory.";
+
+"rule_invalid_test_result" = "The testresult is not recognized, ask for different proof of testing.";
+"rule_invalid_test_type" = "The testing type is not recognized. Check the validity of the test, or request a different proof of testing.";
+"rule_invalid_target_disease" = "The QR code might not be a COVID related certificate. Check if the disease displayed is COVID or Corona related.";
+"rule_invalid_vaccine_holder" = "The manufacturer of the vaccine is not recognized. Check the manufacturer, or ask for a different certificate.";
+"rule_invalid_vaccine_type" = "The vaccine type is not recognized. Check the vaccine type, or ask for a different certificate.";
+"rule_invalid_vaccine_product" = "The vaccine is not properly recognized. Check the vaccine, or ask for a different certificate.";
+"rule_date_of_birth_out_of_range" = "The date of birth appears to be incorrect. Check the date of birth with the ID of the traveller.";
+"rule_invalid_country_code" = "The country code is not recognized. Check the country code.";
+"rule_invalid_date_of_birth" = "The date of birth appears to be incorrect. Check the date of birth with the ID of the traveller.";
+"rule_invalid_vaccine_date" = "The vaccine date is not correct. Check if the vaccine is still valid.";
+"rule_invalid_test_date" = "The test date is incorect. Check if the test is still valid.";
+"rule_invalid_recovery_first_test_date" = "The test date for this recovery certificate is not valid. Check if the date is between 11 and 180 days old.";
+"rule_invalid_recovery_from_date" = "The date from which this recovery certificate is valid is incorrect. Check the recovery start date.";
+"rule_invalid_recovery_to_date" = "The date until which this recover certificate is valid is incorrect. Check if the certificate is still valid today.";
+
+"test_ago_x" = "%i hour, %i min old";
+
+
+"test_result_negative" = "Negative";
+"test_result_positive" = "Positive";
+"test_result_negative_adjective" = "Negative";
+"test_result_positive_adjective" = "Positive";
+
+"url.privacy" = "https://www.government.nl/ministries/ministry-of-infrastructure-and-water-management/privacy";
+"url.terms_of_use" = "https://dcccrossborderscanner.nl/dist/termsofuse/termsofuse.html";
+"url.accessibility" = "https://dcccrossborderscanner.nl/dist/accessibility/accessibility.html";
+"url.support" = "https://www.government.nl/ministries/ministry-of-infrastructure-and-water-management/contact";
+
+
+"x_days" = "%i days";
+"x_day" = "%i day";
+"x_hour" = "%i hour";
+"x_hours" = "%i hours";
+"old" = "old";
+"cant_calculate_days_old" = "Can't calculate days old";
+
+"vaccin_header" = "Vaccine: %@, Dose %i / %i";
+"vaccin_complete" = "COMPLETE";
+"vaccin_incomplete" = "INCOMPLETE";
+
+"travel_not_met" = "Not valid for
+chosen trip";
+"travel_met" = "Valid for
+chosen trip";
+
+"last_trustlist_update" = "Last update success:";
+"updating_trustlist" = "Updating
+trust lists";
+"rule_vaccination_14_days" = "This  vaccination certificate is not yet valid. Vaccine certificates become valid 14 days after the last vaccination date.";
+
+"result_inconclusive_title" = "No travel rules
+applied";
+"result_inconclusive_message" = "Please check the rules based on the data below";
+"countries" = "Countries";
+"colour_codes" = "Colour codes";
+
+"item_eu" = "EU";
+"item_not_eu" = "Outside EU";
+
+"voc_require_second_antigen" = "A second antigen test of no more than %i hours old is required in orange VOC";
+"voc_require_second_pcr" = "A second PCR/NAAT test of no more than %i hours old is required in orange VOC";
+"voc_require_pcr_or_antigen" = "In orange voc, one of the following is required
+- A PCR/NAAT test of no more than %i hours old
+of
+- A PCR/NAAT test of no more than %i hours old AND an antigen test of no more than %i hours old";

@@ -1,0 +1,83 @@
+# Syntax: https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions
+
+name: test
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  swiftlint:
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Cache SwiftLint builds
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-SwiftLint-builds
+        with:
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('Vendor/SwiftLint/**') }}
+          path: Vendor/SwiftLint/.build
+
+      - name: Build SwiftLint (if necessary)
+        run: |
+          make build_swiftlint_ci
+          
+      - name: Run SwiftLint 
+        run: |
+          make run_swiftlint
+
+  test:
+    runs-on: macos-latest
+    timeout-minutes: 30
+    needs: swiftlint # only run tests (which is resource intensive) after swiftlint passes
+    steps:
+      - name: Prestart the simulator # https://circleci.com/docs/2.0/testing-ios/#pre-starting-the-simulator
+        # 🧐 when changing below, don't forget to also change the device name in the Fastfile too: 
+        run: | 
+          xcrun simctl boot "iPhone 12" || true
+          xcrun simctl list devices 14.4
+      
+      - name: Checkout
+        uses: actions/checkout@v2.3.4
+
+      - name: Checkout LFS resources
+        run: |
+          git lfs install
+          git lfs pull
+          git checkout .
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Cache XcodeGen builds
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-XcodeGen-builds
+        with:
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('Vendor/XcodeGen/**') }}
+          path: Vendor/XcodeGen/.build
+
+      - name: Build XcodeGen (if necessary)
+        run: |
+          make build_xcodegen_ci
+          
+      - name: Run XcodeGen
+        run: |
+          make generate_project
+
+      - name: Build and test
+        env:
+          SLACK_URL: ${{ secrets.SLACK_URL }}
+        run: |
+          bundle exec fastlane ios test_ci
