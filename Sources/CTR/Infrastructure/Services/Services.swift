@@ -67,7 +67,8 @@ final class Services {
             NetworkConfiguration.development.name: NetworkConfiguration.development,
             NetworkConfiguration.test.name: NetworkConfiguration.test,
             NetworkConfiguration.acceptance.name: NetworkConfiguration.acceptance,
-            NetworkConfiguration.production.name: NetworkConfiguration.production
+            NetworkConfiguration.production.name: NetworkConfiguration.production,
+            NetworkConfiguration.productionValidator.name: NetworkConfiguration.productionValidator
         ]
 
         let fallbackConfiguration = NetworkConfiguration.test

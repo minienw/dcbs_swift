@@ -49,9 +49,9 @@ final public class CertLogicEngine {
       return result
     }
     rulesItems.forEach { rule in
-      //if !checkSchemeVersion(for: rule, qrCodeSchemeVersion: qrCodeSchemeVersion) {
+      // if !checkSchemeVersion(for: rule, qrCodeSchemeVersion: qrCodeSchemeVersion) {
       //  result.append(ValidationResult(rule: rule, result: .open, validationErrors: [CertLogicError.openState]))
-      //} else {
+      // } else {
         do {
           let jsonlogic = try JsonLogic(rule.logic.description)
           let results: Any = try jsonlogic.applyRule(to: getJSONStringForValidation(external: external, payload: payload))

@@ -83,6 +83,22 @@ struct NetworkConfiguration {
 			path: ["v4"]
 		)
 	)
+    
+    static let productionValidator = NetworkConfiguration(
+        name: "Production-validator",
+        api: .init(
+            scheme: "https",
+            host: "verifier-api.acc.coronacheck.nl",
+            port: nil,
+            path: ["v4"]
+        ),
+        cdn: .init(
+            scheme: "https",
+            host: "verifier-api.acc.coronacheck.nl",
+            port: nil,
+            path: ["v4"]
+        )
+    )
 
 	/// The public keys url
 	var publicKeysUrl: URL? {

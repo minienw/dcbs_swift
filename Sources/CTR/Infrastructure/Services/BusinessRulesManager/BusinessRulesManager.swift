@@ -51,6 +51,7 @@ class BusinessRulesManager: /*ProofManaging,*/ Logging {
                 case .success((let result, _)):
                     dispatchGroup.leave()
                     self?.businessRules = result
+                    self?.addExtraRules()
                     onCompletion?()
                 case let .failure(error):
                     dispatchGroup.leave()
@@ -80,4 +81,25 @@ class BusinessRulesManager: /*ProofManaging,*/ Logging {
         }
     }
     
+    private func addExtraRules() {
+        let environment = Bundle.main.infoDictionary?["NETWORK_CONFIGURATION"] as? String
+        if environment == "Production" {
+            return
+        }
+        /// Add rules you'd like to test locally here as their json file name (without extension)
+        /// let files = ["VR-006-NL", "TR-NL-0005", "TR-NL-0006"]
+        let files: [String] = []
+        let jsonDecoder = JSONDecoder()
+        for file in files {
+            if let path = Bundle.main.path(forResource: file, ofType: "json") {
+                do {
+                    let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
+                    let rule = try jsonDecoder.decode(Rule.self, from: data)
+                    businessRules.append(rule)
+                } catch let error {
+                    logInfo("Parse error: \(error.localizedDescription)")
+                }
+            } else { }
+        }
+    }
 }
