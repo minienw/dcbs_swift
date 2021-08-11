@@ -34,7 +34,7 @@ class ValidationAutomator {
         let schemes = ["1.0.0", "1.0.1", "1.2.1", "1.3.0"]
         let dispatchGroup = DispatchGroup()
         
-        result += "QR,Result\n"
+        result += "QR,Result,Remark\n"
         for item in data {
             for scheme in schemes {
                 let baseURL = "\(mainBaseUrl)\(item)/\(scheme)"
@@ -56,13 +56,13 @@ class ValidationAutomator {
         getQR(url: url) { it in
             if let image = it {
                 if let qr = self.decodeQR(image: image) {
-                    if self.validateQR(qr: qr) {
-                        self.report(url: url, status: "Success")
+                    if let error = self.validateQR(qr: qr) {
+                        self.report(url: url, status: "Failed", remark: error)
                     } else {
-                        self.report(url: url, status: "Failed | Does not pass validation")
+                        self.report(url: url, status: "Success", remark: "")
                     }
                 } else {
-                    self.report(url: url, status: "Failed | Not a QR Code")
+                    self.report(url: url, status: "Failed", remark: "Not a QR Code")
                 }
             }
             dispatchGroup.leave()
@@ -98,17 +98,20 @@ class ValidationAutomator {
         return paths[0]
     }
     
-    func report(url: URL, status: String) {
+    func report(url: URL, status: String, remark: String) {
         let item = url.absoluteString.replacingOccurrences(of: mainBaseUrl, with: "").replacingOccurrences(of: ".png?raw=true", with: "")
-        reports.append("\(item),\(status)\n")
+        reports.append("\(item),\(status),\(remark)\n")
     }
     
-    func validateQR(qr: String) -> Bool {
+    func validateQR(qr: String) -> String? {
         let cryptoResults = cryptoManager.verifyQRMessage(qr)
-        if cryptoResults.0 == nil {
-            return false
+        if let error = cryptoResults.1 {
+            return error
         }
-        return true
+        if cryptoResults.0 == nil {
+            return "Unknown error"
+        }
+        return nil
     }
     
     private func decodeQR(image: UIImage) -> String? {
