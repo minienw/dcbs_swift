@@ -24,6 +24,7 @@ enum VaccineHolder: String {
     case vector = "Vector-Institute"
     case sinoVac = "Sinovac-Biotech"
     case bharat = "Bharat-Biotech"
+    case serumInstituteIndia = "ORG-100001981"
     
     var displayName: String {
         switch self {
@@ -56,6 +57,8 @@ enum VaccineHolder: String {
                 return "Sinovac Biotech"
             case .bharat:
                 return "Bharat Biotech"
+            case .serumInstituteIndia:
+                return "Serum Institute Of India Private Limited"
         }
     }
     
