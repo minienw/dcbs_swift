@@ -22,6 +22,7 @@ enum VaccineProduct: String {
     case inActivatedVeroCell = "Inactivated-SARS-CoV-2-Vero-Cell"
     case coronaVac = "CoronaVac"
     case covaxin = "Covaxin"
+    case covishield = "Covishield"
     
     var displayName: String {
         switch self {
@@ -50,6 +51,8 @@ enum VaccineProduct: String {
                 return "CoronaVac"
             case .covaxin:
                 return "Covaxin (BBV152 A, B, C)"
+            case .covishield:
+                return "Covishield (ChAdOx1_nCoV-19)"
         }
     }
     

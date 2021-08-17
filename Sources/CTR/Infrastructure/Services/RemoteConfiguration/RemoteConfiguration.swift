@@ -142,6 +142,8 @@ struct RemoteConfiguration: RemoteInformation, Codable {
 	var providerIdentifiers: [Mapping]? = []
     
     var countryColors: [CountryRisk]? = []
+    
+    var europeanVerificationRules: EURules?
 	
 	/// Restricts access to GGD test provider login
 	var isGGDEnabled: Bool?
@@ -176,6 +178,7 @@ struct RemoteConfiguration: RemoteInformation, Codable {
 		case providerIdentifiers = "providerIdentifiers"
 		case isGGDEnabled = "ggdEnabled"
         case countryColors = "countryColors"
+        case europeanVerificationRules = "europeanVerificationRules"
 	}
 
 	init(
@@ -241,6 +244,17 @@ struct RemoteConfiguration: RemoteInformation, Codable {
 			isGGDEnabled: true
 		)
 	}
+}
+
+struct EURules: Codable {
+    let vocExtraTestRule: VOCExtraTestRule
+}
+
+struct VOCExtraTestRule: Codable {
+    let enabled: Bool
+    let singlePCRTestHours: Int
+    let secondDosePCRMinTestHours: Int
+    let secondDoseAntiGenMinTestHours: Int
 }
 
 // MARK: Mapping

@@ -27,27 +27,14 @@ platform :ios do
       app_name: "CTR",
       device: "iPhone 12",
       project: "CTR.xcodeproj",
-      scheme: "Holder Dev",
+      scheme: "DCC Scanner Dev",
       reinstall_app: true,
-      app_identifier: "nl.rijksoverheid.ctr.dev",
+      app_identifier: "nl.rijksoverheid.dcbs.dccscanner.dev",
       skip_slack: true
     )
   end
 
   # -- TestFlight --
-
-  desc "Build and ship the Holder app to TestFlight"
-  lane :ship_holder_to_testflight do
-    ship_to_testflight(
-      provisioning_profile_path: "fastlane/profiles/CoronaCheck_Holder_AppStore.mobileprovision",
-      xcodeproj: "CTR.xcodeproj",
-      targetname: "Holder",
-      schemename:  "Holder AppStore",
-      configuration: "AppStore",
-      provisioningprofilename: "CoronaCheck Holder AppStore",
-      bundleid: "nl.rijksoverheid.ctr"
-    )
-  end
 
   desc "Build and ship the Verifier app to TestFlight"
   lane :ship_verifier_to_testflight do
@@ -115,21 +102,6 @@ platform :ios do
 
   # -- DEPLOYING -- 
 
-  desc "Build and deploy the Holder app for Test via Firebase from CI"
-  lane :deploy_holder_test_ci do
-    deploy(
-      provisioning_profile_path: "fastlane/profiles/CoronaCheck_Holder_Test.mobileprovision",
-      xcodeproj: "CTR.xcodeproj",
-      targetname: "Holder",
-      schemename:  "Holder Test",
-      configuration: "FirebaseTest",
-      provisioningprofilename: "CoronaCheck Holder Test",
-      bundleid: "nl.rijksoverheid.ctr.test",
-      firebaseappid: "1:168257592968:ios:5b5b37bd2aa002a526493d",
-      firebasegroupscsv: "testers"
-    )
-  end
-
   desc "Build and deploy the Verifier app for Test via Firebase from CI"
   lane :deploy_verifier_test_ci do
     deploy(
@@ -145,21 +117,6 @@ platform :ios do
     )
   end
 
-  desc "Build and deploy the Holder app for Acc via Firebase from CI"
-  lane :deploy_holder_acc_ci do
-    deploy(
-      provisioning_profile_path: "fastlane/profiles/CoronaCheck_Holder_Acc.mobileprovision",
-      xcodeproj: "CTR.xcodeproj",
-      targetname: "Holder",
-      schemename:  "Holder Acceptance",
-      configuration: "FirebaseAcceptance",
-      provisioningprofilename: "CoronaCheck Holder Acc",
-      bundleid: "nl.rijksoverheid.ctr.acc",
-      firebaseappid: "1:168257592968:ios:e39aba89b3caf97626493d",
-      firebasegroupscsv: "testers"
-    )
-  end
-
   desc "Build and deploy the Verifier app for Acc via Firebase from CI"
   lane :deploy_verifier_acc_ci do
     deploy(
@@ -172,21 +129,6 @@ platform :ios do
       bundleid: "nl.rijksoverheid.ctr.verifier.acc",
       firebaseappid: "1:168257592968:ios:e3402385406b0d9726493d",
       firebasegroupscsv: "verifiers"
-    )
-  end
-
-  desc "Build and deploy the Holder app for Prod via Firebase from CI"
-  lane :deploy_holder_prod_ci do
-    deploy(
-      provisioning_profile_path: "fastlane/profiles/CoronaCheck_Holder_Prod.mobileprovision",
-      xcodeproj: "CTR.xcodeproj",
-      targetname: "Holder",
-      schemename:  "Holder Production",
-      configuration: "FirebaseProduction",
-      provisioningprofilename: "CoronaCheck Holder Prod",
-      bundleid: "nl.rijksoverheid.ctr",
-      firebaseappid: "1:168257592968:ios:e0498230630ed6a826493d",
-      firebasegroupscsv: "testers"
     )
   end
 

@@ -41,6 +41,10 @@ enum DCCFailableItem {
     
     case certLogicBusinessRule(description: String)
     
+    case vocRequireSecondAntigen(hours: Int)
+    case vocRequireSecondPCR(hours: Int)
+    case vocRequirePCROrAntigen(singleHour: Int, pcrHours: Int, antigenHours: Int)
+    
     func displayName() -> String {
         switch self {
         
@@ -92,6 +96,13 @@ enum DCCFailableItem {
                 return "rule_vaccination_14_days".localized()
             case .undecidableFrom:
                 return "result_inconclusive_message".localized()
+                
+            case .vocRequireSecondAntigen(let hours):
+                return "voc_require_second_antigen".localized(params: hours)
+            case .vocRequireSecondPCR(let hours):
+                return "voc_require_second_pcr".localized(params: hours)
+            case .vocRequirePCROrAntigen(let singleHour, let pcrHours, let antigenHours):
+                return "voc_require_pcr_or_antigen".localized(params: singleHour, pcrHours, antigenHours)
                 
             case .certLogicBusinessRule(let description):
                 return description

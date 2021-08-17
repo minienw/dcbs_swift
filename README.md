@@ -1,12 +1,10 @@
-# COVID-19 CoronaCheck Prototype - iOS
+# COVID-19 DCC Scanner - iOS
 
 ## Introduction
-This repository contains the iOS prototype of the Dutch COVID-19 CoronaCheck project.
+This repository contains the iOS prototype of the Dutch COVID-19 DCC Scanner project.
 
 * The iOS app is located in the repository you are currently viewing.
-* The Android app can be found here: https://github.com/minvws/nl-covid19-coronacheck-app-android 
-
-The project is currently an experimental prototype to explore technical possibilities.   
+* The Android app can be found here: https://github.com/minienw/dcbs_android  
 
 ## Development & Contribution process
 

@@ -40,6 +40,7 @@ configs:
   AppStore: release
   AppStore Acc: acc
   Enterprise: release
+  Validation: acc
 
 # - Project Level settings:
 
@@ -66,6 +67,8 @@ settings:
       LOG_LEVEL: error
     Enterprise:
       LOG_LEVEL: none
+    Validation:
+      LOG_LEVEL: debug
 
 # - Target Templates (i.e. shared default settings for targets):
 
@@ -89,8 +92,8 @@ targetTemplates:
         embed: false
     settings:
       base:
-        MARKETING_VERSION: 2.1.0
-        CURRENT_PROJECT_VERSION: 31
+        MARKETING_VERSION: 1.1.1
+        CURRENT_PROJECT_VERSION: 46
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         SWIFT_OBJC_BRIDGING_HEADER: Sources/CTR/Infrastructure/Services/Crypto/Utility/CTR-Bridging-Header.h
         TARGETED_DEVICE_FAMILY: 1
@@ -120,6 +123,12 @@ targetTemplates:
           DEVELOPMENT_TEAM: 4936NV9Q2W
         AppStore Acc:
           NETWORK_CONFIGURATION: ACC
+          DEVELOPMENT_TEAM: C2H38GV99H
+        Validation:
+          PRODUCT_MODULE_NAME: CTR
+          NETWORK_CONFIGURATION: Production-validator
+          CODE_SIGN_IDENTITY: iPhone Developer
+          VALIDATE_PRODUCT: NO
           DEVELOPMENT_TEAM: C2H38GV99H
     info:
       properties:
@@ -176,10 +185,10 @@ targetTemplates:
     dependencies:
       - package: Nimble
       - package: SnapshotTesting
-      - framework: Vendor/ViewControllerPresentationSpy.framework
-        embed: true
+      - target: Verifier
     settings:
       TEST_HOST: "$(BUILT_PRODUCTS_DIR)/CTR.app/CTR"
+
 
 # - Targets
 
@@ -208,6 +217,10 @@ targets:
           DISPLAY_NAME: DCC Scanner
           PROVISIONING_PROFILE_SPECIFIER: DCC Scanner App Dev
           PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.dcbs.dccscanner.dev
+        Validation:
+          DISPLAY_NAME: Validator
+          PROVISIONING_PROFILE_SPECIFIER: DCC Scanner App Validator
+          PRODUCT_BUNDLE_IDENTIFIER: nl.rijksoverheid.dcbs.dccscanner.validator
         AppStore:
           DISPLAY_NAME: DCC Scanner
           PROVISIONING_PROFILE_SPECIFIER: DCC Scanner App
@@ -287,18 +300,22 @@ schemes:
   DCC Scanner Dev:
     templates:
       - DevelopmentConfigScheme
+      - TestScheme
     templateAttributes:
       appTargetName: Verifier
       configEnvironment: Development
+      testTargetName: CTRTests
     run:
       language: nl
 
   DCC Scanner Acc:
     templates:
       - DevelopmentConfigScheme
+      - TestScheme
     templateAttributes:
       appTargetName: Verifier
       configEnvironment: Acceptance
+      testTargetName: CTRTests
     run:
       language: nl
 
@@ -322,3 +339,12 @@ schemes:
     templateAttributes:
       appTargetName: Verifier
       configEnvironment: AppStore Acc
+
+  DCC Validator:
+    templates:
+      - DevelopmentConfigScheme
+    templateAttributes:
+      appTargetName: Verifier
+      configEnvironment: Validation
+    run:
+      language: nl

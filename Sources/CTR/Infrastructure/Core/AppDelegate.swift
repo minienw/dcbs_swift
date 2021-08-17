@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		styleUI()
 		previousBrightness = UIScreen.main.brightness
+        
 		if #available(iOS 13.0, *) {
 			// Use Scene lifecycle
 		} else {
@@ -109,4 +110,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
 		UINavigationBar.appearance().backgroundColor = Theme.colors.viewControllerBackground
 	}
+    
 }

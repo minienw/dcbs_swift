@@ -87,12 +87,21 @@ class AppCoordinator: Coordinator, Logging {
     /// Start the real application
     private func startApplication() {
 
+        if isValidator() {
+            ValidationAutomator.instance.runValidation(from: window.rootViewController)
+           return
+        }
         switch AppFlavor.flavor {
             default:
                 startAsVerifier()
         }
     }
 
+    private func isValidator() -> Bool {
+        let environment = Bundle.main.infoDictionary?["NETWORK_CONFIGURATION"] as? String
+        return environment == "Production-validator"
+    }
+    
     /// Start the app as a verifiier
     private func startAsVerifier() {
 

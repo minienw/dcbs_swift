@@ -71,7 +71,7 @@ class ResultView: TMCBaseView {
         resetViews()
         for item in failingItems {
             let failureView = BusinessRuleFailureView()
-            failureView.setup(failure: item)
+            failureView.setup(failure: item, isGreenOverride: shouldOverrideToGreen)
             businessRuleFailures.addArrangedSubview(failureView)
         }
         let isUndecided = failingItems.contains(where: { it in

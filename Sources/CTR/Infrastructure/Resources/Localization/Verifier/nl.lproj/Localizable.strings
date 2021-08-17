@@ -282,3 +282,11 @@ toegepast";
 
 "item_eu" = "EU";
 "item_not_eu" = "Buiten EU";
+
+
+"voc_require_second_antigen" = "Een tweede antigeen test van maximaal %i uur oud is nodig bij oranje VOC";
+"voc_require_second_pcr" = "Een tweede PCR/NAAT test van maximaal %i uur oud is nodig bij oranje VOC";
+"voc_require_pcr_or_antigen" = "Bij oranje VOC is
+- Een PCR/NAAT test van maximaal %i uur oud
+of
+- Een PCR/NAAT test van maximaal %i uur oud & een Antigeen test van maximaal %i uur oud";

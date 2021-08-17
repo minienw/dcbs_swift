@@ -22,7 +22,7 @@ class Configuration {
 
 		if getEnvironment() == "production" {
 			plistPath = Bundle.main.path(forResource: "configuration-production", ofType: "plist")
-		} else if getEnvironment() == "acc" {
+		} else if getEnvironment() == "acc" || getEnvironment() == "production-validator" {
 			plistPath = Bundle.main.path(forResource: "configuration-acceptance", ofType: "plist")
 		} else {
 			plistPath = Bundle.main.path(forResource: "configuration-development", ofType: "plist")

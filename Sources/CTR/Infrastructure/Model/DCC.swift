@@ -128,10 +128,36 @@ struct DCCQR: Codable {
         if let yearsOld = getYearsOld(), yearsOld <= 11 {
             return []
         }
-        let requireTest = (fromColour == .orangeHighShipsFlight || fromColour == .orangeHighIncidence) && from.isEU == true
-            || fromColour == .orangeHighShipsFlight && from.isEU == false
+        let requireTestInsideEU = fromColour == .orangeHighShipsFlight && from.isEU == true
+        let requireTestOutsideEU = (fromColour == .orangeHighShipsFlight || fromColour == .orangeHighIncidence) && from.isEU == false
+        let requireTest = requireTestOutsideEU || requireTestInsideEU
         if requireTest && (dcc?.tests == nil || dcc?.tests?.isEmpty == true) {
             failingItems.append(.missingRequiredTest)
+        }
+        let vocRule = Services.remoteConfigManager.getConfiguration().europeanVerificationRules?.vocExtraTestRule ?? VOCExtraTestRule(enabled: true, singlePCRTestHours: 24, secondDosePCRMinTestHours: 48, secondDoseAntiGenMinTestHours: 24)
+        if vocRule.enabled, fromColour == .orangeHighShipsFlight {
+            
+            if let pcrTest = dcc?.tests?.first(where: { it in  it.getTestType == .nucleidAcid }), let pcrTestAge = pcrTest.getTestAgeInHours(toDate: Date()) {
+                if pcrTestAge <= vocRule.singlePCRTestHours {
+                    /// All good. Pcr test is under 24h
+                } else if pcrTestAge > vocRule.singlePCRTestHours && pcrTestAge <= vocRule.secondDosePCRMinTestHours {
+                    /// pcr test not too old, but require antigen test
+                    failingItems.append(.vocRequireSecondAntigen(hours: vocRule.secondDoseAntiGenMinTestHours))
+                } else {
+                    /// PCR test too old, show full message
+                    failingItems.append(.vocRequirePCROrAntigen(singleHour: vocRule.singlePCRTestHours, pcrHours: vocRule.secondDosePCRMinTestHours, antigenHours: vocRule.secondDoseAntiGenMinTestHours))
+                }
+            } else if let antiGenTest = dcc?.tests?.first(where: { it in it.getTestType == .rapidImmune }), let antiGenTestAge = antiGenTest.getTestAgeInHours(toDate: Date()) {
+                // Require PCR test
+                if antiGenTestAge <= vocRule.secondDoseAntiGenMinTestHours {
+                    failingItems.append(.vocRequireSecondPCR(hours: vocRule.secondDosePCRMinTestHours))
+                } else {
+                    failingItems.append(.vocRequirePCROrAntigen(singleHour: vocRule.singlePCRTestHours, pcrHours: vocRule.secondDosePCRMinTestHours, antigenHours: vocRule.secondDoseAntiGenMinTestHours))
+                }
+            } else {
+                // Require PCR test or Antigen test
+                failingItems.append(.vocRequirePCROrAntigen(singleHour: vocRule.singlePCRTestHours, pcrHours: vocRule.secondDosePCRMinTestHours, antigenHours: vocRule.secondDoseAntiGenMinTestHours))
+            }
         }
         return failingItems
     }
