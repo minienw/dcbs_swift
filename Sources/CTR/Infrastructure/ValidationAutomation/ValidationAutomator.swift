@@ -26,7 +26,7 @@ class ValidationAutomator {
     func runValidation(from: UIViewController?) {
         let dispatchGroup = DispatchGroup()
         
-        result += "QR,Result,Remark\n"
+        result += "Country,Version,QR,Result,Remark\n"
         for item in qrCodeUrls {
             let finalURL = item.replacingOccurrences(of: "$base", with: mainBaseUrl)
             handle(url: URL(string: finalURL), dispatchGroup: dispatchGroup)
@@ -91,7 +91,8 @@ class ValidationAutomator {
     func report(url: URL, status: String, remark: String) {
         print("Report: \(url.absoluteString), \(status), \(remark)")
         let item = url.absoluteString.replacingOccurrences(of: mainBaseUrl, with: "").replacingOccurrences(of: ".png?raw=true", with: "")
-        reports.append("\(item),\(status),\(remark)\n")
+        let strippedItems = item.split(maxSplits: 2, omittingEmptySubsequences: true, whereSeparator: { $0 == "/" })
+        reports.append("\(strippedItems[0]),\(strippedItems[1]),\(strippedItems[2]),\(status),\(remark)\n")
     }
     
     func validateQR(qr: String) -> String? {

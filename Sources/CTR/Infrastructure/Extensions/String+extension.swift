@@ -112,6 +112,12 @@ extension String {
 		)
 		return attributedString
 	}
+    
+    func replacingFirstOccurrence(of target: String, with replacement: String) -> String {
+        guard let range = self.range(of: target) else { return self }
+        return self.replacingCharacters(in: range, with: replacement)
+    }
+    
 }
 
 // See https://www.hackingwithswift.com/example-code/strings/how-to-capitalize-the-first-letter-of-a-string
