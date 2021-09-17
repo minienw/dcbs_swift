@@ -8,9 +8,8 @@
 
 import Foundation
 
-struct DCCQR: Codable {
+class DCCQR: Codable {
     
-    static let july17th = 1626472800.0
     static var dateFormat: ISO8601DateFormatter {
         return ISO8601DateFormatter()
     }
@@ -32,7 +31,7 @@ struct DCCQR: Codable {
     let issuedAt: TimeInterval? // When was this QR issued at in seconds
     let expirationTime: TimeInterval? // When does this QR expire in seconds
     
-    let dcc: DCC?
+    var dcc: DCC?
     
     init(dcc: DCC, expireTime: TimeInterval) {
         credentialVersion = nil
@@ -96,24 +95,20 @@ struct DCCQR: Codable {
     func processBusinessRules(from: CountryRisk, to: CountryRisk, businessRuleManager: BusinessRulesManager) -> [DCCFailableItem] {
         var failingItems = [DCCFailableItem]()
         
+        dcc?.from = from
+        dcc?.to = to
         if to.ruleEngineEnabled != false {
-            let certLogic = CertLogicEngine(schema: businessRuleManager.schema ?? "", rules: businessRuleManager.businessRules)
+            let certLogic = CertLogicEngine(schema: businessRuleManager.schema ?? "", rules: businessRuleManager.getAllRules())
             let filterParameter = FilterParameter(validationClock: Date(), countryCode: to.code ?? "", certificationType: certificateType)
             let externalParameter = ExternalParameter(validationClock: Date(), valueSets: businessRuleManager.valueSets, exp: Date(), iat: Date(), issuerCountryCode: to.code ?? "")
             let results = certLogic.validate(filter: filterParameter, external: externalParameter, payload: asPayload ?? "")
-            
+            print(results)
             results.filter { it in it.result == .fail }.forEach { it in
                 failingItems.append(.certLogicBusinessRule(description: it.rule?.getLocalizedErrorString(locale: Locale.current.languageCode ?? "en") ?? "item_unknown".localized()))
             }
         }
-        if from.isIndecisive() || to.isIndecisive() {
+        if from.isIndecisive() && to.getPassType() == .nlRules || to.isIndecisive() {
             return [.undecidableFrom]
-        }
-        if to.getPassType() == .nlRules {
-            let items = processNLBusinessRules(from: from, to: to)
-            if !items.isEmpty {
-                failingItems.append(contentsOf: items)
-            }
         }
         return failingItems
     }
@@ -122,49 +117,9 @@ struct DCCQR: Codable {
         return to.getPassType() == .nlRules && from.getColourCode() == .green && from.isEU == true
     }
     
-    private func processNLBusinessRules(from: CountryRisk, to: CountryRisk) -> [DCCFailableItem] {
-        var failingItems = [DCCFailableItem]()
-        let fromColour = from.getColourCode()
-        if let yearsOld = getYearsOld(), yearsOld <= 11 {
-            return []
-        }
-        let requireTestInsideEU = fromColour == .orangeHighShipsFlight && from.isEU == true
-        let requireTestOutsideEU = (fromColour == .orangeHighShipsFlight || fromColour == .orangeHighIncidence) && from.isEU == false
-        let requireTest = requireTestOutsideEU || requireTestInsideEU
-        if requireTest && (dcc?.tests == nil || dcc?.tests?.isEmpty == true) {
-            failingItems.append(.missingRequiredTest)
-        }
-        let vocRule = Services.remoteConfigManager.getConfiguration().europeanVerificationRules?.vocExtraTestRule ?? VOCExtraTestRule(enabled: true, singlePCRTestHours: 24, secondDosePCRMinTestHours: 48, secondDoseAntiGenMinTestHours: 24)
-        if vocRule.enabled, fromColour == .orangeHighShipsFlight {
-            
-            if let pcrTest = dcc?.tests?.first(where: { it in  it.getTestType == .nucleidAcid }), let pcrTestAge = pcrTest.getTestAgeInHours(toDate: Date()) {
-                if pcrTestAge <= vocRule.singlePCRTestHours {
-                    /// All good. Pcr test is under 24h
-                } else if pcrTestAge > vocRule.singlePCRTestHours && pcrTestAge <= vocRule.secondDosePCRMinTestHours {
-                    /// pcr test not too old, but require antigen test
-                    failingItems.append(.vocRequireSecondAntigen(hours: vocRule.secondDoseAntiGenMinTestHours))
-                } else {
-                    /// PCR test too old, show full message
-                    failingItems.append(.vocRequirePCROrAntigen(singleHour: vocRule.singlePCRTestHours, pcrHours: vocRule.secondDosePCRMinTestHours, antigenHours: vocRule.secondDoseAntiGenMinTestHours))
-                }
-            } else if let antiGenTest = dcc?.tests?.first(where: { it in it.getTestType == .rapidImmune }), let antiGenTestAge = antiGenTest.getTestAgeInHours(toDate: Date()) {
-                // Require PCR test
-                if antiGenTestAge <= vocRule.secondDoseAntiGenMinTestHours {
-                    failingItems.append(.vocRequireSecondPCR(hours: vocRule.secondDosePCRMinTestHours))
-                } else {
-                    failingItems.append(.vocRequirePCROrAntigen(singleHour: vocRule.singlePCRTestHours, pcrHours: vocRule.secondDosePCRMinTestHours, antigenHours: vocRule.secondDoseAntiGenMinTestHours))
-                }
-            } else {
-                // Require PCR test or Antigen test
-                failingItems.append(.vocRequirePCROrAntigen(singleHour: vocRule.singlePCRTestHours, pcrHours: vocRule.secondDosePCRMinTestHours, antigenHours: vocRule.secondDoseAntiGenMinTestHours))
-            }
-        }
-        return failingItems
-    }
-    
 }
 
-struct DCC: Codable {
+class DCC: Codable {
     /// DCC version
     let version: String
     /// Date of birth 1962-07-01
@@ -178,6 +133,12 @@ struct DCC: Codable {
     /// Recoveries
     let recoveries: [DCCRecovery]?
     
+    /// Extra value for payload processing validations
+    var from: CountryRisk?
+    
+    /// Extra value for payload processing validations
+    var to: CountryRisk?
+    
     enum CodingKeys: String, CodingKey {
         case version = "ver"
         case dateOfBirth = "dob"
@@ -185,6 +146,8 @@ struct DCC: Codable {
         case vaccines = "v"
         case tests = "t"
         case recoveries = "r"
+        case from
+        case to
     }
     
     init(version: String, dateOfBirth: String, name: DCCNameObject, vaccine: DCCVaccine) {
@@ -242,20 +205,20 @@ struct DCCVaccine: Codable {
     let certificateIssuer: String //
     let certificateIdentifier: String //
     
-    var getVaccine: VaccineProphylaxis? {
-        return VaccineProphylaxis(rawValue: vaccine)
+    func getVaccine(manager: BusinessRulesManager) -> String? {
+        return manager.getValueSetItem(type: .vaccineType, id: vaccine)?.display
     }
     
-    var getVaccineProduct: VaccineProduct? {
-        return VaccineProduct(rawValue: vaccineMedicalProduct)
+    func getVaccineProduct(manager: BusinessRulesManager) -> String? {
+        return manager.getValueSetItem(type: .vaccineProduct, id: vaccineMedicalProduct)?.display
     }
     
-    var getTargetedDisease: TargetedDisease? {
-        return TargetedDisease(rawValue: targetedDisease)
+    func getTargetedDisease(manager: BusinessRulesManager) -> String? {
+        return manager.getValueSetItem(type: .targetedAgent, id: targetedDisease)?.display
     }
     
-    var getMarketingHolder: VaccineHolder? {
-        return VaccineHolder(rawValue: marketingAuthorizationHolder)
+    func getMarketingHolder(manager: BusinessRulesManager) -> String? {
+        return manager.getValueSetItem(type: .vaccineAuthHolder, id: marketingAuthorizationHolder)?.display
     }
     
     func getDateOfVaccination() -> Date? {
@@ -269,10 +232,6 @@ struct DCCVaccine: Codable {
     
     func isFullyVaccinated() -> Bool {
         return doseNumber >= totalSeriesOfDoses
-    }
-    
-    func isCountryValid() -> Bool {
-        return IsoCountries.countryForCode(code: countryOfVaccination) != nil
     }
     
     enum CodingKeys: String, CodingKey {
@@ -302,29 +261,40 @@ struct DCCTest: Codable {
     let certificateIssuer: String
     let certificateIdentifier: String
     
-    var getTargetedDisease: TargetedDisease? {
-        return TargetedDisease(rawValue: targetedDisease)
+    func getTargetedDisease(manager: BusinessRulesManager) -> String? {
+        return manager.getValueSetItem(type: .targetedAgent, id: targetedDisease)?.display
     }
     
     var getTestResult: DCCTestResult? {
-        return DCCTestResult(rawValue: testResult)
+        if isTestDetected() {
+            return .detected
+        } else if isTestNotDetected() {
+            return .notDetected
+        } else {
+            return nil
+        }
     }
     
-    var getTestManufacturer: DCCTestManufacturer? {
+    func isTestDetected() -> Bool {
+        return testResult == Services.remoteConfigManager.getConfiguration().europeanVerificationRules?.testDetectedType ?? DCCTestResult.detected.rawValue
+    }
+    
+    func isTestNotDetected() -> Bool {
+        return testResult == Services.remoteConfigManager.getConfiguration().europeanVerificationRules?.testNotDetectedType ?? DCCTestResult.notDetected.rawValue
+    }
+    
+    func getTestManufacturer(manager: BusinessRulesManager) -> String? {
         guard let manuf = RATTestNameAndManufac else { return nil }
-        return DCCTestManufacturer(rawValue: manuf)
+        let item = manager.getValueSetItem(type: .testManufacturer, id: manuf)
+        return item?.display
     }
     
-    var getTestType: DCCTestType? {
-        return DCCTestType(rawValue: typeOfTest)
+    func getTestType(manager: BusinessRulesManager) -> String? {
+        return manager.getValueSetItem(type: .testType, id: typeOfTest)?.display
     }
     
     func getDateOfTest() -> Date? {
         return DCCQR.dateFormat.date(from: dateOfSampleCollection) ?? DCCQR.dateFormatBackup.date(from: dateOfSampleCollection) ?? DCCQR.dateFormatBackup2.date(from: dateOfSampleCollection)
-    }
-    
-    func isCountryValid() -> Bool {
-        return IsoCountries.countryForCode(code: countryOfTest) != nil
     }
     
     func getTestAgeInHours(toDate: Date) -> Int? {
@@ -370,8 +340,8 @@ struct DCCRecovery: Codable {
     let certificateValidTo: String
     let certificateIdentifier: String
     
-    var getTargetedDisease: TargetedDisease? {
-        return TargetedDisease(rawValue: targetedDisease)
+    func getTargetedDisease(manager: BusinessRulesManager) -> String? {
+        return manager.getValueSetItem(type: .targetedAgent, id: targetedDisease)?.display
     }
     
     func getDateOfFirstPositiveTest() -> Date? {
@@ -395,10 +365,6 @@ struct DCCRecovery: Codable {
         guard let from = getDateValidFrom(), let to = getDateValidTo() else { return false }
         let nowTime = date.timeIntervalSince1970
         return nowTime >= from.timeIntervalSince1970 && nowTime <= to.timeIntervalSince1970
-    }
-    
-    func isCountryValid() -> Bool {
-        return IsoCountries.countryForCode(code: countryOfTest) != nil
     }
     
     enum CodingKeys: String, CodingKey {

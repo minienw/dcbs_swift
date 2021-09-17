@@ -8,14 +8,12 @@
 
 import Foundation
 
-enum TargetedDisease: String {
-    case covid19 = "840539006"
+class ValueSetContainer: Codable {
+    let key: String
+    let items: [String: ValueSetItem]
     
-    var displayName: String {
-        switch self {
-        
-            case .covid19:
-                return "Covid-19"
-        }
+    init(key: String, items: [String: ValueSetItem]) {
+        self.key = key
+        self.items = items
     }
 }

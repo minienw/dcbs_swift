@@ -60,7 +60,16 @@ class NetworkManager: NetworkManaging, Logging {
         decodeSignedJSONData(request: urlRequest, completion: completion)
     }
     
-    func getValueSets(completion: @escaping (Result<([String: [String]]), NetworkError>) -> Void) {
+    func getCustomBusinessRules(completion: @escaping (Result<([Rule], Data), NetworkError>) -> Void) {
+        let urlRequest = constructRequest(
+            url: networkConfiguration.customBusinessRulesUrl,
+            method: .GET
+        )
+        sessionDelegate?.setSecurityStrategy(SecurityStrategy.config)
+        decodeSignedJSONData(request: urlRequest, completion: completion)
+    }
+    
+    func getValueSets(completion: @escaping (Result<([String: [String]], [ValueSetContainer]), NetworkError>) -> Void) {
         let urlRequest = constructRequest(
             url: networkConfiguration.businessRulesValueSetsUrl,
             method: .GET
@@ -71,16 +80,22 @@ class NetworkManager: NetworkManaging, Logging {
             
             case .success(let data):
                 if let dict = try? JSONSerialization.jsonObject(with: data) as? [String: Any] {
+                    var valueSetContainers = [ValueSetContainer]()
                     var sets = [String: [String]]()
                     for key in dict.keys {
                         sets[key] = [String]()
+                        var items = [String: ValueSetItem]()
                         if let item = dict[key] as? [String: Any] {
                             for subKey in item.keys {
                                 sets[key]?.append(subKey)
+                                if let subItem = ValueSetItem.fromDictionary(dictionary: item[subKey] as? [String : Any] ?? [:]) {
+                                    items[subKey] = subItem
+                                }
                             }
                         }
+                        valueSetContainers.append(ValueSetContainer(key: key, items: items))
                     }
-                    completion(.success(sets))
+                    completion(.success((sets, valueSetContainers)))
                 }
                 
             case .failure(let error):

@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SnapKit
 
 class Section {
     var countries: [CountryRisk] = []
@@ -27,13 +28,12 @@ protocol ADCountryPickerDelegate: AnyObject {
     func countryPicker(_ picker: ADCountryPicker, didSelect: CountryRisk)
 }
 
-class ADCountryPicker: UITableViewController {
+class ADCountryPicker: UIViewController {
     
     let remoteConfigManager = Services.remoteConfigManager
     
     let businessRulesManager = Services.businessRulesManager
     
-    var searchController: UISearchController!
     var filteredList = [CountryRisk]()
     
     var sections = [Section]()
@@ -44,56 +44,57 @@ class ADCountryPicker: UITableViewController {
     var didSelectCountryClosure: ((CountryRisk) -> Void)?
     
     /// The nav bar title to show on picker view
-    open var pickerTitle = "Select a Country"
+    var pickerTitle = "Select a Country"
     
     /// The default current location, if region cannot be determined. Defaults to US
-    open var defaultCountryCode = "US"
+    var defaultCountryCode = "US"
     
     // The tint color of the close icon in presented pickers. Defaults to black
-    open var closeButtonTintColor = UIColor.black
+    var closeButtonTintColor = UIColor.black
     
     /// The font of the country name list
-    open var font = Theme.fonts.subhead
+    var font = Theme.fonts.subhead
     
     /// Flag to indicate if the navigation bar should be hidden when search becomes active. Defaults to true
-    open var hidesNavigationBarWhenPresentingSearch = true
+    var hidesNavigationBarWhenPresentingSearch = true
     
     /// The background color of the searchbar. Defaults to lightGray
-    open var searchBarBackgroundColor = UIColor.lightGray
+    var searchBarBackgroundColor = UIColor.lightGray
     
     var selectingMode: SelectingCountryMode = .departure
+    
+    var tableView: UITableView = {
+        let view = UITableView()
+        view.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
+        view.backgroundColor = Theme.colors.viewControllerBackground
+        view.separatorColor = Theme.colors.separatorGray.withAlphaComponent(0.3)
+        return view
+    }()
+    
+    var searchBar: UISearchBar = {
+        let view = UISearchBar()
+        view.autocapitalizationType = .sentences
+        view.placeholder = "accessibility_search".localized()
+        view.accessibilityLabel = "accessibility_search".localized()
+        return view
+    }()
     
     convenience init(completionHandler: @escaping ((CountryRisk) -> Void)) {
         self.init()
         self.didSelectCountryClosure = completionHandler
     }
     
-    override open func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = pickerTitle
+        tableView.dataSource = self
+        tableView.delegate = self
+        searchBar.delegate = self
+        createLayout()
         updateSections()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "UITableViewCell")
-        createSearchBar()
-        tableView.reloadData()
-        
-        definesPresentationContext = true
-        
-        if self.presentingViewController != nil {
-            
-            let bundle = "assets.bundle/"
-            let closeButton = UIBarButtonItem(image: UIImage(named: bundle + "close_icon" + ".png",
-                                                             in: Bundle(for: ADCountryPicker.self),
-                                                             compatibleWith: nil),
-                                              style: .plain,
-                                              target: self,
-                                              action: #selector(self.dismissView))
-            closeButton.tintColor = closeButtonTintColor
-            self.navigationItem.leftBarButtonItem = nil
-            self.navigationItem.leftBarButtonItem = closeButton
-        }
+
         view.backgroundColor = Theme.colors.viewControllerBackground
-        tableView.backgroundColor = Theme.colors.viewControllerBackground
-        tableView.separatorColor = Theme.colors.separatorGray.withAlphaComponent(0.3)
+        tableView.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -110,16 +111,19 @@ class ADCountryPicker: UITableViewController {
         }
     }
     
-    static func countryForCode(code: String) -> CountryRisk? {
-        var countries = Services.remoteConfigManager.getConfiguration().countryColors ?? []
-        countries.append(CountryRisk.other)
-        countries.append(CountryRisk.unselected)
-        return countries.first(where: { it in
-            it.code == code
-        })
+    private func createLayout() {
+        view.addSubview(searchBar)
+        searchBar.snp.makeConstraints { it in
+            it.leading.trailing.top.equalToSuperview()
+        }
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { it in
+            it.leading.trailing.bottom.equalToSuperview()
+            it.top.equalTo(searchBar.snp.bottom)
+        }
     }
     
-    func updateSections() {
+    private func updateSections() {
         // create empty sections
         var sections = [Section]()
 
@@ -127,7 +131,7 @@ class ADCountryPicker: UITableViewController {
             if it.isColourCode == true {
                 return false
             }
-            if selectingMode == .destination && !businessRulesManager.businessRules.contains(where: { rule in
+            if selectingMode == .destination && !businessRulesManager.getAllRules().contains(where: { rule in
                 if let code = it.code {
                     return code.lowercased().starts(with: rule.countryCode.lowercased())
                 } else {
@@ -172,20 +176,7 @@ class ADCountryPicker: UITableViewController {
         self.dismiss(animated: true, completion: nil)
     }
     
-    fileprivate func createSearchBar() {
-        if self.tableView.tableHeaderView == nil {
-            searchController = UISearchController(searchResultsController: nil)
-            searchController.searchResultsUpdater = self
-            searchController.hidesNavigationBarDuringPresentation = false
-            searchController.searchBar.searchBarStyle = .prominent
-            searchController.searchBar.showsCancelButton = false
-            searchController.obscuresBackgroundDuringPresentation = false
-            
-            tableView.tableHeaderView = searchController.searchBar
-        }
-    }
-    
-    fileprivate func filter(_ searchText: String) -> [CountryRisk] {
+    private func filter(_ searchText: String) -> [CountryRisk] {
         filteredList.removeAll()
         
         sections.forEach { section -> Void in
@@ -202,7 +193,7 @@ class ADCountryPicker: UITableViewController {
         return filteredList
     }
     
-    fileprivate func getCountry(_ code: String) -> [CountryRisk] {
+    private func getCountry(_ code: String) -> [CountryRisk] {
         filteredList.removeAll()
         
         sections.forEach { section -> Void in
@@ -220,8 +211,6 @@ class ADCountryPicker: UITableViewController {
         return filteredList
     }
     
-    // MARK: - Public method
-    
     /// Returns the country name for the given country code
     ///
     /// - Parameter countryCode: ISO code of country to get dialing code for
@@ -229,30 +218,39 @@ class ADCountryPicker: UITableViewController {
     public func getCountryName(countryCode: String) -> String? {
         return self.getCountry(countryCode).first?.name()
     }
+    
+    static func countryForCode(code: String) -> CountryRisk? {
+        var countries = Services.remoteConfigManager.getConfiguration().countryColors ?? []
+        countries.append(CountryRisk.other)
+        countries.append(CountryRisk.unselected)
+        return countries.first(where: { it in
+            it.code == code
+        })
+    }
 }
 
 // MARK: - Table view data source
-extension ADCountryPicker {
+extension ADCountryPicker: UITableViewDataSource, UITableViewDelegate {
     
-    override open func numberOfSections(in tableView: UITableView) -> Int {
-        if !searchController.searchBar.text!.isEmpty {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        if searchBar.text?.isEmpty == false {
             return 1
         }
         return sections.count
     }
     
-    open override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 52.0
     }
     
-    override open func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if !searchController.searchBar.text!.isEmpty {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if !searchBar.text!.isEmpty {
             return filteredList.count
         }
         return sections[section].countries.count
     }
     
-    override open func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         var tempCell: UITableViewCell? = tableView.dequeueReusableCell(withIdentifier: "UITableViewCell")
         
@@ -262,8 +260,8 @@ extension ADCountryPicker {
         
         let cell: UITableViewCell! = tempCell
         
-        let country: CountryRisk!
-        if !searchController.searchBar.text!.isEmpty {
+        var country: CountryRisk?
+        if searchBar.text?.isEmpty == false {
             country = filteredList[(indexPath as NSIndexPath).row]
         } else {
             country = sections[(indexPath as NSIndexPath).section].countries[(indexPath as NSIndexPath).row]
@@ -271,30 +269,36 @@ extension ADCountryPicker {
         }
         
         cell.textLabel?.font = self.font
-        
-        cell.textLabel?.text = (country.name() ?? "")
+        cell.textLabel?.text = (country?.name() ?? "")
+        cell.textLabel?.accessibilityTraits = .button
         
         return cell
     }
     
-    override open func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if !sections[section].countries.isEmpty {
-            if !searchController.searchBar.text!.isEmpty {
-                if let section = filteredList.first?.section() {
-                    return section
-                }
-                
-                return ""
+            if searchBar.text?.isEmpty == false {
+                return nil
             }
-            
             return sections[section].code
         }
-        
         return ""
     }
     
-    override open func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 32
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let country: CountryRisk!
+        if searchBar.text?.isEmpty == false {
+            country = filteredList[(indexPath as NSIndexPath).row]
+        } else {
+            country = sections[(indexPath as NSIndexPath).section].countries[(indexPath as NSIndexPath).row]
+        }
+        delegate?.countryPicker(self, didSelect: country)
+        didSelectCountryClosure?(country)
     }
     
     func update() {
@@ -304,32 +308,17 @@ extension ADCountryPicker {
     
 }
 
-// MARK: - Table view delegate
-extension ADCountryPicker {
-    
-    override open func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        let country: CountryRisk!
-        if !searchController.searchBar.text!.isEmpty {
-            country = filteredList[(indexPath as NSIndexPath).row]
-        } else {
-            country = sections[(indexPath as NSIndexPath).section].countries[(indexPath as NSIndexPath).row]
-        }
-        delegate?.countryPicker(self, didSelect: country)
-        didSelectCountryClosure?(country)
-    }
-}
-
 // MARK: - UISearchDisplayDelegate
-extension ADCountryPicker: UISearchResultsUpdating {
+extension ADCountryPicker: UISearchBarDelegate {
     
-    public func updateSearchResults(for searchController: UISearchController) {
-        _ = filter(searchController.searchBar.text!)
-        
-        if self.hidesNavigationBarWhenPresentingSearch == false {
-            searchController.searchBar.showsCancelButton = false
-        }
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        _ = filter(searchBar.text ?? "")
         tableView.reloadData()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+        AccessibilityUtility.requestFocus(to: searchBar)
     }
 }
 

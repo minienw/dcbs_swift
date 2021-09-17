@@ -105,6 +105,7 @@ class OnboardingViewController: BaseViewController {
 		
 		// Move to the previous page
 		pageViewController.previousPage()
+        pageChanged()
 		sceneView.primaryButton.isEnabled = true
 	}
     
@@ -131,6 +132,7 @@ class OnboardingViewController: BaseViewController {
 			// Move to the next page
 			pageViewController.nextPage()
 		}
+        pageChanged()
 	}
 
 	/// User tapped on the page control
@@ -141,7 +143,12 @@ class OnboardingViewController: BaseViewController {
 		} else {
 			pageViewController.previousPage()
 		}
+        pageChanged()
 	}
+    
+    func pageChanged() {
+        AccessibilityUtility.requestFocus(to: backButton, delay: 500)
+    }
 }
 
 // MARK: - PageViewControllerDelegate

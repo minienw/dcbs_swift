@@ -224,6 +224,7 @@ class VerifierResultViewModel: PreventableScreenCapture, Logging {
 
         if autoCloseTicks >= VerifierResultViewModel.timeUntilAutoClose {
             closeScene()
+            UIAccessibility.post(notification: .announcement, argument: "accessibility_result_timer_finished".localized())
         } else {
             autoCloseTicks += 1
         }

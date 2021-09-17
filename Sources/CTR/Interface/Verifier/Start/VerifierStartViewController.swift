@@ -35,6 +35,7 @@ class VerifierStartViewController: BaseViewController {
 
         super.viewDidLoad()
 
+        AccessibilityUtility.requestFocus(to: self.navigationItem.titleView)
         TrustListUpdateScheduler.instance.start()
 		viewModel.$title.binding = { [weak self] in self?.title = $0 }
 		viewModel.$header.binding = { [weak self] in self?.sceneView.title = $0 }

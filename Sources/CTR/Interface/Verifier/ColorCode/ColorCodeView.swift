@@ -15,13 +15,21 @@ class ColorCodeView: TMCBaseView {
     
     var onItemTapped: (() -> Void)?
     
+    override func initLayout() {
+        super.initLayout()
+        isUserInteractionEnabled = true
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(itemTapped)))
+    }
+    
     func setup(color: CountryRisk, onTapped: @escaping () -> Void) {
         self.label.font = Theme.fonts.body
         self.label.text = color.name() ?? ""
         self.onItemTapped = onTapped
+        view?.subviews.first?.accessibilityTraits = [.button, .allowsDirectInteraction]
+        view?.subviews.first?.accessibilityLabel = color.name() ?? ""
     }
     
-    @IBAction func itemTapped(_ sender: Any) {
+    @objc func itemTapped() {
         onItemTapped?()
     }
 }

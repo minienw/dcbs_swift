@@ -117,6 +117,11 @@ struct NetworkConfiguration {
         return self.combine(path: Endpoint.businessRules, fromCdn: false)
     }
     
+    var customBusinessRulesUrl: URL? {
+
+        return self.combine(path: Endpoint.customBusinessRules, fromCdn: false)
+    }
+    
     var businessRulesValueSetsUrl: URL? {
 
         return self.combine(path: Endpoint.businessRuleValueSets, fromCdn: false)

@@ -32,6 +32,9 @@ struct Endpoint {
     /// Endpoint for the certlogic business rules
     static let businessRules = Path(components: "dcbs", "business_rules")
     
+    /// Endpoint for the NL custom certlogic business rules
+    static let customBusinessRules = Path(components: "dcbs", "custom_business_rules")
+    
     /// Endpoint for the certlogic business rule value sets
     static let businessRuleValueSets = Path(components: "dcbs", "value_sets")
 }

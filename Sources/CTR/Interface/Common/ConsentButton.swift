@@ -71,7 +71,7 @@ class ConsentButton: UIButton {
 
 		tintColor = Theme.colors.viewControllerBackground
 		backgroundColor = Theme.colors.tertiary
-		setTitleColor(UIColor(white: 0.235, alpha: 0.85), for: .normal)
+        setTitleColor(Theme.colors.dark, for: .normal)
 		contentHorizontalAlignment = .left
 
 		applyState()

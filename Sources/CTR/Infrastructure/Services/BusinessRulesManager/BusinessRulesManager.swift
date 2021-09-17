@@ -7,8 +7,8 @@
 
 import Foundation
 
-/// The manager of all the test provider proof data
-class BusinessRulesManager: /*ProofManaging,*/ Logging {
+/// The manager of all the certlogic business rules
+class BusinessRulesManager: Logging {
     
     var loggingCategory: String = "BusinessRulesManager"
 
@@ -20,10 +20,16 @@ class BusinessRulesManager: /*ProofManaging,*/ Logging {
     }
     
     @Keychain(name: "businessRules", service: Constants.keychainService, clearOnReinstall: true)
-    var businessRules: [Rule] = []
+    private var businessRules: [Rule] = []
+    
+    @Keychain(name: "customBusinessRules", service: Constants.keychainService, clearOnReinstall: true)
+    private var customBusinessRules: [Rule] = []
     
     @Keychain(name: "valueSets", service: Constants.keychainService, clearOnReinstall: true)
     var valueSets: [String: [String]] = [:]
+    
+    @Keychain(name: "valueSetsRaw", service: Constants.keychainService, clearOnReinstall: true)
+    var valueSetsRaw: [ValueSetContainer] = []
     
     /// Initializer
     required init() {
@@ -32,6 +38,19 @@ class BusinessRulesManager: /*ProofManaging,*/ Logging {
     }
     
     var schema: String?
+    
+    func getAllRules() -> [Rule] {
+        var rules = [Rule]()
+        rules.append(contentsOf: businessRules)
+        rules.append(contentsOf: customBusinessRules)
+        return rules
+    }
+    
+    func getValueSetItem(type: ValueSetType, id: String) -> ValueSetItem? {
+        return valueSetsRaw.first { it in
+            it.key == type.rawValue
+        }?.items[id]
+    }
     
     func loadSchema() {
         guard let path = Bundle.main.path(forResource: "dcc-schema", ofType: "json") else { return }
@@ -43,6 +62,7 @@ class BusinessRulesManager: /*ProofManaging,*/ Logging {
         onError: ((Error) -> Void)?) {
         
         let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
         dispatchGroup.enter()
         dispatchGroup.enter()
         networkManager.getBusinessRules { [weak self] resultwrapper in
@@ -61,13 +81,29 @@ class BusinessRulesManager: /*ProofManaging,*/ Logging {
             }
         }
         
+        networkManager.getCustomBusinessRules { [weak self] resultwrapper in
+            
+            switch resultwrapper {
+                case .success((let result, _)):
+                    dispatchGroup.leave()
+                    self?.customBusinessRules = result
+                    onCompletion?()
+                case let .failure(error):
+                    dispatchGroup.leave()
+                    
+                    self?.logError("Error getting the custom business rules: \(error)")
+                    onError?(error)
+            }
+        }
+        
         networkManager.getValueSets { [weak self] resultwrapper in
             
             switch resultwrapper {
                 case .success((let result)):
                     dispatchGroup.leave()
             
-                    self?.valueSets = result
+                    self?.valueSets = result.0
+                    self?.valueSetsRaw = result.1
                     onCompletion?()
                 case let .failure(error):
                     dispatchGroup.leave()
@@ -87,8 +123,7 @@ class BusinessRulesManager: /*ProofManaging,*/ Logging {
             return
         }
         /// Add rules you'd like to test locally here as their json file name (without extension)
-        /// let files = ["VR-006-NL", "TR-NL-0005", "TR-NL-0006"]
-        let files: [String] = []
+        let files = ["CR-NL-0001", "CR-NL-0002", "CR-NL-0003", "CR-NL-0004", "CR-NL-0005", "CR-NL-0006"]
         let jsonDecoder = JSONDecoder()
         for file in files {
             if let path = Bundle.main.path(forResource: file, ofType: "json") {
@@ -96,10 +131,13 @@ class BusinessRulesManager: /*ProofManaging,*/ Logging {
                     let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
                     let rule = try jsonDecoder.decode(Rule.self, from: data)
                     businessRules.append(rule)
+                    logInfo("Added business rule: \(rule.identifier)")
                 } catch let error {
-                    logInfo("Parse error: \(error.localizedDescription)")
+                    logInfo("Failed to add business rule: Parse error: \(error.localizedDescription)")
                 }
-            } else { }
+            } else {
+                logInfo("Failed to add business rule: \(file) does not exist")
+            }
         }
     }
 }

@@ -68,7 +68,9 @@ protocol NetworkManaging {
     
     func getBusinessRules(completion: @escaping (Result<([Rule], Data), NetworkError>) -> Void)
     
-    func getValueSets(completion: @escaping (Result<([String: [String]]), NetworkError>) -> Void)
+    func getCustomBusinessRules(completion: @escaping (Result<([Rule], Data), NetworkError>) -> Void)
+    
+    func getValueSets(completion: @escaping (Result<([String: [String]], [ValueSetContainer]), NetworkError>) -> Void)
 }
 
 struct SignedResponse: Codable, Equatable {
