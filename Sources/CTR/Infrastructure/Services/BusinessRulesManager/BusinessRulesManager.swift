@@ -123,7 +123,7 @@ class BusinessRulesManager: Logging {
             return
         }
         /// Add rules you'd like to test locally here as their json file name (without extension)
-        let files: [String] = [] // ["CR-NL-0001", "CR-NL-0002", "CR-NL-0003", "CR-NL-0004", "CR-NL-0005", "CR-NL-0006"]
+        let files: [String] = []
         let jsonDecoder = JSONDecoder()
         for file in files {
             if let path = Bundle.main.path(forResource: file, ofType: "json") {

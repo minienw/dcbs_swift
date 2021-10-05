@@ -60,6 +60,7 @@ class SelectedCountryView: TMCBaseView {
         departureLabel.text = !isDestinationNLRules ? "country_not_used".localized() : departure == "" ? "country_unselected".localized() : departureCountry?.name() ?? "country_unselected".localized()
         destiantionLabel.text = destination == "" ? "country_unselected".localized() :
             ADCountryPicker.countryForCode(code: destination)?.name() ?? ""
+        riskLabel.isHidden = !isDestinationNLRules
         
     }
     
