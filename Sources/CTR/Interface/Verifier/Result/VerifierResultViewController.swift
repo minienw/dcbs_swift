@@ -106,7 +106,7 @@ class VerifierResultViewController: BaseViewController, Logging {
         
         let from = ADCountryPicker.countryForCode(code: userSettings.lastDeparture) ?? .unselected
         let to = ADCountryPicker.countryForCode(code: userSettings.lastDestination) ?? .unselected
-        if var dcc = viewModel.cryptoResults.attributes {
+        if let dcc = viewModel.cryptoResults.attributes {
             if dcc.isVerified {
                 let failingItems = dcc.processBusinessRules(from: from, to: to, businessRuleManager: Services.businessRulesManager)
                 self.sceneView.setupForVerified(dcc: dcc, isSpecimen: false, failingItems: failingItems, shouldOverrideToGreen: dcc.shouldShowGreenOverride(from: from, to: to), brManager: businessRulesManager)

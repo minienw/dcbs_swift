@@ -40,6 +40,7 @@ extension UIViewController {
         navigationController?.navigationBar.barTintColor = Theme.colors.viewControllerBackground
     }
     
+    // swiftlint:disable force_cast
     func getVC<T: UIViewController>(id: String? = nil, in storyboardId: String) -> T {
         let sb = UIStoryboard(name: storyboardId, bundle: nil)
         guard let id = id else {

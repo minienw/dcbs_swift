@@ -110,23 +110,22 @@ class Button: UIButton {
 	private func updateButtonType() {
 		
 		switch style {
-			case .primary:
-				updatePrimaryStyleColors()
-				contentEdgeInsets = .topBottom(13.5) + .leftRight(20)
-            case .primaryWithFade:
-                updatePrimaryWithFadeStyleColors()
-                contentEdgeInsets = .topBottom(13.5) + .leftRight(20)
-			case .secondary:
-				backgroundColor = Theme.colors.secondary
-				setTitleColor(Theme.colors.dark, for: .normal)
-				self.titleLabel?.font = Theme.fonts.subheadBold
-				contentEdgeInsets = .topBottom(13.5) + .leftRight(20)
-			case .tertiary:
-				backgroundColor = .clear
-				setTitleColor(Theme.colors.iosBlue, for: .normal)
-				setTitleColor(Theme.colors.grey2, for: .disabled)
-				self.titleLabel?.font = Theme.fonts.bodyMedium
-				
+        case .primary:
+            updatePrimaryStyleColors()
+            contentEdgeInsets = .topBottom(13.5) + .leftRight(20)
+        case .primaryWithFade:
+            updatePrimaryWithFadeStyleColors()
+            contentEdgeInsets = .topBottom(13.5) + .leftRight(20)
+        case .secondary:
+            backgroundColor = Theme.colors.secondary
+            setTitleColor(Theme.colors.dark, for: .normal)
+            self.titleLabel?.font = Theme.fonts.subheadBold
+            contentEdgeInsets = .topBottom(13.5) + .leftRight(20)
+        case .tertiary:
+            backgroundColor = .clear
+            setTitleColor(Theme.colors.iosBlue, for: .normal)
+            setTitleColor(Theme.colors.grey2, for: .disabled)
+            self.titleLabel?.font = Theme.fonts.bodyMedium
 		}
 		tintColor = Theme.colors.viewControllerBackground
 	}

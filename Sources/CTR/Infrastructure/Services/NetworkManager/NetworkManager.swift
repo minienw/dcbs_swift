@@ -69,6 +69,7 @@ class NetworkManager: NetworkManaging, Logging {
         decodeSignedJSONData(request: urlRequest, completion: completion)
     }
     
+    // swiftlint:disable switch_case_alignment
     func getValueSets(completion: @escaping (Result<([String: [String]], [ValueSetContainer]), NetworkError>) -> Void) {
         let urlRequest = constructRequest(
             url: networkConfiguration.businessRulesValueSetsUrl,
@@ -88,7 +89,7 @@ class NetworkManager: NetworkManaging, Logging {
                         if let item = dict[key] as? [String: Any] {
                             for subKey in item.keys {
                                 sets[key]?.append(subKey)
-                                if let subItem = ValueSetItem.fromDictionary(dictionary: item[subKey] as? [String : Any] ?? [:]) {
+                                if let subItem = ValueSetItem.fromDictionary(dictionary: item[subKey] as? [String: Any] ?? [:]) {
                                     items[subKey] = subItem
                                 }
                             }

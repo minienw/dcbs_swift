@@ -109,6 +109,7 @@ enum DCCFailableItem {
         }
     }
     
+    // swiftlint:disable switch_case_alignment
     func makesQRUndecided() -> Bool {
         switch self {
         case .undecidableFrom:

@@ -44,7 +44,7 @@ final public class CertLogicEngine {
       result.append(ValidationResult(rule: nil, result: .passed, validationErrors: nil))
       return result
     }
-    guard let qrCodeSchemeVersion = self.payloadJSON?["ver"].rawValue as? String else {
+    guard (self.payloadJSON?["ver"].rawValue as? String) != nil else {
       result.append(ValidationResult(rule: nil, result: .fail, validationErrors: nil))
       return result
     }
@@ -56,6 +56,7 @@ final public class CertLogicEngine {
           let jsonlogic = try JsonLogic(rule.logic.description)
           let results: Any = try jsonlogic.applyRule(to: getJSONStringForValidation(external: external, payload: payload))
           if results is Bool {
+            // swiftlint:disable force_cast
             if results as! Bool {
               result.append(ValidationResult(rule: rule, result: .passed, validationErrors: nil))
             } else {
@@ -67,7 +68,7 @@ final public class CertLogicEngine {
         } catch {
           result.append(ValidationResult(rule: rule, result: .open, validationErrors: [error]))
         }
-      //}
+      // }
     }
       return result
   }

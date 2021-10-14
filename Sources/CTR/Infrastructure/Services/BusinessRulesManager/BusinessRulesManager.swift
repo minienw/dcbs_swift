@@ -19,6 +19,7 @@ class BusinessRulesManager: Logging {
         static let keychainService = "BusinessRulesManager\(Configuration().getEnvironment())\(ProcessInfo.processInfo.isTesting ? "Test" : "")"
     }
     
+    // swiftlint:disable let_var_whitespace
     @Keychain(name: "businessRules", service: Constants.keychainService, clearOnReinstall: true)
     private var businessRules: [Rule] = []
     

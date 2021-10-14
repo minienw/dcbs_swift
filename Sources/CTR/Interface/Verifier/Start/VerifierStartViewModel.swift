@@ -43,6 +43,7 @@ class VerifierStartViewModel: Logging {
 	/// The title of the button
 	@Bindable private(set) var showError: Bool = false
 
+    // swiftlint:disable vertical_parameter_alignment
 	/// Initializer
 	/// - Parameters:
 	///   - coordinator: the coordinator delegate
