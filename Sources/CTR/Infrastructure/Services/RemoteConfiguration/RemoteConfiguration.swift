@@ -251,6 +251,7 @@ struct EURules: Codable {
     let rapidImmuneTestType: String?
     let testNotDetectedType: String?
     let testDetectedType: String?
+    let proofIdentifierDenylist: [String: Bool]?
 }
 
 struct VOCExtraTestRule: Codable {
