@@ -248,6 +248,10 @@ struct RemoteConfiguration: RemoteInformation, Codable {
 
 struct EURules: Codable {
     let vocExtraTestRule: VOCExtraTestRule
+    let rapidImmuneTestType: String?
+    let testNotDetectedType: String?
+    let testDetectedType: String?
+    let proofIdentifierDenylist: [String: Bool]?
 }
 
 struct VOCExtraTestRule: Codable {

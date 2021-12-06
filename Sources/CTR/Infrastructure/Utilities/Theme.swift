@@ -231,6 +231,8 @@ final class Colors {
 	var bannerBackgroundColor: UIColor { return color(for: "BannerBackgroundColor") }
 
 	var highlightBackgroundColor: UIColor { return color(for: "HighlightBackgroundColor") }
+    
+    var inactiveCountry: UIColor { return color(for: "InactiveCountry") }
 
     // MARK: - Private
 

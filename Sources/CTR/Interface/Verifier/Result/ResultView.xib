@@ -50,10 +50,10 @@
                     <rect key="frame" x="0.0" y="44" width="428" height="754"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0n7-qi-tCD">
-                            <rect key="frame" x="0.0" y="0.0" width="428" height="381.66666666666669"/>
+                            <rect key="frame" x="0.0" y="0.0" width="428" height="379"/>
                             <subviews>
                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="uBd-PP-DUS">
-                                    <rect key="frame" x="0.0" y="0.0" width="428" height="381.66666666666669"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="428" height="379"/>
                                     <subviews>
                                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jd0-DN-tS4">
                                             <rect key="frame" x="0.0" y="0.0" width="428" height="298"/>
@@ -63,14 +63,14 @@
                                                     <color key="backgroundColor" name="DeniedColor"/>
                                                 </view>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="denied_inverted_qr" translatesAutoresizingMaskIntoConstraints="NO" id="fDp-y3-9yv">
-                                                    <rect key="frame" x="42.333333333333343" y="44" width="46" height="46"/>
+                                                    <rect key="frame" x="57.333333333333343" y="44" width="46" height="46"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="46" id="ObV-y0-gdh"/>
                                                         <constraint firstAttribute="height" constant="46" id="fVr-mJ-swK"/>
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Geen geldige QR-code" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZ1-Fe-RuV">
-                                                    <rect key="frame" x="96.333333333333329" y="54.666666666666664" width="235.66666666666669" height="24.666666666666664"/>
+                                                    <rect key="frame" x="111.33333333333333" y="55.333333333333336" width="205.66666666666669" height="23.333333333333336"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="20"/>
                                                     <color key="textColor" name="ViewControllerBackgroundColor"/>
                                                     <nil key="highlightedColor"/>
@@ -80,6 +80,9 @@
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="De reiziger heeft geen geldig bewijs. Lees mogelijke oorzaken." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hc9-to-vzU">
                                                     <rect key="frame" x="30" y="298" width="368" height="0.0"/>
+                                                    <accessibility key="accessibilityConfiguration">
+                                                        <accessibilityTraits key="traits" button="YES"/>
+                                                    </accessibility>
                                                     <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="20"/>
                                                     <color key="textColor" name="DarkColor"/>
                                                     <nil key="highlightedColor"/>
@@ -89,6 +92,9 @@
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0oA-oq-R2N">
                                                     <rect key="frame" x="30" y="298" width="368" height="0.0"/>
+                                                    <accessibility key="accessibilityConfiguration">
+                                                        <bool key="isElement" value="NO"/>
+                                                    </accessibility>
                                                     <connections>
                                                         <action selector="tappedDeniedMessage:" destination="-1" eventType="touchUpInside" id="PEy-Dn-97P"/>
                                                     </connections>
@@ -125,20 +131,23 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dQj-YY-ZsV">
-                                            <rect key="frame" x="0.0" y="0.0" width="428" height="381.66666666666669"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="428" height="379"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ihB-yn-yCw">
-                                                    <rect key="frame" x="0.0" y="0.0" width="428" height="208.33333333333334"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="428" height="207.66666666666666"/>
                                                     <color key="backgroundColor" name="AccessColor"/>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Geldige QR-code" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JdI-yj-ZcL">
-                                                    <rect key="frame" x="125.66666666666669" y="54.999999999999993" width="177" height="24.666666666666664"/>
+                                                    <rect key="frame" x="136" y="55.000000000000007" width="156" height="23.333333333333336"/>
+                                                    <accessibility key="accessibilityConfiguration">
+                                                        <accessibilityTraits key="traits" staticText="YES" header="YES"/>
+                                                    </accessibility>
                                                     <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="20"/>
                                                     <color key="textColor" name="ViewControllerBackgroundColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="HJ8-e9-WLO">
-                                                    <rect key="frame" x="32" y="208.33333333333331" width="364" height="173.33333333333331"/>
+                                                    <rect key="frame" x="32" y="207.66666666666663" width="364" height="171.33333333333337"/>
                                                     <subviews>
                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="wRV-PB-xct">
                                                             <rect key="frame" x="0.0" y="0.0" width="364" height="0.0"/>
@@ -147,33 +156,33 @@
                                                             </constraints>
                                                         </stackView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Piet jan klaas pietersen" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bjc-Tk-djU">
-                                                            <rect key="frame" x="0.0" y="0.0" width="364" height="33"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="364" height="31.666666666666668"/>
                                                             <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="27"/>
                                                             <color key="textColor" name="DarkColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IHd-Kq-AaF">
-                                                            <rect key="frame" x="0.0" y="32.999999999999972" width="364" height="6"/>
+                                                            <rect key="frame" x="0.0" y="31.666666666666657" width="364" height="6"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="6" id="Whm-1G-IkS"/>
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" text="Date of birth: 25.03.1985" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XiA-G8-Cya">
-                                                            <rect key="frame" x="0.0" y="38.999999999999972" width="364" height="18.333333333333329"/>
+                                                            <rect key="frame" x="0.0" y="37.666666666666657" width="364" height="17.666666666666671"/>
                                                             <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="15"/>
                                                             <color key="textColor" name="DarkColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4HY-9g-HSH">
-                                                            <rect key="frame" x="0.0" y="57.333333333333343" width="364" height="16"/>
+                                                            <rect key="frame" x="0.0" y="55.333333333333343" width="364" height="16"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="16" id="OFI-ZR-27g"/>
                                                             </constraints>
                                                         </view>
                                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="x3Z-vD-zAH">
-                                                            <rect key="frame" x="0.0" y="73.333333333333343" width="364" height="100"/>
+                                                            <rect key="frame" x="0.0" y="71.333333333333343" width="364" height="100"/>
                                                             <subviews>
                                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AJd-cs-Z9E" customClass="ResultVaccineView" customModule="CTR" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="0.0" width="176.66666666666666" height="100"/>
@@ -209,14 +218,14 @@
                                                     </subviews>
                                                 </stackView>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="access_inverted" translatesAutoresizingMaskIntoConstraints="NO" id="cXF-hU-bxC">
-                                                    <rect key="frame" x="71.666666666666671" y="44.333333333333329" width="46" height="46"/>
+                                                    <rect key="frame" x="82" y="43.666666666666671" width="46" height="46"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="46" id="3u2-da-OHX"/>
                                                         <constraint firstAttribute="width" constant="46" id="g8Y-yW-Mwo"/>
                                                     </constraints>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7dP-Ab-0el" customClass="SelectedCountryView" customModule="CTR" customModuleProvider="target">
-                                                    <rect key="frame" x="33" y="116.33333333333334" width="362" height="78"/>
+                                                    <rect key="frame" x="33" y="115.66666666666666" width="362" height="78"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="78" id="Qjf-uT-feq"/>

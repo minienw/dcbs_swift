@@ -261,3 +261,6 @@ applied";
 - A PCR/NAAT test of no more than %i hours old
 of
 - A PCR/NAAT test of no more than %i hours old AND an antigen test of no more than %i hours old";
+
+
+"country_not_used" = "N/A";

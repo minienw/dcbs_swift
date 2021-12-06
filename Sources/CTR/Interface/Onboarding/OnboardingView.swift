@@ -46,6 +46,7 @@ class OnboardingView: BaseView {
 		view.translatesAutoresizingMaskIntoConstraints = false
 		view.pageIndicatorTintColor = Theme.colors.grey2
 		view.currentPageIndicatorTintColor = Theme.colors.primary
+        view.accessibilityTraits = .causesPageTurn
 		return view
 	}()
 	

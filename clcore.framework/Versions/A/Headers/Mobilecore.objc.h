@@ -11,34 +11,7 @@
 #include "Universe.objc.h"
 
 
-@class MobilecoreAnnotatedEuropeanPk;
-@class MobilecorePublicKeysConfig;
 @class MobilecoreResult;
-
-@interface MobilecoreAnnotatedEuropeanPk : NSObject <goSeqRefInterface> {
-}
-@property(strong, readonly) _Nonnull id _ref;
-
-- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nonnull instancetype)init;
-@property (nonatomic) NSData* _Nullable subjectPk;
-// skipped field AnnotatedEuropeanPk.KeyUsage with unsupported type: []string
-
-// skipped field AnnotatedEuropeanPk.LoadedPk with unsupported type: interface{}
-
-@end
-
-@interface MobilecorePublicKeysConfig : NSObject <goSeqRefInterface> {
-}
-@property(strong, readonly) _Nonnull id _ref;
-
-- (nonnull instancetype)initWithRef:(_Nonnull id)ref;
-- (nullable instancetype)init:(NSString* _Nullable)pksPath;
-// skipped field PublicKeysConfig.EuropeanPks with unsupported type: github.com/minvws/nl-covid19-travelscan-mobile-core.EuropeanPksLookup
-
-// skipped method PublicKeysConfig.FindAndCacheEuropean with unsupported parameter or return types
-
-@end
 
 @interface MobilecoreResult : NSObject <goSeqRefInterface> {
 }
@@ -50,11 +23,10 @@
 @property (nonatomic) NSString* _Nonnull error;
 @end
 
+FOUNDATION_EXPORT NSString* _Nonnull const MobilecoreVERIFIER_CONFIG_FILENAME;
 FOUNDATION_EXPORT NSString* _Nonnull const MobilecoreVERIFIER_PUBLIC_KEYS_FILENAME;
 
 FOUNDATION_EXPORT MobilecoreResult* _Nullable MobilecoreInitializeVerifier(NSString* _Nullable configDirectoryPath);
-
-FOUNDATION_EXPORT MobilecorePublicKeysConfig* _Nullable MobilecoreNewPublicKeysConfig(NSString* _Nullable pksPath, NSError* _Nullable* _Nullable error);
 
 FOUNDATION_EXPORT MobilecoreResult* _Nullable MobilecoreVerify(NSData* _Nullable proofQREncoded);
 

@@ -12,6 +12,7 @@ class Button: UIButton {
 
     enum ButtonType {
         case primary
+        case primaryWithFade
         case secondary
         case tertiary
     }
@@ -36,7 +37,11 @@ class Button: UIButton {
 
     override var isEnabled: Bool {
         didSet {
-			updatePrimaryStyleColors()
+            if style == .primary {
+                updatePrimaryStyleColors()
+            } else if style == .primaryWithFade {
+                updatePrimaryWithFadeStyleColors()
+            }
         }
     }
 
@@ -105,24 +110,34 @@ class Button: UIButton {
 	private func updateButtonType() {
 		
 		switch style {
-			case .primary:
-				updatePrimaryStyleColors()
-				contentEdgeInsets = .topBottom(13.5) + .leftRight(20)
-			case .secondary:
-				backgroundColor = Theme.colors.secondary
-				setTitleColor(Theme.colors.dark, for: .normal)
-				self.titleLabel?.font = Theme.fonts.subheadBold
-				contentEdgeInsets = .topBottom(13.5) + .leftRight(20)
-			case .tertiary:
-				backgroundColor = .clear
-				setTitleColor(Theme.colors.iosBlue, for: .normal)
-				setTitleColor(Theme.colors.grey2, for: .disabled)
-				self.titleLabel?.font = Theme.fonts.bodyMedium
-				
+        case .primary:
+            updatePrimaryStyleColors()
+            contentEdgeInsets = .topBottom(13.5) + .leftRight(20)
+        case .primaryWithFade:
+            updatePrimaryWithFadeStyleColors()
+            contentEdgeInsets = .topBottom(13.5) + .leftRight(20)
+        case .secondary:
+            backgroundColor = Theme.colors.secondary
+            setTitleColor(Theme.colors.dark, for: .normal)
+            self.titleLabel?.font = Theme.fonts.subheadBold
+            contentEdgeInsets = .topBottom(13.5) + .leftRight(20)
+        case .tertiary:
+            backgroundColor = .clear
+            setTitleColor(Theme.colors.iosBlue, for: .normal)
+            setTitleColor(Theme.colors.grey2, for: .disabled)
+            self.titleLabel?.font = Theme.fonts.bodyMedium
 		}
 		tintColor = Theme.colors.viewControllerBackground
 	}
 	
+    private func updatePrimaryWithFadeStyleColors() {
+        
+        guard style == .primaryWithFade else { return }
+        alpha = isEnabled ? 1 : 0.3
+        backgroundColor = Theme.colors.primary
+        setTitleColor(Theme.colors.viewControllerBackground, for: .normal)
+    }
+    
 	private func updatePrimaryStyleColors() {
 		
 		guard style == .primary else { return }

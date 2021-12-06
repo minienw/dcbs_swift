@@ -7,8 +7,6 @@
 "verifier.result.denied.region.title" = "Dit is een internationale QR-code";
 "verifier.result.denied.region.message" = "Dit is geen geldig bewijs in Nederland. Vraag de bezoeker een Nederlandse QR-code te laten zien.";
 "verifier.result.identity.label" = "Kenmerk %@ is %@";
-"verifier.instructions.access.image" = "Persoon houdt een telefoon vast met een groen scherm en een zwart vinkje.";
-"verifier.instructions.denied.image" = "Persoon houdt een telefoon vast met een rood scherm en een zwart kruis.";
 "general.government.logo" = "Logo Rijksoverheid";
 
 /* Koptekst in de over de app pagina */
@@ -290,3 +288,16 @@ toegepast";
 - Een PCR/NAAT test van maximaal %i uur oud
 of
 - Een PCR/NAAT test van maximaal %i uur oud & een Antigeen test van maximaal %i uur oud";
+
+"country_not_used" = "N.V.T.";
+
+"accessibility_" = "";
+"accessibility_choose_departure_button" = "Vertrekland kiezen";
+"accessibility_choose_destination_button" = "Bestemmingsland kiezen";
+"accessibility_back" = "Terug";
+"accessibility_result_timer_x_seconds" = "Nog %i seconden";
+"accessibility_result_timer_finished" = "Resultaat timer afgelopen";
+"accessibility_search" = "Zoek";
+
+"verifier.instructions.access.image" = "QR Code icoon met groen vinkje";
+"verifier.instructions.denied.image" = "QR Code icoon met wit kruis in rood bolletje";

@@ -97,10 +97,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	private func styleUI() {
 		
 		// Custom navigation bar appearance
-		UINavigationBar.appearance().titleTextAttributes = [
-			NSAttributedString.Key.foregroundColor: Theme.colors.dark,
-			NSAttributedString.Key.font: Theme.fonts.bodyMontserratFixed
-		]
+        let titleTextAttributed = [
+            NSAttributedString.Key.foregroundColor: Theme.colors.dark,
+            NSAttributedString.Key.font: Theme.fonts.bodyMontserratFixed
+        ]
+		UINavigationBar.appearance().titleTextAttributes = titleTextAttributed
 		UINavigationBar.appearance().tintColor = Theme.colors.dark
 		UINavigationBar.appearance().barTintColor = Theme.colors.viewControllerBackground
 		
@@ -109,6 +110,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		UINavigationBar.appearance().shadowImage = UIImage()
 		UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
 		UINavigationBar.appearance().backgroundColor = Theme.colors.viewControllerBackground
+        
+        if #available(iOS 13.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = Theme.colors.viewControllerBackground
+            appearance.titleTextAttributes = titleTextAttributed
+            UINavigationBar.appearance().standardAppearance = appearance
+            UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        }
+        
 	}
     
 }

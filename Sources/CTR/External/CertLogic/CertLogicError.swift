@@ -14,6 +14,7 @@ enum CertLogicError: Error {
   case unexpected(code: Int)
 }
 
+// swiftlint:disable switch_case_alignment
 extension CertLogicError: CustomStringConvertible {
     var description: String {
         switch self {

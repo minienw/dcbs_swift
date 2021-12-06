@@ -17,12 +17,14 @@ class CountryColorPickerViewController: BaseViewController {
     @IBOutlet var mainContainer: UIView!
     @IBOutlet var countriesButton: UIButton!
     @IBOutlet var coloursButton: UIButton!
+    @IBOutlet var bottomConstraint: NSLayoutConstraint!
     
     var countryPicker: ADCountryPicker?
     var colourPicker: ColorPickerViewController?
     var coordinator: OpenUrlProtocol?
     weak var delegate: CountryColorPickerDelegate?
     let remoteConfigManager = Services.remoteConfigManager
+    var keyboardManager: KeyboardManager?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +37,7 @@ class CountryColorPickerViewController: BaseViewController {
         view.layoutSubviews()
         addCountriesPicker()
         addColourPicker()
+        keyboardManager = KeyboardManager(updateConstraints: [bottomConstraint], onView: view)
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -46,7 +46,10 @@ final class OnboardingConsentViewController: BaseViewController {
 			self?.setupLink()
 		}
 
-		viewModel.$isContinueButtonEnabled.binding = { [weak self] in self?.sceneView.primaryButton.isEnabled = $0 }
+		viewModel.$isContinueButtonEnabled.binding = { [weak self] in
+            self?.sceneView.primaryButton.isEnabled = $0
+            self?.sceneView.primaryButton.isAccessibilityElement = $0
+        }
 		sceneView.primaryButton.setTitle(.next, for: .normal)
 		sceneView.primaryButton.touchUpInside(self, action: #selector(primaryButtonTapped))
 

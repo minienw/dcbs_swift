@@ -74,7 +74,7 @@ final class OnboardingConsentView: BaseView {
 	/// the update button
 	let primaryButton: Button = {
 
-		let button = Button(title: "Button 1", style: .primary)
+		let button = Button(title: "Button 1", style: .primaryWithFade)
 		button.rounded = true
 		return button
 	}()

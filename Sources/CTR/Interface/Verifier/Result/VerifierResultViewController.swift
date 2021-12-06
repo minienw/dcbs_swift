@@ -18,6 +18,12 @@ class VerifierResultViewController: BaseViewController, Logging {
     let userSettings = UserSettings()
     
     let remoteConfig = Services.remoteConfigManager
+    
+    let businessRulesManager = Services.businessRulesManager
+    
+    var timeLeftLabel: UILabel?
+    var pauseTimerLabel: UILabel?
+    var pauseTimerButton: UIButton?
 
 	init(viewModel: VerifierResultViewModel) {
 
@@ -54,6 +60,10 @@ class VerifierResultViewController: BaseViewController, Logging {
         
         viewModel.$autoCloseTicks.binding = { [weak self] in
             self?.setNavigationTimer(time: $0, isPaused: false)
+            let timeLeft = self?.timeLeft(time: $0) ?? 0
+            if timeLeft % 10 == 0 && timeLeft != 0 {
+                UIAccessibility.post(notification: .announcement, argument: "accessibility_result_timer_x_seconds".localized(params: timeLeft))
+            }
         }
 
 		viewModel.$hideForCapture.binding = { [weak self] in
@@ -80,6 +90,7 @@ class VerifierResultViewController: BaseViewController, Logging {
         }
         
 		addCloseButton(action: #selector(closeButtonTapped))
+        createTimer()
         setNavigationTimer(time: 0, isPaused: false)
 	}
 
@@ -98,7 +109,7 @@ class VerifierResultViewController: BaseViewController, Logging {
         if let dcc = viewModel.cryptoResults.attributes {
             if dcc.isVerified {
                 let failingItems = dcc.processBusinessRules(from: from, to: to, businessRuleManager: Services.businessRulesManager)
-                self.sceneView.setupForVerified(dcc: dcc, isSpecimen: false, failingItems: failingItems, shouldOverrideToGreen: dcc.shouldShowGreenOverride(from: from, to: to))
+                self.sceneView.setupForVerified(dcc: dcc, isSpecimen: false, failingItems: failingItems, shouldOverrideToGreen: dcc.shouldShowGreenOverride(from: from, to: to), brManager: businessRulesManager)
             } else {
                 self.sceneView.setupForDenied()
             }
@@ -108,35 +119,57 @@ class VerifierResultViewController: BaseViewController, Logging {
         
     }
     
-    func setNavigationTimer(time: Int, isPaused: Bool) {
+    func createTimer() {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 95, height: 28))
+        view.isAccessibilityElement = false
         
         let circle = CustomView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
         circle.cornerRadius = 14
         circle.backgroundColor = Theme.colors.primary
-        let timeLabel = UILabel(frame: circle.frame)
-        timeLabel.text = "\(VerifierResultViewModel.timeUntilAutoClose - time)"
-        timeLabel.font = Theme.fonts.subheadBoldMontserrat
-        timeLabel.textColor = .white
-        timeLabel.textAlignment = .center
-        timeLabel.adjustsFontSizeToFitWidth = true
-        timeLabel.minimumScaleFactor = 0.5
-        circle.addSubview(timeLabel)
+        circle.isAccessibilityElement = false
+        
+        timeLeftLabel = UILabel(frame: circle.frame)
+        timeLeftLabel?.accessibilityTraits = .updatesFrequently
+        timeLeftLabel?.font = Theme.fonts.subheadBoldMontserrat
+        timeLeftLabel?.textColor = .white
+        timeLeftLabel?.textAlignment = .center
+        timeLeftLabel?.adjustsFontSizeToFitWidth = true
+        timeLeftLabel?.minimumScaleFactor = 0.5
+        if let label = timeLeftLabel {
+            circle.addSubview(label)
+        }
         view.addSubview(circle)
         
-        let playPauseLabel = UILabel(frame: CGRect(x: 35, y: 0, width: 60, height: 28))
-        playPauseLabel.text = "\(isPaused ? "resume" : "pause")".localized()
-        playPauseLabel.textColor = Theme.colors.primary
-        playPauseLabel.font = Theme.fonts.footnoteMontserrat
-        playPauseLabel.minimumScaleFactor = 0.5
-        playPauseLabel.adjustsFontSizeToFitWidth = true
-        view.addSubview(playPauseLabel)
+        pauseTimerLabel = UILabel(frame: CGRect(x: 35, y: 0, width: 60, height: 28))
+        pauseTimerLabel?.textColor = Theme.colors.primary
+        pauseTimerLabel?.font = Theme.fonts.footnoteMontserrat
+        pauseTimerLabel?.minimumScaleFactor = 0.5
+        pauseTimerLabel?.adjustsFontSizeToFitWidth = true
+        pauseTimerLabel?.accessibilityTraits = .button
+        if let label = pauseTimerLabel {
+            view.addSubview(label)
+        }
         
         let button = UIButton(frame: view.frame)
         button.addTarget(self, action: #selector(didTapPauseTimer), for: .touchUpInside)
+        button.isAccessibilityElement = false
         view.addSubview(button)
+        pauseTimerButton = button
         
-        navigationItem.setRightBarButton(UIBarButtonItem(customView: view), animated: false)
+        let item = UIBarButtonItem(customView: view)
+        item.isAccessibilityElement = false
+        
+        navigationItem.setRightBarButton(item, animated: false)
+    }
+    
+    func timeLeft(time: Int) -> Int {
+        return VerifierResultViewModel.timeUntilAutoClose - time
+    }
+    
+    func setNavigationTimer(time: Int, isPaused: Bool) {
+        timeLeftLabel?.text = "\(timeLeft(time: time))"
+        pauseTimerLabel?.text = "\(isPaused ? "resume" : "pause")".localized()
+        pauseTimerLabel?.accessibilityLabel = pauseTimerLabel?.text
     }
     
     @objc func didTapPauseTimer() {
@@ -172,6 +205,13 @@ class VerifierResultViewController: BaseViewController, Logging {
     }
 
     func openCountryColorCodePicker() {
+        /// departure not available when destination is not nl
+        let destinationCountry = ADCountryPicker.countryForCode(code: userSettings.lastDestination)
+        let isDestinationNLRules = destinationCountry?.getPassType() == .nlRules
+        if !isDestinationNLRules {
+            return
+        }
+        
         self.currentSelectingCountryMode = .departure
         let picker: CountryColorPickerViewController = getVC(in: "CountryColorPicker")
         picker.delegate = self

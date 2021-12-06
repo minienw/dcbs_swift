@@ -15,12 +15,12 @@ class ResultRecoveryView: TMCBaseView {
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet var daysOldLabel: UILabel!
     
-    func setup(recovery: DCCRecovery, dateFormat: DateFormatter) {
+    func setup(recovery: DCCRecovery, dateFormat: DateFormatter, brManager: BusinessRulesManager) {
         
         dateLabel.font = Theme.fonts.footnoteMontserrat
         daysOldLabel.font = Theme.fonts.subheadBoldMontserrat
         label.font = Theme.fonts.subheadBoldMontserrat
-        label.text = "\(recovery.getTargetedDisease?.displayName ?? recovery.targetedDisease) \("item_recovery_header".localized())"
+        label.text = "\(recovery.getTargetedDisease(manager: brManager) ?? recovery.targetedDisease) \("item_recovery_header".localized())"
         
         if let date = recovery.getDateOfFirstPositiveTest() {
             dateLabel.text = dateFormat.string(from: date)

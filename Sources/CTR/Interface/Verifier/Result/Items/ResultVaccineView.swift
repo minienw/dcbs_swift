@@ -16,13 +16,13 @@ class ResultVaccineView: TMCBaseView {
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet var daysOldLabel: UILabel!
     
-    func setup(vaccine: DCCVaccine, dateFormat: DateFormatter) {
+    func setup(vaccine: DCCVaccine, dateFormat: DateFormatter, brManager: BusinessRulesManager) {
         doseLabel.font = Theme.fonts.footnoteMontserrat
         productLabel.font = Theme.fonts.subheadBoldMontserrat
         dateLabel.font = Theme.fonts.footnoteMontserrat
         daysOldLabel.font = Theme.fonts.subheadBoldMontserrat
 
-        doseLabel.text = "vaccin_header".localized(params: vaccine.getVaccineProduct?.displayName ?? vaccine.vaccineMedicalProduct, vaccine.doseNumber, vaccine.totalSeriesOfDoses)
+        doseLabel.text = "vaccin_header".localized(params: vaccine.getVaccineProduct(manager: brManager) ?? vaccine.vaccineMedicalProduct, vaccine.doseNumber, vaccine.totalSeriesOfDoses)
         productLabel.text = vaccine.isFullyVaccinated() ? "vaccin_complete".localized() : "vaccin_incomplete".localized()
         productLabel.textColor = vaccine.isFullyVaccinated() ? Theme.colors.access : Theme.colors.denied
         if let date = vaccine.getDateOfVaccination() {

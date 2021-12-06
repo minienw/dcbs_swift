@@ -98,6 +98,13 @@ class VerifierScanViewController: ScanViewController {
     }
     
     func openCountryColorCodePicker() {
+        /// departure not available when destination is not nl
+        let destinationCountry = ADCountryPicker.countryForCode(code: userSettings.lastDestination)
+        let isDestinationNLRules = destinationCountry?.getPassType() == .nlRules
+        if !isDestinationNLRules {
+            return
+        }
+        
         self.currentSelectingCountryMode = .departure
         let picker: CountryColorPickerViewController = getVC(in: "CountryColorPicker")
         picker.delegate = self

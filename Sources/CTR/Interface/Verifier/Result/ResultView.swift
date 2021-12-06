@@ -63,16 +63,18 @@ class ResultView: TMCBaseView {
         }
     }
     
-    func setupForVerified(dcc: DCCQR, isSpecimen: Bool, failingItems: [DCCFailableItem], shouldOverrideToGreen: Bool) {
+    func setupForVerified(dcc: DCCQR, isSpecimen: Bool, failingItems: [DCCFailableItem], shouldOverrideToGreen: Bool, brManager: BusinessRulesManager) {
         deniedView.isHidden = true
         accessView.isHidden = false
         
         let showAsFailed = !failingItems.isEmpty && !shouldOverrideToGreen
         resetViews()
-        for item in failingItems {
-            let failureView = BusinessRuleFailureView()
-            failureView.setup(failure: item, isGreenOverride: shouldOverrideToGreen)
-            businessRuleFailures.addArrangedSubview(failureView)
+        if !shouldOverrideToGreen {
+            for item in failingItems {
+                let failureView = BusinessRuleFailureView()
+                failureView.setup(failure: item, isGreenOverride: shouldOverrideToGreen)
+                businessRuleFailures.addArrangedSubview(failureView)
+            }
         }
         let isUndecided = failingItems.contains(where: { it in
             it.makesQRUndecided()
@@ -96,20 +98,20 @@ class ResultView: TMCBaseView {
         } else {
             dateOfBirthLabel.text = "item_date_of_birth_x".localized(params: dcc.dcc?.dateOfBirth ?? "item_unknown".localized())
         }
-        setupVaccineViews(dcc: dcc)
-        setupTests(dcc: dcc)
-        setupRecoveries(dcc: dcc)
+        setupVaccineViews(dcc: dcc, brManager: brManager)
+        setupTests(dcc: dcc, brManager: brManager)
+        setupRecoveries(dcc: dcc, brManager: brManager)
 	}
     
     func updateCountryPicker(settings: UserSettings) {
         getSelectedCountryView().setup(departure: settings.lastDeparture, destination: settings.lastDestination, isOnLightBackground: accessBackgroundView.backgroundColor == Theme.colors.tertiary)
     }
     
-    func setupRecoveries(dcc: DCCQR) {
+    func setupRecoveries(dcc: DCCQR, brManager: BusinessRulesManager) {
         guard let recoveries = dcc.dcc?.recoveries else { return }
         for recovery in recoveries {
             let header = ResultRecoveryView()
-            header.setup(recovery: recovery, dateFormat: dateFormat)
+            header.setup(recovery: recovery, dateFormat: dateFormat, brManager: brManager)
             itemsStack.addArrangedSubview(header)
             
             if let date = recovery.getDateOfFirstPositiveTest() {
@@ -133,19 +135,19 @@ class ResultView: TMCBaseView {
         }
     }
     
-    func setupTests(dcc: DCCQR) {
+    func setupTests(dcc: DCCQR, brManager: BusinessRulesManager) {
         guard let tests = dcc.dcc?.tests else { return }
         for test in tests {
             let header = ResultTestView()
             header.setup(test: test, dateFormat: dateFormat)
             itemsStack.addArrangedSubview(header)
 
-            itemsStack.addArrangedSubview(getItem(key: "item_test_target".localized(), value: test.getTargetedDisease?.displayName ?? test.targetedDisease))
+            itemsStack.addArrangedSubview(getItem(key: "item_test_target".localized(), value: test.getTargetedDisease(manager: brManager) ?? test.targetedDisease))
             
-            itemsStack.addArrangedSubview(getItem(key: "item_test_type".localized(), value: test.getTestType?.displayName ?? test.typeOfTest))
+            itemsStack.addArrangedSubview(getItem(key: "item_test_type".localized(), value: test.getTestType(manager: brManager) ?? test.typeOfTest))
             
             itemsStack.addArrangedSubview(getItem(key: "item_test_name".localized(), value: test.NAATestName ?? ""))
-            itemsStack.addArrangedSubview(getItem(key: "item_test_manufacturer".localized(), value: test.getTestManufacturer?.displayName ?? test.RATTestNameAndManufac ?? ""))
+            itemsStack.addArrangedSubview(getItem(key: "item_test_manufacturer".localized(), value: test.getTestManufacturer(manager: Services.businessRulesManager) ?? test.RATTestNameAndManufac ?? ""))
 
             itemsStack.addArrangedSubview(getItem(key: "item_test_location".localized(), value: test.testingCentre ?? ""))
             itemsStack.addArrangedSubview(getItem(key: "item_test_country".localized(), value: test.countryOfTest))
@@ -154,20 +156,20 @@ class ResultView: TMCBaseView {
         }
     }
     
-    func setupVaccineViews(dcc: DCCQR) {
+    func setupVaccineViews(dcc: DCCQR, brManager: BusinessRulesManager) {
         if let vaccines = dcc.dcc?.vaccines {
             
             if vaccines.count >= 1 {
-                vaccineView1.setup(vaccine: vaccines[0], dateFormat: dateFormat)
+                vaccineView1.setup(vaccine: vaccines[0], dateFormat: dateFormat, brManager: brManager)
                 vaccineView1.isHidden = false
-                addVaccineMeta(vaccine: vaccines[0], hasHeader: vaccines.count > 1)
+                addVaccineMeta(vaccine: vaccines[0], hasHeader: vaccines.count > 1, brManager: brManager)
             } else {
                 vaccineView1.isHidden = true
             }
             if vaccines.count >= 2 {
-                vaccineView2.setup(vaccine: vaccines[1], dateFormat: dateFormat)
+                vaccineView2.setup(vaccine: vaccines[1], dateFormat: dateFormat, brManager: brManager)
                 vaccineView2.isHidden = false
-                addVaccineMeta(vaccine: vaccines[1], hasHeader: vaccines.count > 1)
+                addVaccineMeta(vaccine: vaccines[1], hasHeader: vaccines.count > 1, brManager: brManager)
             } else {
                 vaccineView2.isHidden = true
             }
@@ -178,19 +180,19 @@ class ResultView: TMCBaseView {
         }
     }
     
-    func addVaccineMeta(vaccine: DCCVaccine, hasHeader: Bool) {
+    func addVaccineMeta(vaccine: DCCVaccine, hasHeader: Bool, brManager: BusinessRulesManager) {
         var targetString = ""
         if hasHeader {
             itemsStack.addArrangedSubview(getItemHeader(title: "item_dose_x".localized(params: vaccine.doseNumber)))
         }
-        targetString += "\(vaccine.getTargetedDisease?.displayName ?? vaccine.targetedDisease)"
+        targetString += "\(vaccine.getTargetedDisease(manager: brManager) ?? vaccine.targetedDisease)"
         if targetString != "" {
             targetString += " | "
         }
-        targetString += vaccine.getVaccine?.displayName ?? vaccine.vaccine
+        targetString += vaccine.getVaccine(manager: brManager) ?? vaccine.vaccine
         itemsStack.addArrangedSubview(getItem(key: "item_disease".localized(), value: targetString))
         itemsStack.addArrangedSubview(getItem(key: "item_country".localized(), value: vaccine.countryOfVaccination))
-        itemsStack.addArrangedSubview(getItem(key: "item_test_manufacturer".localized(), value: vaccine.getMarketingHolder?.displayName ?? vaccine.marketingAuthorizationHolder))
+        itemsStack.addArrangedSubview(getItem(key: "item_test_manufacturer".localized(), value: vaccine.getMarketingHolder(manager: brManager) ?? vaccine.marketingAuthorizationHolder))
         itemsStack.addArrangedSubview(getItem(key: "item_certificate_issuer".localized(), value: vaccine.certificateIssuer))
         itemsStack.addArrangedSubview(getItem(key: "item_identifier".localized(), value: vaccine.certificateIdentifier))
     }

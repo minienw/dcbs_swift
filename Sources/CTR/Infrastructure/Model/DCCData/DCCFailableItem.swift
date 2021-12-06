@@ -17,7 +17,7 @@ enum DCCFailableItem {
     case redNotAllowed
     case needFullVaccination
     case recoveryNotValid
-    case requireSecondTest(hours: Int, type: DCCTestType)
+    case requireSecondTest(hours: Int)
     
     case invalidTestResult
     case invalidTestType
@@ -60,7 +60,7 @@ enum DCCFailableItem {
                 return "rule_full_vaccination_required".localized()
             case .recoveryNotValid:
                 return "rule_recovery_not_valid".localized()
-            case .requireSecondTest(hours: let hours, _):
+            case .requireSecondTest(hours: let hours):
                 return "rule_require_second_test".localized(params: hours)
             case .invalidTestResult:
                 return "rule_invalid_test_result".localized()
@@ -109,6 +109,7 @@ enum DCCFailableItem {
         }
     }
     
+    // swiftlint:disable switch_case_alignment
     func makesQRUndecided() -> Bool {
         switch self {
         case .undecidableFrom:
