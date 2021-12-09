@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ResultViewNavigationItem" customModule="CTR" customModuleProvider="target">
+            <connections>
+                <outlet property="actionButton" destination="q8E-4h-t8x" id="QSh-Am-Ctm"/>
+                <outlet property="actionLabel" destination="7vN-YO-0Dx" id="aNs-By-eGu"/>
+                <outlet property="timerContainer" destination="iAk-Ib-sNL" id="6KE-Sa-N3w"/>
+                <outlet property="timerLabel" destination="4m6-TA-QKV" id="WZ5-04-vcJ"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="129" height="79"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Verder" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7vN-YO-0Dx">
+                    <rect key="frame" x="66.5" y="0.0" width="42.5" height="79"/>
+                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="13"/>
+                    <color key="textColor" name="DarkColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" horizontalHuggingPriority="999" horizontalCompressionResistancePriority="999" translatesAutoresizingMaskIntoConstraints="NO" id="iAk-Ib-sNL" customClass="CustomView" customModule="CTR" customModuleProvider="target">
+                    <rect key="frame" x="29.5" y="25.5" width="30" height="28"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="50" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4m6-TA-QKV">
+                            <rect key="frame" x="5" y="5" width="20" height="18"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                            <color key="textColor" name="SecondaryColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" name="DarkColor"/>
+                    <constraints>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="30" id="1Z8-Qw-Nok"/>
+                        <constraint firstItem="4m6-TA-QKV" firstAttribute="leading" secondItem="iAk-Ib-sNL" secondAttribute="leading" priority="750" constant="5" id="Kw7-WI-GTx"/>
+                        <constraint firstAttribute="bottom" secondItem="4m6-TA-QKV" secondAttribute="bottom" priority="750" constant="5" id="Mtc-ts-fQW"/>
+                        <constraint firstAttribute="trailing" secondItem="4m6-TA-QKV" secondAttribute="trailing" priority="750" constant="5" id="SSl-ae-Ar8"/>
+                        <constraint firstItem="4m6-TA-QKV" firstAttribute="top" secondItem="iAk-Ib-sNL" secondAttribute="top" priority="750" constant="5" id="VgR-Uw-xoh"/>
+                        <constraint firstItem="4m6-TA-QKV" firstAttribute="centerX" secondItem="iAk-Ib-sNL" secondAttribute="centerX" id="f37-wP-yfX"/>
+                        <constraint firstItem="4m6-TA-QKV" firstAttribute="centerY" secondItem="iAk-Ib-sNL" secondAttribute="centerY" id="fxO-33-f1A"/>
+                    </constraints>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q8E-4h-t8x">
+                    <rect key="frame" x="0.0" y="0.0" width="129" height="79"/>
+                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                    <connections>
+                        <action selector="actionButtonTapped:" destination="-1" eventType="touchUpInside" id="trB-8c-cDx"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="7vN-YO-0Dx" secondAttribute="bottom" id="1bb-xM-KW0"/>
+                <constraint firstAttribute="trailing" secondItem="7vN-YO-0Dx" secondAttribute="trailing" constant="20" id="607-ff-rTR"/>
+                <constraint firstItem="7vN-YO-0Dx" firstAttribute="leading" secondItem="iAk-Ib-sNL" secondAttribute="trailing" constant="7" id="8ed-Th-G40"/>
+                <constraint firstItem="7vN-YO-0Dx" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Lfq-9v-NSi"/>
+                <constraint firstItem="q8E-4h-t8x" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ZIh-N8-l3n"/>
+                <constraint firstAttribute="trailing" secondItem="q8E-4h-t8x" secondAttribute="trailing" id="dgy-Mm-ASy"/>
+                <constraint firstItem="iAk-Ib-sNL" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="jfu-6d-Id3"/>
+                <constraint firstItem="q8E-4h-t8x" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="w6M-Ai-lzY"/>
+                <constraint firstAttribute="bottom" secondItem="q8E-4h-t8x" secondAttribute="bottom" id="wpJ-23-dwX"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="312.31884057971018" y="-191.85267857142856"/>
+        </view>
+    </objects>
+    <resources>
+        <namedColor name="DarkColor">
+            <color red="0.2196078431372549" green="0.2196078431372549" blue="0.21176470588235294" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="SecondaryColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

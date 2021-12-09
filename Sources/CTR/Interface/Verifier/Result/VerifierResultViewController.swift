@@ -21,9 +21,7 @@ class VerifierResultViewController: BaseViewController, Logging {
     
     let businessRulesManager = Services.businessRulesManager
     
-    var timeLeftLabel: UILabel?
-    var pauseTimerLabel: UILabel?
-    var pauseTimerButton: UIButton?
+    var navigationView: ResultViewNavigationItem?
 
 	init(viewModel: VerifierResultViewModel) {
 
@@ -120,46 +118,18 @@ class VerifierResultViewController: BaseViewController, Logging {
     }
     
     func createTimer() {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 95, height: 28))
-        view.isAccessibilityElement = false
-        
-        let circle = CustomView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
-        circle.cornerRadius = 14
-        circle.backgroundColor = Theme.colors.primary
-        circle.isAccessibilityElement = false
-        
-        timeLeftLabel = UILabel(frame: circle.frame)
-        timeLeftLabel?.accessibilityTraits = .updatesFrequently
-        timeLeftLabel?.font = Theme.fonts.subheadBoldMontserrat
-        timeLeftLabel?.textColor = .white
-        timeLeftLabel?.textAlignment = .center
-        timeLeftLabel?.adjustsFontSizeToFitWidth = true
-        timeLeftLabel?.minimumScaleFactor = 0.5
-        if let label = timeLeftLabel {
-            circle.addSubview(label)
+        let navigationView = ResultViewNavigationItem()
+        navigationView.setup { [weak self] in
+            self?.didTapPauseTimer()
         }
-        view.addSubview(circle)
-        
-        pauseTimerLabel = UILabel(frame: CGRect(x: 35, y: 0, width: 60, height: 28))
-        pauseTimerLabel?.textColor = Theme.colors.primary
-        pauseTimerLabel?.font = Theme.fonts.footnoteMontserrat
-        pauseTimerLabel?.minimumScaleFactor = 0.5
-        pauseTimerLabel?.adjustsFontSizeToFitWidth = true
-        pauseTimerLabel?.accessibilityTraits = .button
-        if let label = pauseTimerLabel {
-            view.addSubview(label)
+        navigationView.snp.makeConstraints { make in
+            make.width.equalTo(250)
         }
         
-        let button = UIButton(frame: view.frame)
-        button.addTarget(self, action: #selector(didTapPauseTimer), for: .touchUpInside)
-        button.isAccessibilityElement = false
-        view.addSubview(button)
-        pauseTimerButton = button
-        
-        let item = UIBarButtonItem(customView: view)
+        let item = UIBarButtonItem(customView: navigationView)
         item.isAccessibilityElement = false
-        
         navigationItem.setRightBarButton(item, animated: false)
+        self.navigationView = navigationView
     }
     
     func timeLeft(time: Int) -> Int {
@@ -167,9 +137,7 @@ class VerifierResultViewController: BaseViewController, Logging {
     }
     
     func setNavigationTimer(time: Int, isPaused: Bool) {
-        timeLeftLabel?.text = "\(timeLeft(time: time))"
-        pauseTimerLabel?.text = "\(isPaused ? "resume" : "pause")".localized()
-        pauseTimerLabel?.accessibilityLabel = pauseTimerLabel?.text
+        navigationView?.setTimer(time: timeLeft(time: time), isPaused: isPaused)
     }
     
     @objc func didTapPauseTimer() {

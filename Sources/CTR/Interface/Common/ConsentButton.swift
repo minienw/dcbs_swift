@@ -68,6 +68,7 @@ class ConsentButton: UIButton {
 		titleLabel?.font = Theme.fonts.body
 		titleLabel?.lineBreakMode = .byWordWrapping
 		titleLabel?.numberOfLines = 0
+        titleLabel?.adjustsFontForContentSizeCategory = true
 
 		tintColor = Theme.colors.viewControllerBackground
 		backgroundColor = Theme.colors.tertiary

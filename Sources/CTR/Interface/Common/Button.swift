@@ -59,6 +59,7 @@ class Button: UIButton {
 		// multiline
 		self.titleLabel?.lineBreakMode = .byWordWrapping
 		self.titleLabel?.numberOfLines = 0
+        self.titleLabel?.adjustsFontForContentSizeCategory = true
 
         self.layer.cornerRadius = 5
         self.clipsToBounds = true

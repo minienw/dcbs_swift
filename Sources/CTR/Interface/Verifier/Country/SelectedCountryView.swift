@@ -14,11 +14,15 @@ class SelectedCountryView: TMCBaseView {
     @IBOutlet var departureContainer: CustomView!
     @IBOutlet var destinationContainer: CustomView!
     
+    @IBOutlet var scrollContentView: UIView!
     @IBOutlet var destinationTitleLabel: UILabel!
     @IBOutlet var departureTitleLabel: UILabel!
     @IBOutlet var departureLabel: UILabel!
     @IBOutlet var destiantionLabel: UILabel!
     @IBOutlet var riskLabel: UILabel!
+    @IBOutlet var scrollHeightConstraint: NSLayoutConstraint!
+    
+    var scrollable: Bool = false
     
     var onTappedDeparture: (() -> Void)?
     var onTappedDestination: (() -> Void)?
@@ -31,8 +35,8 @@ class SelectedCountryView: TMCBaseView {
         destinationContainer.accessibilityLabel = "accessibility_choose_destination_button".localized()
     }
     
-    func setup(departure: String, destination: String, isOnLightBackground: Bool) {
-        
+    func setup(departure: String, destination: String, isOnLightBackground: Bool, scrollable: Bool) {
+        self.scrollable = scrollable
         let destinationCountry = ADCountryPicker.countryForCode(code: destination)
         let isDestinationNLRules = destinationCountry?.getPassType() == .nlRules
         
@@ -61,7 +65,7 @@ class SelectedCountryView: TMCBaseView {
         destiantionLabel.text = destination == "" ? "country_unselected".localized() :
             ADCountryPicker.countryForCode(code: destination)?.name() ?? ""
         riskLabel.isHidden = !isDestinationNLRules
-        
+        layoutSubviews()
     }
     
     @objc func departureTapped() {
@@ -70,6 +74,18 @@ class SelectedCountryView: TMCBaseView {
     
     @objc func destinationTapped() {
         onTappedDestination?()
+    }
+    
+    override func layoutSubviews() {
+        scrollContentView.layoutSubviews()
+        updateConstraint()
+        super.layoutSubviews()
+    }
+    
+    func updateConstraint() {
+        if !scrollable {
+            scrollHeightConstraint.constant = scrollContentView.frame.height
+        }
     }
     
 }

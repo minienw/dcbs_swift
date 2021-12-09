@@ -48,7 +48,8 @@ class VerifierStartViewController: BaseViewController {
 		}
 
         view.backgroundColor = Theme.colors.viewControllerBackground
-        navigationItem.setRightBarButton(UIBarButtonItem(image: .about, style: .plain, target: self, action: #selector(aboutTapped)), animated: false)
+        let barItem = UIBarButtonItem(image: .about, style: .plain, target: self, action: #selector(aboutTapped))
+        navigationItem.setRightBarButton(barItem, animated: false)
 
 		sceneView.contentTextView.linkTouched { [weak self] _ in
             self?.viewModel.linkTapped()

@@ -23,63 +23,120 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7P4-kJ-kLO">
-                                <rect key="frame" x="0.0" y="111" width="414" height="785"/>
+                                <rect key="frame" x="0.0" y="203.5" width="414" height="692.5"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="xVI-a1-68N">
-                                <rect key="frame" x="16" y="64" width="382" height="37"/>
+                            <view contentMode="scaleToFill" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hZx-23-Xmw">
+                                <rect key="frame" x="207" y="64" width="187" height="119.5"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9o8-Qd-mWp">
-                                        <rect key="frame" x="0.0" y="0.0" width="191" height="37"/>
-                                        <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="20"/>
-                                        <state key="normal" title="Landen">
-                                            <color key="titleColor" name="PrimaryColor"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="translationKey" value="countries"/>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="countriesButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Xcb-mZ-nO9"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" alpha="0.29999999999999999" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aqu-qb-WoJ">
-                                        <rect key="frame" x="191" y="0.0" width="191" height="37"/>
-                                        <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="20"/>
-                                        <state key="normal" title="Kleur codes">
-                                            <color key="titleColor" name="PrimaryColor"/>
-                                        </state>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="w5l-Hn-bQB">
+                                        <rect key="frame" x="0.0" y="0.0" width="187" height="119.5"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <bool key="isElement" value="NO"/>
+                                        </accessibility>
+                                        <string key="text">Kleur codes
+d
+d
+ffff
+f</string>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                        <color key="textColor" name="PrimaryColor"/>
+                                        <nil key="highlightedColor"/>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="string" keyPath="translationKey" value="colour_codes"/>
                                         </userDefinedRuntimeAttributes>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aqu-qb-WoJ">
+                                        <rect key="frame" x="0.0" y="0.0" width="187" height="119.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="20"/>
+                                        <state key="normal">
+                                            <color key="titleColor" name="PrimaryColor"/>
+                                        </state>
                                         <connections>
                                             <action selector="coloursButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="8v4-ev-DII"/>
                                         </connections>
                                     </button>
                                 </subviews>
-                            </stackView>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="w5l-Hn-bQB" firstAttribute="leading" secondItem="hZx-23-Xmw" secondAttribute="leading" id="6h7-CR-VAc"/>
+                                    <constraint firstAttribute="bottom" secondItem="w5l-Hn-bQB" secondAttribute="bottom" id="6vQ-Vp-A5e"/>
+                                    <constraint firstItem="aqu-qb-WoJ" firstAttribute="top" secondItem="hZx-23-Xmw" secondAttribute="top" id="7VM-0f-GNb"/>
+                                    <constraint firstItem="w5l-Hn-bQB" firstAttribute="top" secondItem="hZx-23-Xmw" secondAttribute="top" id="PO7-pq-iLl"/>
+                                    <constraint firstAttribute="bottom" secondItem="aqu-qb-WoJ" secondAttribute="bottom" id="Zyo-C1-bGR"/>
+                                    <constraint firstItem="aqu-qb-WoJ" firstAttribute="leading" secondItem="hZx-23-Xmw" secondAttribute="leading" id="fjo-vX-TpH"/>
+                                    <constraint firstAttribute="trailing" secondItem="aqu-qb-WoJ" secondAttribute="trailing" id="n9x-dx-0mK"/>
+                                    <constraint firstAttribute="trailing" secondItem="w5l-Hn-bQB" secondAttribute="trailing" id="nkr-zl-xg2"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RdD-EI-8Qn">
+                                <rect key="frame" x="20" y="64" width="182" height="119.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Landen" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hgM-E2-HIX">
+                                        <rect key="frame" x="0.0" y="0.0" width="182" height="119.5"/>
+                                        <accessibility key="accessibilityConfiguration">
+                                            <bool key="isElement" value="NO"/>
+                                        </accessibility>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                                        <color key="textColor" name="PrimaryColor"/>
+                                        <nil key="highlightedColor"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="translationKey" value="countries"/>
+                                        </userDefinedRuntimeAttributes>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9o8-Qd-mWp">
+                                        <rect key="frame" x="0.0" y="0.0" width="182" height="119.5"/>
+                                        <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="20"/>
+                                        <state key="normal">
+                                            <color key="titleColor" name="PrimaryColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="countriesButtonTapped:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Xcb-mZ-nO9"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="9o8-Qd-mWp" secondAttribute="trailing" id="3N8-Ns-Uca"/>
+                                    <constraint firstAttribute="trailing" secondItem="hgM-E2-HIX" secondAttribute="trailing" id="VvR-iO-Jso"/>
+                                    <constraint firstAttribute="bottom" secondItem="9o8-Qd-mWp" secondAttribute="bottom" id="WJz-38-zHo"/>
+                                    <constraint firstItem="9o8-Qd-mWp" firstAttribute="leading" secondItem="RdD-EI-8Qn" secondAttribute="leading" id="XfR-xv-KCm"/>
+                                    <constraint firstItem="hgM-E2-HIX" firstAttribute="top" secondItem="RdD-EI-8Qn" secondAttribute="top" id="hE8-1U-W7e"/>
+                                    <constraint firstAttribute="bottom" secondItem="hgM-E2-HIX" secondAttribute="bottom" id="jho-6X-xwh"/>
+                                    <constraint firstItem="9o8-Qd-mWp" firstAttribute="top" secondItem="RdD-EI-8Qn" secondAttribute="top" id="jnq-iN-ZCb"/>
+                                    <constraint firstItem="hgM-E2-HIX" firstAttribute="leading" secondItem="RdD-EI-8Qn" secondAttribute="leading" id="mgi-B7-9il"/>
+                                    <constraint firstItem="9o8-Qd-mWp" firstAttribute="centerY" secondItem="RdD-EI-8Qn" secondAttribute="centerY" id="zfK-EP-8xE"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" name="ViewControllerBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="hZx-23-Xmw" secondAttribute="trailing" constant="20" id="0b8-uG-3Kf"/>
                             <constraint firstItem="7P4-kJ-kLO" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" id="1u4-hM-RzM"/>
-                            <constraint firstItem="7P4-kJ-kLO" firstAttribute="top" secondItem="xVI-a1-68N" secondAttribute="bottom" constant="10" id="2NE-bO-HZE"/>
-                            <constraint firstItem="xVI-a1-68N" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="20" id="NFm-O2-Bpe"/>
+                            <constraint firstItem="7P4-kJ-kLO" firstAttribute="top" secondItem="hZx-23-Xmw" secondAttribute="bottom" constant="20" id="F24-9G-6nS"/>
+                            <constraint firstItem="RdD-EI-8Qn" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="W8E-FL-Kbi"/>
+                            <constraint firstItem="RdD-EI-8Qn" firstAttribute="trailing" secondItem="vDu-zF-Fre" secondAttribute="centerX" constant="-5" id="d7V-nD-XZL"/>
                             <constraint firstAttribute="bottom" secondItem="7P4-kJ-kLO" secondAttribute="bottom" id="f4e-7w-dNU"/>
+                            <constraint firstItem="RdD-EI-8Qn" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="20" id="gT7-Ud-qRx"/>
                             <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="7P4-kJ-kLO" secondAttribute="trailing" id="ijo-aO-Hzz"/>
-                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="xVI-a1-68N" secondAttribute="trailing" constant="16" id="k5Y-0Y-VSO"/>
-                            <constraint firstItem="xVI-a1-68N" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="16" id="kS2-vk-bkB"/>
+                            <constraint firstItem="RdD-EI-8Qn" firstAttribute="height" secondItem="hZx-23-Xmw" secondAttribute="height" id="lf4-oh-FLc"/>
+                            <constraint firstItem="hZx-23-Xmw" firstAttribute="top" secondItem="RdD-EI-8Qn" secondAttribute="top" id="nGv-AD-5sF"/>
+                            <constraint firstItem="hZx-23-Xmw" firstAttribute="leading" secondItem="RdD-EI-8Qn" secondAttribute="trailing" constant="5" id="pZL-UT-hni"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="bottomConstraint" destination="f4e-7w-dNU" id="b0C-fq-SDV"/>
                         <outlet property="coloursButton" destination="aqu-qb-WoJ" id="ya5-i0-FIh"/>
+                        <outlet property="coloursLabel" destination="w5l-Hn-bQB" id="Td8-4p-40w"/>
                         <outlet property="countriesButton" destination="9o8-Qd-mWp" id="iR4-Xk-hsT"/>
+                        <outlet property="countriesLabel" destination="hgM-E2-HIX" id="JBD-6g-0Ol"/>
                         <outlet property="mainContainer" destination="7P4-kJ-kLO" id="Hp3-tk-u3D"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="81" y="60"/>
+            <point key="canvasLocation" x="79.710144927536234" y="59.598214285714285"/>
         </scene>
     </scenes>
     <resources>

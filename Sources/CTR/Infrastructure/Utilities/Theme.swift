@@ -13,51 +13,51 @@ class Fonts {
     // Table with point in sizes can be found on the link.
 
     var largeTitle: UIFont {
-        font(textStyle: .largeTitle, isBold: true) // Size 34 points
+        font(textStyle: .largeTitle, textSize: 34, isBold: true) // Size 34 points
     }
 
     var title1: UIFont {
-        font(textStyle: .title1, isBold: true) // Size 28 points
+        font(textStyle: .title1, textSize: 28, isBold: true) // Size 28 points
     }
 
 	var title1Montserrat: UIFont {
-		font(textStyle: .title1, isBold: true, customFont: "Montserrat-Bold") // Size 28 points
+		font(textStyle: .title1, textSize: 28, isBold: true, customFont: "Montserrat-Bold") // Size 28 points
 	}
 
     var title2: UIFont {
-        font(textStyle: .title2, isBold: true) // Size 22 points
+        font(textStyle: .title2, textSize: 22, isBold: true) // Size 22 points
     }
 
     var title3: UIFont {
-        font(textStyle: .title3, isBold: true) // Size 20 points
+        font(textStyle: .title3, textSize: 20, isBold: true) // Size 20 points
     }
 
 	var title3Montserrat: UIFont {
-		font(textStyle: .title3, isBold: true, customFont: "Montserrat-Bold") // Size 20 points
+		font(textStyle: .title3, textSize: 20, isBold: true, customFont: "Montserrat-Bold") // Size 20 points
 	}
 
 	var title3Medium: UIFont {
-		font(textStyle: .title3, isMedium: true) // Size 20 points
+		font(textStyle: .title3, textSize: 20, isMedium: true) // Size 20 points
 	}
 
     var headline: UIFont {
-        font(textStyle: .headline) // Size 17 points
+        font(textStyle: .headline, textSize: 17) // Size 17 points
     }
 
 	var headlineBold: UIFont {
-		font(textStyle: .headline, isBold: true) // Size 17 points
+		font(textStyle: .headline, textSize: 17, isBold: true) // Size 17 points
 	}
 
     var body: UIFont {
-        font(textStyle: .body) // Size 17 points
+        font(textStyle: .body, textSize: 17) // Size 17 points
     }
 
 	var bodyMontserrat: UIFont {
-		font(textStyle: .body, customFont: "Montserrat-Bold") // Size 17 points
+		font(textStyle: .body, textSize: 17, customFont: "Montserrat-Bold") // Size 17 points
 	}
     
     var bodyMontserratSemiBold: UIFont {
-        font(textStyle: .body, customFont: "Montserrat-SemiBold") // Size 17 points
+        font(textStyle: .body, textSize: 17, customFont: "Montserrat-SemiBold") // Size 17 points
     }
 
 	var bodyMontserratFixed: UIFont {
@@ -69,7 +69,7 @@ class Fonts {
 	}
 
     var bodyBold: UIFont {
-        font(textStyle: .body, isBold: true) // Size 17 points
+        font(textStyle: .body, textSize: 17, isBold: true) // Size 17 points
     }
 
 	var bodyBoldFixed: UIFont {
@@ -77,81 +77,88 @@ class Fonts {
 	}
 
 	var bodySemiBold: UIFont {
-		font(textStyle: .body, isSemiBold: true) // Size 17 points
+		font(textStyle: .body, textSize: 17, isSemiBold: true) // Size 17 points
 	}
 
 	var bodyMedium: UIFont {
-		font(textStyle: .body, isMedium: true) // Size 17 points
+		font(textStyle: .body, textSize: 17, isMedium: true) // Size 17 points
 	}
 
     var callout: UIFont {
-        font(textStyle: .callout) // Size 16 points
+        font(textStyle: .callout, textSize: 16) // Size 16 points
     }
 
 	var calloutSemiBold: UIFont {
-		font(textStyle: .callout, isSemiBold: true) // Size 16 points
+		font(textStyle: .callout, textSize: 16, isSemiBold: true) // Size 16 points
 	}
+    
+    var calloutBold: UIFont {
+        font(textStyle: .callout, textSize: 16, customFont: "Montserrat-Bold") // Size 16 points
+    }
 
     var subhead: UIFont {
-        font(textStyle: .subheadline) // Size 15 points
+        font(textStyle: .subheadline, textSize: 15) // Size 15 points
     }
 
 	var subheadMontserrat: UIFont {
-		font(textStyle: .subheadline, customFont: "Montserrat-SemiBold") // Size 15 points
+		font(textStyle: .subheadline, textSize: 15, customFont: "Montserrat-SemiBold") // Size 15 points
 	}
 
     var subheadBold: UIFont {
-        font(textStyle: .subheadline, isBold: true) // Size 15 points
+        font(textStyle: .subheadline, textSize: 15, isBold: true) // Size 15 points
     }
     
     var subheadBoldMontserrat: UIFont {
-        font(textStyle: .subheadline, customFont: "Montserrat-Bold") // Size 15 points
+        font(textStyle: .subheadline, textSize: 15, customFont: "Montserrat-Bold") // Size 15 points
     }
 
 	var subheadMedium: UIFont {
-		font(textStyle: .subheadline, isMedium: true) // Size 15 points
+		font(textStyle: .subheadline, textSize: 15, isMedium: true) // Size 15 points
 	}
 
     var footnote: UIFont {
-        font(textStyle: .footnote) // Size 13 points
+        font(textStyle: .footnote, textSize: 13) // Size 13 points
     }
 
 	var footnoteMontserrat: UIFont {
-		font(textStyle: .footnote, customFont: "Montserrat-SemiBold") // Size 13 points
+		font(textStyle: .footnote, textSize: 13, customFont: "Montserrat-SemiBold") // Size 13 points
 	}
     
     var footnoteMontserratBold: UIFont {
-        font(textStyle: .footnote, customFont: "Montserrat-Bold") // Size 13 points
+        font(textStyle: .footnote, textSize: 13, customFont: "Montserrat-Bold") // Size 13 points
     }
 
     var caption1: UIFont {
-        font(textStyle: .caption1, isBold: true) // size 12 points
+        font(textStyle: .caption1, textSize: 12, isBold: true) // size 12 points
     }
     
     var caption1Montserrat: UIFont {
-        font(textStyle: .caption1, customFont: "Montserrat-Bold") // size 12 points
+        font(textStyle: .caption1, textSize: 12, customFont: "Montserrat-Bold") // size 12 points
     }
 
 	var caption1SemiBold: UIFont {
-		font(textStyle: .caption1, isSemiBold: true) // size 12 points
+        font(textStyle: .caption1, textSize: 12, isSemiBold: true) // size 12 points
 	}
+    
+    var smallCaptionSemibold: UIFont {
+        font(textStyle: .caption1, textSize: 11, customFont: "Montserrat-SemiBold") // size 12 points
+    }
 
     // MARK: - Private
 
 	private func font(
-		textStyle: UIFont.TextStyle,
+        textStyle: UIFont.TextStyle,
+		textSize: CGFloat,
 		isBold: Bool = false,
 		isSemiBold: Bool = false,
 		isMedium: Bool = false,
 		customFont: String? = nil) -> UIFont {
 
-		if let customFontName = customFont {
-			let descriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: textStyle)
-			if let customFont = UIFont(name: customFontName, size: descriptor.pointSize) {
-				return customFont
-			}
-		}
-
+		if let customFontName = customFont, let font = UIFont(name: customFontName, size: textSize) {
+			return UIFontMetrics(forTextStyle: .headline).scaledFont(for: font)
+        } else {
+            return UIFont.preferredFont(forTextStyle: textStyle)
+        }
         var fontDescriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: textStyle)
 
         if isBold, let boldFontDescriptor = fontDescriptor.withSymbolicTraits(.traitBold) {

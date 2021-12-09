@@ -94,7 +94,7 @@ class VerifierScanViewController: ScanViewController {
     }
     
     func updateCountryPicker() {
-        sceneView.selectedCountryView.setup(departure: userSettings.lastDeparture, destination: userSettings.lastDestination, isOnLightBackground: false)
+        sceneView.selectedCountryView.setup(departure: userSettings.lastDeparture, destination: userSettings.lastDestination, isOnLightBackground: false, scrollable: true)
     }
     
     func openCountryColorCodePicker() {

@@ -56,6 +56,7 @@ class TextView: UITextView, UITextViewDelegate {
         layer.cornerRadius = 0
         textContainer.lineFragmentPadding = 0
         textContainerInset = .zero
+        adjustsFontForContentSizeCategory = true
         linkTextAttributes = [
             .foregroundColor: Theme.colors.iosBlue,
             .underlineColor: Theme.colors.iosBlue]

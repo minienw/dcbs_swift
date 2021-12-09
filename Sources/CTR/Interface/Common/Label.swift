@@ -17,10 +17,12 @@ class Label: UILabel {
         self.font = font
         self.textColor = textColor
 		self.translatesAutoresizingMaskIntoConstraints = false
+        adjustsFontForContentSizeCategory = true
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        adjustsFontForContentSizeCategory = true
     }
     
     convenience init(largeTitle: String?, textColor: UIColor = .darkText) {
@@ -30,7 +32,6 @@ class Label: UILabel {
 	convenience init(title1: String?, textColor: UIColor = .darkText, montserrat: Bool = false) {
 		if montserrat {
 			self.init(title1, font: Theme.fonts.title1Montserrat, textColor: textColor)
-			adjustsFontForContentSizeCategory = true
 		} else {
 			self.init(title1, font: Theme.fonts.title1, textColor: textColor)
 		}
@@ -43,7 +44,6 @@ class Label: UILabel {
 	convenience init(title3: String?, textColor: UIColor = .darkText, montserrat: Bool = false) {
 		if montserrat {
 			self.init(title3, font: Theme.fonts.title3Montserrat, textColor: textColor)
-			adjustsFontForContentSizeCategory = true
 		} else {
 			self.init(title3, font: Theme.fonts.title3, textColor: textColor)
 		}

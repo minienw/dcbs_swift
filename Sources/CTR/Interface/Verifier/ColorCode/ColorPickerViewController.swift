@@ -26,6 +26,8 @@ class ColorPickerViewController: BaseViewController {
         title = "country_departure_title".localized()
         viewColorCodesLabel.font = Theme.fonts.title3Montserrat
         viewColorCodesButton.titleLabel?.font = Theme.fonts.bodyMontserratSemiBold
+        viewColorCodesButton.titleLabel?.numberOfLines = 0
+        viewColorCodesButton.titleLabel?.adjustsFontForContentSizeCategory = true
         
         update()
     }
@@ -45,7 +47,7 @@ class ColorPickerViewController: BaseViewController {
             }
             colourStack.addArrangedSubview(view)
             view.snp.makeConstraints { it in
-                it.height.equalTo(52)
+                it.height.greaterThanOrEqualTo(52)
             }
         }
     }

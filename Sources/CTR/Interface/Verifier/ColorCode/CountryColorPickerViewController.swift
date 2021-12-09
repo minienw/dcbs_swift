@@ -16,7 +16,9 @@ class CountryColorPickerViewController: BaseViewController {
     
     @IBOutlet var mainContainer: UIView!
     @IBOutlet var countriesButton: UIButton!
+    @IBOutlet var countriesLabel: UILabel!
     @IBOutlet var coloursButton: UIButton!
+    @IBOutlet var coloursLabel: UILabel!
     @IBOutlet var bottomConstraint: NSLayoutConstraint!
     
     var countryPicker: ADCountryPicker?
@@ -29,15 +31,21 @@ class CountryColorPickerViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "country_departure_title".localized()
-        setButtonActive(active: true, button: countriesButton)
-        setButtonActive(active: false, button: coloursButton)
-        countriesButton.titleLabel?.font = Theme.fonts.title3Montserrat
-        coloursButton.titleLabel?.font = Theme.fonts.title3Montserrat
+        coloursButton.accessibilityLabel = "colour_codes".localized()
+        countriesButton.accessibilityLabel = "countries".localized()
+        setButtonActive(active: true, button: countriesLabel)
+        setButtonActive(active: false, button: coloursLabel)
+        setupHeaderButton(label: countriesLabel)
+        setupHeaderButton(label: coloursLabel)
         
         view.layoutSubviews()
         addCountriesPicker()
         addColourPicker()
         keyboardManager = KeyboardManager(updateConstraints: [bottomConstraint], onView: view)
+    }
+    
+    func setupHeaderButton(label: UILabel?) {
+        label?.font = Theme.fonts.title3Montserrat
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -51,8 +59,8 @@ class CountryColorPickerViewController: BaseViewController {
     }
     
     @IBAction func countriesButtonTapped(_ sender: Any) {
-        setButtonActive(active: false, button: coloursButton)
-        setButtonActive(active: true, button: countriesButton)
+        setButtonActive(active: false, button: coloursLabel)
+        setButtonActive(active: true, button: countriesLabel)
         self.countryPicker?.view.isHidden = false
         UIView.animate(withDuration: 0.2) {
             self.countryPicker?.view.alpha = 1
@@ -64,8 +72,8 @@ class CountryColorPickerViewController: BaseViewController {
     }
     
     @IBAction func coloursButtonTapped(_ sender: Any) {
-        setButtonActive(active: true, button: coloursButton)
-        setButtonActive(active: false, button: countriesButton)
+        setButtonActive(active: true, button: coloursLabel)
+        setButtonActive(active: false, button: countriesLabel)
         self.colourPicker?.view.isHidden = false
         UIView.animate(withDuration: 0.2) {
             self.countryPicker?.view.alpha = 0
@@ -76,7 +84,7 @@ class CountryColorPickerViewController: BaseViewController {
         view.endEditing(true)
     }
     
-    func setButtonActive(active: Bool, button: UIButton) {
+    func setButtonActive(active: Bool, button: UIView) {
         button.alpha = active ? 1 : 0.3
     }
     

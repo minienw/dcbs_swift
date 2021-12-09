@@ -8,9 +8,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
-        <array key="Montserrat-Bold.ttf">
-            <string>Montserrat-Bold</string>
-        </array>
         <array key="Montserrat-SemiBold.ttf">
             <string>Montserrat-SemiBold</string>
         </array>
@@ -18,7 +15,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="OutdatedTrustView" customModule="CTR" customModuleProvider="target">
             <connections>
+                <outlet property="descLabel" destination="gms-oS-wI8" id="dWc-9M-4me"/>
                 <outlet property="spinner" destination="Ire-vY-e3R" id="L9q-0e-y9A"/>
+                <outlet property="titleLabel" destination="9M7-0l-oVL" id="3qS-mr-L2R"/>
                 <outlet property="updateButton" destination="rTq-M9-GwB" id="aHo-gd-Nyj"/>
             </connections>
         </placeholder>
@@ -30,20 +29,20 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kr5-6K-scw" customClass="CustomShadowView" customModule="CTR">
                     <rect key="frame" x="20" y="15" width="376" height="102"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9M7-0l-oVL">
-                            <rect key="frame" x="16" y="12" width="232" height="39.5"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9M7-0l-oVL">
+                            <rect key="frame" x="16" y="12" width="232" height="38.5"/>
                             <string key="text">De certificatenlijst is
 niet bijgewerkt!</string>
-                            <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="16"/>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                             <color key="textColor" name="SecondaryColor"/>
                             <nil key="highlightedColor"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="string" keyPath="translationKey" value="certificates_outdated_title"/>
                             </userDefinedRuntimeAttributes>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="U kunt de app blijven gebruiken, maar maak verbinding met internet en probeer het nog eens via de knop “Bijwerken”." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gms-oS-wI8">
-                            <rect key="frame" x="16" y="60.5" width="347" height="27.5"/>
-                            <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="11"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="U kunt de app blijven gebruiken, maar maak verbinding met internet en probeer het nog eens via de knop “Bijwerken”." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gms-oS-wI8">
+                            <rect key="frame" x="16" y="59.5" width="347" height="28.5"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="11"/>
                             <color key="textColor" name="SecondaryColor"/>
                             <nil key="highlightedColor"/>
                             <userDefinedRuntimeAttributes>

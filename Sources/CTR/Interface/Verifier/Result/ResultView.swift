@@ -11,17 +11,16 @@ import SnapKit
 class ResultView: TMCBaseView {
 
     @IBOutlet var vaccineView1: ResultVaccineView!
-    @IBOutlet var vaccineView2: ResultVaccineView!
     
     @IBOutlet var deniedView: UIView!
     @IBOutlet var accessView: UIView!
     
     @IBOutlet var scrollView: HeaderScrollView!
     @IBOutlet var businessRuleFailures: UIStackView!
+    @IBOutlet var deniedTitle: UILabel!
     @IBOutlet var deniedLabel: UILabel!
     @IBOutlet var dccNameLabel: UILabel!
     @IBOutlet var dateOfBirthLabel: UILabel!
-    @IBOutlet var vaccinesStack: UIStackView!
     @IBOutlet var itemsStack: UIStackView!
     @IBOutlet var selectedCountryDeniedView: SelectedCountryView!
     @IBOutlet var selectedCountryView: SelectedCountryView!
@@ -29,6 +28,7 @@ class ResultView: TMCBaseView {
     @IBOutlet var accessBackgroundView: UIView!
     @IBOutlet var accessLabel: UILabel!
     @IBOutlet var accessImageView: UIImageView!
+    @IBOutlet var nextScanButton: CustomButton!
     
     var onTappedNextScan: (() -> Void)?
     var onTappedDeniedMessage: (() -> Void)?
@@ -56,14 +56,26 @@ class ResultView: TMCBaseView {
             view.removeFromSuperview()
         }
         for view in itemsStack.arrangedSubviews.filter({ it in
-            it is ResultRecoveryView || it is ResultTestView || it is ResultVaccineView || it is ResultItemView || it is ResultItemHeaderView
+            it is ResultRecoveryView || it is ResultTestView || it is ResultItemView || it is ResultItemHeaderView
         }) {
             itemsStack.removeArrangedSubview(view)
             view.removeFromSuperview()
         }
     }
     
+    private func sharedSetup() {
+        nextScanButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        nextScanButton.titleLabel?.font = Theme.fonts.bodyMontserratSemiBold
+        nextScanButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        nextScanButton.titleLabel?.minimumScaleFactor = 0.5
+        deniedTitle.adjustsFontForContentSizeCategory = true
+        deniedTitle.font = Theme.fonts.title3Montserrat
+        accessLabel.adjustsFontForContentSizeCategory = true
+        accessLabel.font = Theme.fonts.title3Montserrat
+    }
+    
     func setupForVerified(dcc: DCCQR, isSpecimen: Bool, failingItems: [DCCFailableItem], shouldOverrideToGreen: Bool, brManager: BusinessRulesManager) {
+        sharedSetup()
         deniedView.isHidden = true
         accessView.isHidden = false
         
@@ -90,9 +102,11 @@ class ResultView: TMCBaseView {
         accessLabel.text = (isUndecided ? "result_inconclusive_title" : showAsFailed ? "travel_not_met" : "travel_met").localized()
         accessImageView.image = UIImage(named: "access_inverted_qr")
         
-        dccNameLabel.font = Theme.fonts.title1
-        dateOfBirthLabel.font = Theme.fonts.subheadBoldMontserrat
+        dccNameLabel.font = Theme.fonts.title1Montserrat
+        dccNameLabel.adjustsFontForContentSizeCategory = true
         dccNameLabel.text = dcc.getName()
+        dateOfBirthLabel.font = Theme.fonts.subheadBoldMontserrat
+        dateOfBirthLabel.adjustsFontForContentSizeCategory = true
         if let dccData = dcc.dcc, let dob = dccData.getDateOfBirth() {
             dateOfBirthLabel.text = "item_date_of_birth_x".localized(params: dateFormat.string(from: dob))
         } else {
@@ -103,8 +117,13 @@ class ResultView: TMCBaseView {
         setupRecoveries(dcc: dcc, brManager: brManager)
 	}
     
-    func updateCountryPicker(settings: UserSettings) {
-        getSelectedCountryView().setup(departure: settings.lastDeparture, destination: settings.lastDestination, isOnLightBackground: accessBackgroundView.backgroundColor == Theme.colors.tertiary)
+    func updateCountryPicker(settings: UserSettings, relayout: Bool = true) {
+        getSelectedCountryView().setup(departure: settings.lastDeparture, destination: settings.lastDestination, isOnLightBackground: accessBackgroundView.backgroundColor == Theme.colors.tertiary, scrollable: false)
+        if relayout {
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
+                self.updateCountryPicker(settings: settings, relayout: false)
+            }
+        }
     }
     
     func setupRecoveries(dcc: DCCQR, brManager: BusinessRulesManager) {
@@ -157,26 +176,12 @@ class ResultView: TMCBaseView {
     }
     
     func setupVaccineViews(dcc: DCCQR, brManager: BusinessRulesManager) {
-        if let vaccines = dcc.dcc?.vaccines {
-            
-            if vaccines.count >= 1 {
-                vaccineView1.setup(vaccine: vaccines[0], dateFormat: dateFormat, brManager: brManager)
-                vaccineView1.isHidden = false
-                addVaccineMeta(vaccine: vaccines[0], hasHeader: vaccines.count > 1, brManager: brManager)
-            } else {
-                vaccineView1.isHidden = true
-            }
-            if vaccines.count >= 2 {
-                vaccineView2.setup(vaccine: vaccines[1], dateFormat: dateFormat, brManager: brManager)
-                vaccineView2.isHidden = false
-                addVaccineMeta(vaccine: vaccines[1], hasHeader: vaccines.count > 1, brManager: brManager)
-            } else {
-                vaccineView2.isHidden = true
-            }
+        if let vaccines = dcc.dcc?.vaccines, let vaccine = vaccines.first {
+            vaccineView1.setup(vaccine: vaccine, dateFormat: dateFormat, brManager: brManager)
+            vaccineView1.isHidden = false
+            addVaccineMeta(vaccine: vaccine, hasHeader: false, brManager: brManager)
         } else {
-            vaccineView2.isHidden = true
             vaccineView1.isHidden = true
-            vaccinesStack.isHidden = true
         }
     }
     
@@ -213,6 +218,7 @@ class ResultView: TMCBaseView {
         deniedView.isHidden = false
         accessView.isHidden = true
         resetViews()
+        sharedSetup()
         let deniedText = "verifier.result.denied.message".localized()
         let deniedTextUnderline = "verifier.result.denied.message.underline".localized()
         let style = NSMutableParagraphStyle()

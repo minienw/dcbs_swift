@@ -99,7 +99,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Custom navigation bar appearance
         let titleTextAttributed = [
             NSAttributedString.Key.foregroundColor: Theme.colors.dark,
-            NSAttributedString.Key.font: Theme.fonts.bodyMontserratFixed
+            NSAttributedString.Key.font: Theme.fonts.bodyMontserrat
         ]
 		UINavigationBar.appearance().titleTextAttributes = titleTextAttributed
 		UINavigationBar.appearance().tintColor = Theme.colors.dark

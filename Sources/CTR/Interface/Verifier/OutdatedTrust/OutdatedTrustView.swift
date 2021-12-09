@@ -11,6 +11,8 @@ import UIKit
 
 class OutdatedTrustView: TMCBaseView {
     
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var descLabel: UILabel!
     @IBOutlet weak var updateButton: CustomButton!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
     
@@ -23,6 +25,10 @@ class OutdatedTrustView: TMCBaseView {
     func setLoading(loading: Bool) {
         spinner.isHidden = !loading
         updateButton.setTitle(Localization.string(for: "certificates_outdated_button"), for: .normal)
+        titleLabel.font = Theme.fonts.calloutBold
+        descLabel.font = Theme.fonts.smallCaptionSemibold
+        updateButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        updateButton.titleLabel?.font = Theme.fonts.subheadMontserrat
     }
     
 }
