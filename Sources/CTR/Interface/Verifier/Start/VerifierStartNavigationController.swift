@@ -33,6 +33,12 @@ class VerifierStartNavigationController: UINavigationController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        self.remoteConfigManager = Services.remoteConfigManager
+        self.proofManager = Services.proofManager
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { _ in
