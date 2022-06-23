@@ -10,9 +10,9 @@ import Foundation
 
 class ValueSetContainer: Codable {
     let key: String
-    let items: [String: ValueSetItem]
+    let items: [String: CertLogicValueSetItem]
     
-    init(key: String, items: [String: ValueSetItem]) {
+    init(key: String, items: [String: CertLogicValueSetItem]) {
         self.key = key
         self.items = items
     }

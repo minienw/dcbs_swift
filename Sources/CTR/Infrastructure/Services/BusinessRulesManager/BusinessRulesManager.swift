@@ -21,10 +21,10 @@ class BusinessRulesManager: Logging {
     
     // swiftlint:disable let_var_whitespace
     @Keychain(name: "businessRules", service: Constants.keychainService, clearOnReinstall: true)
-    private var businessRules: [Rule] = []
+    private var businessRules: [CertLogicRule] = []
     
     @Keychain(name: "customBusinessRules", service: Constants.keychainService, clearOnReinstall: true)
-    private var customBusinessRules: [Rule] = []
+    private var customBusinessRules: [CertLogicRule] = []
     
     @Keychain(name: "valueSets", service: Constants.keychainService, clearOnReinstall: true)
     var valueSets: [String: [String]] = [:]
@@ -40,14 +40,14 @@ class BusinessRulesManager: Logging {
     
     var schema: String?
     
-    func getAllRules() -> [Rule] {
-        var rules = [Rule]()
+    func getAllRules() -> [CertLogicRule] {
+        var rules = [CertLogicRule]()
         rules.append(contentsOf: businessRules)
         rules.append(contentsOf: customBusinessRules)
         return rules
     }
     
-    func getValueSetItem(type: ValueSetType, id: String) -> ValueSetItem? {
+    func getValueSetItem(type: ValueSetType, id: String) -> CertLogicValueSetItem? {
         return valueSetsRaw.first { it in
             it.key == type.rawValue
         }?.items[id]
@@ -130,7 +130,7 @@ class BusinessRulesManager: Logging {
             if let path = Bundle.main.path(forResource: file, ofType: "json") {
                 do {
                     let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
-                    let rule = try jsonDecoder.decode(Rule.self, from: data)
+                    let rule = try jsonDecoder.decode(CertLogicRule.self, from: data)
                     businessRules.append(rule)
                     logInfo("Added business rule: \(rule.identifier)")
                 } catch let error {

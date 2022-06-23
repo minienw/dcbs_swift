@@ -51,7 +51,7 @@ class NetworkManager: NetworkManaging, Logging {
 		decodeSignedJSONData(request: urlRequest, completion: completion)
 	}
     
-    func getBusinessRules(completion: @escaping (Result<([Rule], Data), NetworkError>) -> Void) {
+    func getBusinessRules(completion: @escaping (Result<([CertLogicRule], Data), NetworkError>) -> Void) {
         let urlRequest = constructRequest(
             url: networkConfiguration.businessRulesUrl,
             method: .GET
@@ -60,7 +60,7 @@ class NetworkManager: NetworkManaging, Logging {
         decodeSignedJSONData(request: urlRequest, completion: completion)
     }
     
-    func getCustomBusinessRules(completion: @escaping (Result<([Rule], Data), NetworkError>) -> Void) {
+    func getCustomBusinessRules(completion: @escaping (Result<([CertLogicRule], Data), NetworkError>) -> Void) {
         let urlRequest = constructRequest(
             url: networkConfiguration.customBusinessRulesUrl,
             method: .GET
@@ -85,11 +85,11 @@ class NetworkManager: NetworkManaging, Logging {
                     var sets = [String: [String]]()
                     for key in dict.keys {
                         sets[key] = [String]()
-                        var items = [String: ValueSetItem]()
+                        var items = [String: CertLogicValueSetItem]()
                         if let item = dict[key] as? [String: Any] {
                             for subKey in item.keys {
                                 sets[key]?.append(subKey)
-                                if let subItem = ValueSetItem.fromDictionary(dictionary: item[subKey] as? [String: Any] ?? [:]) {
+                                if let subItem = CertLogicValueSetItem.fromDictionary(dictionary: item[subKey] as? [String: Any] ?? [:]) {
                                     items[subKey] = subItem
                                 }
                             }

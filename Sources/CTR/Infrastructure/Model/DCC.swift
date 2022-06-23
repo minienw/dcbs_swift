@@ -7,6 +7,7 @@
 */
 
 import Foundation
+import CertLogic
 
 class DCCQR: Codable {
     
