@@ -54,7 +54,7 @@ class SelectedCountryView: TMCBaseView {
         let departureCountry = ADCountryPicker.countryForCode(code: departure)
         let colourCode = departureCountry?.getColourCode()?.rawValue
         let colourName = Services.remoteConfigManager.getConfiguration().countryColors?.first(where: { it in
-            it.isColourCode == true && it.color == colourCode
+            it.isColourCode == true && it.color == colourCode && it.isEU == departureCountry?.isEU
         })
         var riskLabelText = departure == "" ? "" : "\(colourName?.name() ?? "")"
         if !riskLabelText.isEmpty, let eu = departureCountry?.isEU {

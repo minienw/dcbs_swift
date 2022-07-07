@@ -98,8 +98,12 @@ class DCCQR: Codable {
         
         dcc?.from = from
         dcc?.to = to
+        let rules = businessRuleManager.getAllRules()
+        for rule in rules {
+            rule.engineVersion = "1.0.0"
+        }
         if to.ruleEngineEnabled != false {
-            let certLogic = CertLogicEngine(schema: businessRuleManager.schema ?? "", rules: businessRuleManager.getAllRules())
+            let certLogic = CertLogicEngine(schema: businessRuleManager.schema ?? "", rules: rules)
             let filterParameter = FilterParameter(validationClock: Date(), countryCode: to.code ?? "", certificationType: certificateType)
             let externalParameter = ExternalParameter(validationClock: Date(), valueSets: businessRuleManager.valueSets, exp: Date(), iat: Date(), issuerCountryCode: to.code ?? "")
             let results = certLogic.validate(filter: filterParameter, external: externalParameter, payload: asPayload ?? "")
